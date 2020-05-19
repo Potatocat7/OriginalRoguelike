@@ -11,6 +11,7 @@ public class MapGenerator : MonoBehaviour {
     public GameObject FloorObj;
     public GameObject[,] Mapobj = new GameObject[20, 20];
     public static int[,] map = new int[20, 20];       //選択後の
+    public static int iNow, jNow;
     public int mapNum;
 
     bool CheckMapstate(int tate, int yoko)
@@ -51,6 +52,10 @@ public class MapGenerator : MonoBehaviour {
                     // プレハブを元に、インスタンスを生成、
                     Mapobj[randomiPix, randomjPix] = (GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity);
                     iLoopflg = true;
+                    if (PrefabObj.tag == "Player") {
+                        iNow = randomiPix;
+                        jNow = randomjPix;
+                    }
                 }
             }
             else

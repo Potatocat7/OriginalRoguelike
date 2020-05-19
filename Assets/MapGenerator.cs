@@ -16,6 +16,7 @@ public class MapGenerator : MonoBehaviour {
 
     bool CheckMapstate(int tate, int yoko)
     {
+        //周囲のマスを調べて床のマスがいくつあるか調べる
         int count = 0;
         for (int iPix = 0; iPix < 3; iPix++) //mapWidth
         {
@@ -28,7 +29,7 @@ public class MapGenerator : MonoBehaviour {
                 }
             }
         }
-        if (count >= 3) //カウントが3以上の時
+        if (count >= 3) //カウントが3以上の時（大体３つ以上なら部屋である可能性）
         {
             return (true);
         }
@@ -39,6 +40,7 @@ public class MapGenerator : MonoBehaviour {
     }
     void SetUniqObj(  GameObject PrefabObj)
     {
+        //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく
         bool iLoopflg = false;
         while (iLoopflg == false)　//出口指定
         {
@@ -66,7 +68,7 @@ public class MapGenerator : MonoBehaviour {
         // Use this for initialization
     void Start () {
         mapNum = Random.Range(0, 3);        // 0～3の乱数を取得
-        //for文で配列に情報を入れていく
+        //for文で配列に情報を入れていく(MapDataScript.mapDataだと引数が増えるため)
         for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++) //mapWidth
         {
             for (int jPix = 0; jPix < MapDataScript.mapData.GetLength(2); jPix++) //mapHeight
@@ -75,7 +77,7 @@ public class MapGenerator : MonoBehaviour {
             }
         }
 
-        //壁・通路だけ選考生成
+        //壁・通路だけ先行生成
         for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++)
         {
             for (int jPix = 0; jPix < MapDataScript.mapData.GetLength(2); jPix++)
@@ -94,8 +96,8 @@ public class MapGenerator : MonoBehaviour {
             }
         }
         SetUniqObj(GoalObj);
-        SetUniqObj(EnemyObj);
         SetUniqObj(PlayerObj);
+        SetUniqObj(EnemyObj);
 
     }
 

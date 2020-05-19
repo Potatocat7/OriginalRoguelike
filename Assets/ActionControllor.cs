@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ActionControllor : MonoBehaviour {
-
+    int count;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,8 +13,17 @@ public class ActionControllor : MonoBehaviour {
 	void Update () {
         if(GameControllor.AcitonFlg == true)
         {
-            this.transform.Translate(GameControllor.iNext, GameControllor.jNext , 0);
-            GameControllor.AcitonFlg = false;
+            //敵とプレイヤーで同じスクリプトを使うので修正が必要
+
+            //10Fかけて次のマスに移動
+            this.transform.Translate(GameControllor.iNext * 0.1f, GameControllor.jNext * 0.1f, 0);
+            count += 1;
+
+            if(count == 10)
+            {
+                GameControllor.AcitonFlg = false;
+                count = 0;
+            }
         }
 		
 	}

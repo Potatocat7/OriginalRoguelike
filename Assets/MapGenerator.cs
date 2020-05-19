@@ -5,52 +5,92 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour {
 
     public GameObject WallObj;
+    public GameObject GoalObj;
+    public GameObject EnemyObj;
+    public GameObject PlayerObj;
     public GameObject FloorObj;
     public GameObject[,] Mapobj = new GameObject[20, 20];
+    public static int[,] map = new int[20, 20];       //選択後の
     public int mapNum;
-   // public int[,] map = new int[20, 20];       //とりあえず固定値
 
-    // Use this for initialization
+    bool CheckMapstate(int tate, int yoko)
+    {
+        int count = 0;
+        for (int iPix = 0; iPix < 3; iPix++) //mapWidth
+        {
+            for (int jPix = 0; jPix < 3; jPix++) //mapHeight
+            {
+                if (map[ iPix + tate - 1, jPix + yoko - 1] == 0)//周囲の通路の数を確認
+                {
+                    count += 1;
+
+                }
+            }
+        }
+        if (count >= 3) //カウントが3以上の時
+        {
+            return (true);
+        }
+        else
+        {
+            return (false);
+        }
+    }
+    void SetUniqObj(  GameObject PrefabObj)
+    {
+        bool iLoopflg = false;
+        while (iLoopflg == false)　//出口指定
+        {
+            int randomiPix = Random.Range(1, 19);        // 1～19の乱数を取得
+            int randomjPix = Random.Range(1, 19);        // 1～19の乱数を取得
+
+            if (map[randomiPix, randomjPix] == 0)    //MAPが通路のなとき
+            {
+                if (CheckMapstate(randomiPix, randomjPix) == true) //条件が達成されていたら
+                {
+                    // プレハブを元に、インスタンスを生成、
+                    Mapobj[randomiPix, randomjPix] = (GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity);
+                    iLoopflg = true;
+                }
+            }
+            else
+            {
+            }
+        }
+    }
+        // Use this for initialization
     void Start () {
         mapNum = Random.Range(0, 3);        // 0～3の乱数を取得
-        /*//for文で配列に情報を入れていく
-        for (int iPix = 0; iPix < 20; iPix++) //mapWidth
+        //for文で配列に情報を入れていく
+        for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++) //mapWidth
         {
-            for (int jPix = 0; jPix < 20; jPix++) //mapHeight
+            for (int jPix = 0; jPix < MapDataScript.mapData.GetLength(2); jPix++) //mapHeight
             {
                 map[iPix, jPix] = MapDataScript.mapData[mapNum, iPix, jPix];
             }
-        }*/
+        }
 
         //壁・通路だけ選考生成
         for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++)
         {
             for (int jPix = 0; jPix < MapDataScript.mapData.GetLength(2); jPix++)
             {
-                if (MapDataScript.mapData[mapNum, iPix, jPix] == 1)        //壁
+                if (map[ iPix, jPix] == 1)        //壁
                 {
-                    // プレハブをGameObject型で取得
-                    //GameObject obj = (GameObject)Resources.Load("Image_WALL");
-                    //WallObj = (GameObject)Resources.Load("WallPrefab");
                     // プレハブを元に、インスタンスを生成、
-                    
                     Mapobj[iPix, jPix] = (GameObject)Instantiate(WallObj, new Vector3(iPix , jPix , 0.0F), Quaternion.identity);
-                    //Mapobj[iPix, jPix] = (GameObject)Instantiate(obj, transform.localPosition, Quaternion.identity, parent);
-                    //Mapobj[iPix, jPix].transform.Position = new Vector3(iPix * 4.0F , jPix * 4.0F , 0.0F);
                 }
                 else                            //床  
                 {
-                    // プレハブをGameObject型で取得
-                    //GameObject obj = (GameObject)Resources.Load("Image_PASS");
-                    //FloorObj = (GameObject)Resources.Load("FloorPrefab");
                     // プレハブを元に、インスタンスを生成、
                     Mapobj[iPix, jPix] = (GameObject)Instantiate(FloorObj, new Vector3(iPix, jPix , 0.0F), Quaternion.identity);
-                    //Mapobj[iPix, jPix] = (GameObject)Instantiate(obj, transform.localPosition, Quaternion.identity, parent);
-                    //Mapobj[iPix, jPix].transform.localPosition = new Vector3(iPix * 4 * 1.0f + 2.0f, jPix * 4 * 1.0f + 2.0f, 0.0f);
 
                 }
             }
         }
+        SetUniqObj(GoalObj);
+        SetUniqObj(EnemyObj);
+        SetUniqObj(PlayerObj);
 
     }
 

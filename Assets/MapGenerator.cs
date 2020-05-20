@@ -40,7 +40,7 @@ public class MapGenerator : MonoBehaviour {
     }
     void SetUniqObj(  GameObject PrefabObj)
     {
-        //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく
+        //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
         bool iLoopflg = false;
         while (iLoopflg == false)　//出口指定
         {

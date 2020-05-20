@@ -7,6 +7,7 @@ public class ActionControllor : MonoBehaviour {
     //
     public int iThisNext, jThisNext;
     public int iThisNow, jThisNow;
+    public bool UserActFlg;
     int count;
     GameObject GameCtlObj;
     // Use this for initialization
@@ -21,22 +22,31 @@ public class ActionControllor : MonoBehaviour {
         jThisNow = (int)this.transform.position.y;
         GameCtlObj = GameObject.Find("GameControllor");
         count = 0;
+        UserActFlg = false;
+    }
+    public void SetUserActFlagOn()
+    {
+        UserActFlg = true;
+    }
+    public void SetUserActFlagOff()
+    {
+        UserActFlg = false;
     }
 
     // Update is called once per frame
     void Update () {
         //アクション動作で攻撃と移動をここで処理
-        if(GameCtlObj.GetComponent<GameControllor>().AcitonFlg == true)
+        if (GameCtlObj.GetComponent<GameControllor>().AcitonFlg == true)
+        //if(UserActFlg == true)
         {
-            //敵とプレイヤーで同じスクリプトを使うので修正が必要
+                //敵とプレイヤーで同じスクリプトを使うので修正が必要
 
-            //10Fかけて次のマスに移動
+                //10Fかけて次のマスに移動
             this.transform.Translate(iThisNext * 0.1f, jThisNext * 0.1f, 0);
             count += 1;
 
             if(count == 10)
             {
-                //GameCtlObj.GetComponent<GameControllor>().AcitonFlg = false;
                 count = 0;
                 iThisNow = iThisNow + iThisNext;
                 jThisNow = jThisNow + jThisNext;

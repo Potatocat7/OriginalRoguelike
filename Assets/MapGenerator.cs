@@ -9,6 +9,8 @@ public class MapGenerator : MonoBehaviour {
     public GameObject EnemyObj;
     public GameObject PlayerObj;
     public GameObject FloorObj;
+    public GameObject HealItemObj;
+    public GameObject PowerItemObj;
     public GameObject[,] Mapobj = new GameObject[20, 20];
     public static int[,] map = new int[20, 20];       //選択後の
     public static int iNow, jNow;
@@ -95,9 +97,11 @@ public class MapGenerator : MonoBehaviour {
                 }
             }
         }
+        //※すでに追加オブジェクトがある場所には生成しないようにする処理が必要
         SetUniqObj(GoalObj);
         SetUniqObj(PlayerObj);
         SetUniqObj(EnemyObj);
+        //アイテム等はここで同じ用に生成
 
     }
 

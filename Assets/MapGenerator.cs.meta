@@ -10,6 +10,10 @@ MonoImporter:
   - PlayerObj: {fileID: 1448642264821466, guid: 718639248aed6994789604d5964f1c15,
       type: 2}
   - FloorObj: {fileID: 1061476967306026, guid: 462bde33a7c54094b8deb21ea5f8c920, type: 2}
+  - HealItemObj: {fileID: 1901750714422164, guid: 5edfc5329a5f7324497cf98d88a87e80,
+      type: 2}
+  - PowerItemObj: {fileID: 1706571230454130, guid: 72a1b7205732ce84a968c9d56cfba029,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

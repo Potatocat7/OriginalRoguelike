@@ -26,18 +26,20 @@ public class ActionControllor : MonoBehaviour {
     }
     public void SetUserActFlagOn()
     {
+        count = 0;
         UserActFlg = true;
     }
     public void SetUserActFlagOff()
     {
+        count = 0;
         UserActFlg = false;
     }
 
     // Update is called once per frame
     void Update () {
         //アクション動作で攻撃と移動をここで処理
-        if (GameCtlObj.GetComponent<GameControllor>().AcitonFlg == true)
-        //if(UserActFlg == true)
+        //if (GameCtlObj.GetComponent<GameControllor>().AcitonFlg == true)
+        if(UserActFlg == true)
         {
                 //敵とプレイヤーで同じスクリプトを使うので修正が必要
 
@@ -47,6 +49,7 @@ public class ActionControllor : MonoBehaviour {
 
             if(count == 10)
             {
+                UserActFlg = false;
                 count = 0;
                 iThisNow = iThisNow + iThisNext;
                 jThisNow = jThisNow + jThisNext;

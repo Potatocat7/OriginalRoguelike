@@ -9,7 +9,7 @@ public class GameControllor : MonoBehaviour {
     public int iRandom, jRandom;
     GameObject Player;
     GameObject Enemy;
-    int timeCountP, timeCountE;
+    int timeCount;
 
 
     void CheckBlockState()
@@ -51,6 +51,7 @@ public class GameControllor : MonoBehaviour {
             MapGenerator.iNow = MapGenerator.iNow + iNext;
             MapGenerator.jNow = MapGenerator.jNow + jNext;
             AcitonFlg = true;
+            Player.GetComponent<ActionControllor>().SetUserActFlagOn();
         }
 
 
@@ -59,8 +60,7 @@ public class GameControllor : MonoBehaviour {
     // Use this for initialization
     void Start () {
         AcitonFlg = false;
-        timeCountP = 0;
-        timeCountE = 0;
+        timeCount = 0;
     }
 
     // Update is called once per frame
@@ -69,11 +69,16 @@ public class GameControllor : MonoBehaviour {
         if (AcitonFlg == true)//プレイヤーフェーズとエネミーフェーズを用意が必要
         {
 
-            timeCountP += 1;
-            if (timeCountP == 10)
+            timeCount += 1;
+            if (timeCount == 10)
+            {
+                Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
+                //timeCountP = 0;
+            }
+            if (timeCount == 20)
             {
                 AcitonFlg = false;
-                timeCountP = 0;
+                timeCount = 0;
             }
 
         }

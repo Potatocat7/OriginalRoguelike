@@ -27,13 +27,12 @@ public class GameControllor : MonoBehaviour {
         {
             iRandom = (int)Random.Range(-1, 2);
             jRandom = (int)Random.Range(-1, 2);
-            if (MapGenerator.map[Enemy.GetComponent<ActionControllor>().iThisNow + iRandom, Enemy.GetComponent<ActionControllor>().jThisNow + jRandom] == 1)
+            if (Enemy.GetComponent<ActionControllor>().SetNextStep(iRandom, jRandom) == false)
             {
 
             }
             else
             {                
-                Enemy.GetComponent<ActionControllor>().SetNextStep(iRandom, jRandom);
                 checkRandom = false;
             }
 
@@ -41,17 +40,17 @@ public class GameControllor : MonoBehaviour {
 
         //static部分を修正予定
         //次に移動予定のマスが壁でないかのチェック
-        if (MapGenerator.map[MapGenerator.iNow + iNext, MapGenerator.jNow + jNext] == 1)
+        if (Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext) == false)
         {
 
         }
         else
         {
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             MapGenerator.iNow = MapGenerator.iNow + iNext;
             MapGenerator.jNow = MapGenerator.jNow + jNext;
             AcitonFlg = true;
             Player.GetComponent<ActionControllor>().SetUserActFlagOn();
+            Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
         }
 
 
@@ -72,14 +71,13 @@ public class GameControllor : MonoBehaviour {
             timeCount += 1;
             if (timeCount == 10)
             {
-                Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
-                //timeCountP = 0;
-            }
-            if (timeCount == 20)
-            {
                 AcitonFlg = false;
                 timeCount = 0;
             }
+            /*if (timeCount == 20)
+            {
+                timeCount = 0;
+            }*/
 
         }
 
@@ -93,6 +91,7 @@ public class GameControllor : MonoBehaviour {
                 iNext = -1;
                 jNext = 0;
                 CheckBlockState();
+                //Player.GetComponent<ActionControllor>().ChangeDirection();
             }
             // 右に移動
             if (Input.GetKeyDown(KeyCode.RightArrow))

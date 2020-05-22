@@ -17,6 +17,8 @@ public class ActionControllor : MonoBehaviour {
     }
     Direction thisDirection;*/
     bool UserActFlg;
+    [SerializeField]
+    bool UserAttackFlg;
     int count;
     [SerializeField]
     int iThisNext, jThisNext, iThisNow, jThisNow;
@@ -67,38 +69,72 @@ public class ActionControllor : MonoBehaviour {
         jThisNow = (int)this.transform.position.y;
         count = 0;
         UserActFlg = false;
+        UserAttackFlg = false;
+        iThisNext = 0;
+        jThisNext = 1;
     }
     public void SetUserActFlagOn()
     {
         count = 0;
         UserActFlg = true;
     }
-//    public void SetUserActFlagOff()
-//    {
-//        count = 0;
-//        UserActFlg = false;
-//    }
-//
+    public void SetUserAttackFlagOn(int iNext, int jNext)
+    {
+        iThisNext = iNext;
+        jThisNext = jNext;
+        count = 0;
+        UserActFlg = true;
+        UserAttackFlg = true;
+    }
+    //    public void SetUserActFlagOff()
+    //    {
+    //        count = 0;
+    //        UserActFlg = false;
+    //    }
+    //
+
+
     // Update is called once per frame
     void Update () {
         //アクション動作で攻撃と移動をここで処理
         //if (GameCtlObj.GetComponent<GameControllor>().AcitonFlg == true)
         if(UserActFlg == true)
         {
-                //敵とプレイヤーで同じスクリプトを使うので修正が必要
-
-                //10Fかけて次のマスに移動
-            this.transform.Translate(iThisNext * 0.1f, jThisNext * 0.1f, 0);
-            count += 1;
-
-            if(count == 10)
+            //敵とプレイヤーで同じスクリプトを使うので修正が必要
+            if (UserAttackFlg == true)
             {
-                UserActFlg = false;
-                count = 0;
-                iThisNow = iThisNow + iThisNext;
-                jThisNow = jThisNow + jThisNext;
+                //10Fかけて攻撃動作
+                if (count < 5 )
+                {
+                    this.transform.Translate(iThisNext * 0.1f, jThisNext * 0.1f, 0);
+                    count += 1;
+                }
+                else
+                {
+                    this.transform.Translate(iThisNext * -0.1f, jThisNext * -0.1f, 0);
+                    count += 1;
+                }
+                if (count == 10)
+                {
+                    UserAttackFlg = false;
+                    UserActFlg = false;
+                    count = 0;
+                }
             }
-        }
-		
+            else
+            {
+                //10Fかけて次のマスに移動
+                this.transform.Translate(iThisNext * 0.1f, jThisNext * 0.1f, 0);
+                count += 1;
+
+                if (count == 10)
+                {
+                    UserActFlg = false;
+                    count = 0;
+                    iThisNow = iThisNow + iThisNext;
+                    jThisNow = jThisNow + jThisNext;
+                }
+            }
+        }		
 	}
 }

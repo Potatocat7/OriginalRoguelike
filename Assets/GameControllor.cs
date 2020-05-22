@@ -71,6 +71,8 @@ public class GameControllor : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        iNext = 0;
+        jNext = 1;
         AcitonFlg = false;
         timeCount = 0;
     }
@@ -173,6 +175,10 @@ public class GameControllor : MonoBehaviour {
     {
         if (AcitonFlg != true) //移動中は入力無効にする
         {
+            Player = GameObject.Find("PlayerPrefab(Clone)");
+            iNext = 1;
+            jNext = 0;
+            Player.GetComponent<ActionControllor>().SetUserAttackFlagOn(iNext, jNext);
         }
     }
     public void Push_LOCK()

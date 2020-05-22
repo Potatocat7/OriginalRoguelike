@@ -4,13 +4,48 @@ using UnityEngine;
 
 public class ActionControllor : MonoBehaviour {
 
-    //
+    /*enum Direction
+    {
+        UP = 0,
+        UP_LEFT,
+        UP_RIGHT,
+        LEFT,
+        RIGHT,
+        DOWN,
+        DOWN_LEFT,
+        DOWN_RIGHT
+    }
+    Direction thisDirection;*/
     bool UserActFlg;
     int count;
     [SerializeField]
     int iThisNext, jThisNext, iThisNow, jThisNow;
+    [SerializeField]
 
 
+    /*public void SetDirection()
+    {
+        switch (thisDirection)
+        {
+            //enumクラス名.文字列でアクセスする
+            case thisDirection.UP:
+                break;
+            case thisDirection.UP_LEFT:
+                break;
+            case thisDirection.UP_RIGHT:
+                break;
+            case thisDirection.LEFT:
+                break;
+            case thisDirection.RIGHT:
+                break;
+            case thisDirection.DOWN:
+                break;
+            case thisDirection.DOWN_LEFT:
+                break;
+            case thisDirection.DOWN_RIGHT:
+                break;
+        }
+    }*/
     //次の移動するマスの
     public bool SetNextStep(int iNext, int jNext)
     {

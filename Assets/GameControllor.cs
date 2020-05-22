@@ -4,25 +4,32 @@ using UnityEngine;
 
 public class GameControllor : MonoBehaviour {
 
-    public  bool AcitonFlg;
+
+    /*enum Direction
+    {
+        UP = 0,
+        UP_LEFT,
+        UP_RIGHT,
+        LEFT,
+        RIGHT,
+        DOWN,
+        DOWN_LEFT,
+        DOWN_RIGHT
+    }
+    Direction PlayerDirection;*/
+    public bool AcitonFlg;
     public int iNext, jNext;
     public int iRandom, jRandom;
     GameObject Player;
     GameObject Enemy;
     int timeCount;
 
-
-    void CheckBlockState()
+    void SetEnemyMovw()
     {
-        //次に移動予定のマスが壁でないかのチェック
-        //敵の移動　ランダムに動かす移動可能のマスになるまでwhile文で繰り返すまで
         //※敵動作については条件で複数パターンあるため現状は仮設定
-        //※敵オブジェクトは0になることもあるため複数対応+無しのときの対応も必要
-        bool checkRandom = true;
-        //GameObject Player = GameObject.Find("PlayerPrefab(Clone)");
-        //GameObject Enemy = GameObject.Find("EnemyPrefab(Clone)");
-        Player = GameObject.Find("PlayerPrefab(Clone)");
         Enemy = GameObject.Find("EnemyPrefab(Clone)");
+        bool checkRandom = true;
+        //敵の移動　ランダムに動かす移動可能のマスになるまでwhile文で繰り返すまで
         while (checkRandom == true)
         {
             iRandom = (int)Random.Range(-1, 2);
@@ -32,11 +39,16 @@ public class GameControllor : MonoBehaviour {
 
             }
             else
-            {                
+            {
+                Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
                 checkRandom = false;
             }
 
         }
+    }
+    void CheckBlockState()
+    {
+        Player = GameObject.Find("PlayerPrefab(Clone)");
 
         //static部分を修正予定
         //次に移動予定のマスが壁でないかのチェック
@@ -50,7 +62,8 @@ public class GameControllor : MonoBehaviour {
             MapGenerator.jNow = MapGenerator.jNow + jNext;
             AcitonFlg = true;
             Player.GetComponent<ActionControllor>().SetUserActFlagOn();
-            Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
+            //※敵オブジェクトは0になることもあるため複数対応+無しのときの対応も必要
+            SetEnemyMovw();
         }
 
 
@@ -87,9 +100,10 @@ public class GameControllor : MonoBehaviour {
     {
         if (AcitonFlg != true) //移動中は入力無効にする
         {
-                iNext = 0;
-                jNext = 1;
-                CheckBlockState();
+            iNext = 0;
+            jNext = 1;
+            CheckBlockState();
+            //Player.GetComponent<ActionControllor>().SetDirection();
         }
     }
     public void Push_U_L()

@@ -81,39 +81,91 @@ public class GameControllor : MonoBehaviour {
 
         }
 
+    }
+
+    public void Push_U()
+    {
         if (AcitonFlg != true) //移動中は入力無効にする
         {
-            //UIで操作時はUpdate外に関数を移す
-            //現在は十字キーだが後でUIにボタンを用意してそこから動かすようにする
-            // 左に移動
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-            {
-                iNext = -1;
-                jNext = 0;
-                CheckBlockState();
-                //Player.GetComponent<ActionControllor>().ChangeDirection();
-            }
-            // 右に移動
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                iNext = 1;
-                jNext = 0;
-                CheckBlockState();
-            }
-            // 上に移動
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
                 iNext = 0;
                 jNext = 1;
                 CheckBlockState();
-            }
-            // ↓に移動
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
-                iNext = 0;
-                jNext = -1;
-                CheckBlockState();
-            }
         }
     }
+    public void Push_U_L()
+    {
+        if (AcitonFlg != true) //移動中は入力無効にする
+        {
+            iNext = -1;
+            jNext = 1;
+            CheckBlockState();
+        }
+    }
+    public void Push_U_R()
+    {
+        if (AcitonFlg != true) //移動中は入力無効にする
+        {
+            iNext = 1;
+            jNext = 1;
+            CheckBlockState();
+        }
+    }
+    public void Push_D()
+    {
+        if (AcitonFlg != true) //移動中は入力無効にする
+        {
+            iNext = 0;
+            jNext = -1;
+            CheckBlockState();
+        }
+    }
+    public void Push_D_L()
+    {
+        if (AcitonFlg != true) //移動中は入力無効にする
+        {
+            iNext = -1;
+            jNext = -1;
+            CheckBlockState();
+        }
+    }
+    public void Push_D_R()
+    {
+        if (AcitonFlg != true) //移動中は入力無効にする
+        {
+            iNext = 1;
+            jNext = -1;
+            CheckBlockState();
+        }
+    }
+    public void Push_L()
+    {
+        if (AcitonFlg != true) //移動中は入力無効にする
+        {
+            iNext = -1;
+            jNext = 0;
+            CheckBlockState();
+        }
+    }
+    public void Push_R()
+    {
+        if (AcitonFlg != true) //移動中は入力無効にする
+        {
+            iNext = 1;
+            jNext = 0;
+            CheckBlockState();
+        }
+    }
+    public void Push_ATTCK()
+    {
+        if (AcitonFlg != true) //移動中は入力無効にする
+        {
+        }
+    }
+    public void Push_LOCK()
+    {
+        if (AcitonFlg != true) //移動中は入力無効にする
+        {
+        }
+    }
+
 }

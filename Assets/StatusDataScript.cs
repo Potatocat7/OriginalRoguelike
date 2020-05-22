@@ -5,7 +5,7 @@ using UnityEngine;
 public class StatusDataScript : MonoBehaviour {
 
     [SerializeField]
-    int MaxHP,NowHP;
+    int MaxHP,NowHP,iThisNow,jThisNow;
 
     public int Attack;
     // Use this for initialization
@@ -13,6 +13,20 @@ public class StatusDataScript : MonoBehaviour {
         NowHP = MaxHP;
 
     }
+    public bool CheckAttack(int iAttack, int jAttack)
+    {
+        iThisNow = (int)this.transform.position.x;
+        jThisNow = (int)this.transform.position.y;
+        if (iThisNow == iAttack && jThisNow == jAttack)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public void HitDamage(int Damge)
     {
         NowHP -= Damge;

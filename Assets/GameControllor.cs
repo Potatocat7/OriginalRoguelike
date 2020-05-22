@@ -24,7 +24,7 @@ public class GameControllor : MonoBehaviour {
     GameObject Enemy;
     int timeCount;
 
-    void SetEnemyMovw()
+    void SetEnemyMove()
     {
         //※敵動作については条件で複数パターンあるため現状は仮設定
         Enemy = GameObject.Find("EnemyPrefab(Clone)");
@@ -63,7 +63,7 @@ public class GameControllor : MonoBehaviour {
             AcitonFlg = true;
             Player.GetComponent<ActionControllor>().SetUserActFlagOn();
             //※敵オブジェクトは0になることもあるため複数対応+無しのときの対応も必要
-            SetEnemyMovw();
+            SetEnemyMove();
         }
 
 
@@ -176,9 +176,8 @@ public class GameControllor : MonoBehaviour {
         if (AcitonFlg != true) //移動中は入力無効にする
         {
             Player = GameObject.Find("PlayerPrefab(Clone)");
-            iNext = 1;
-            jNext = 0;
             Player.GetComponent<ActionControllor>().SetUserAttackFlagOn(iNext, jNext);
+            Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
         }
     }
     public void Push_LOCK()

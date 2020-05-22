@@ -39,6 +39,8 @@ GameObject:
   - component: {fileID: 4477142860522686}
   - component: {fileID: 212265725270772992}
   - component: {fileID: 114949423500023282}
+  - component: {fileID: 114692879642046876}
+  - component: {fileID: 114481456430900148}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Player
@@ -116,6 +118,33 @@ AudioListener:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1213088912217946}
   m_Enabled: 1
+--- !u!114 &114481456430900148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1448642264821466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 846a13591e86eff43b519b6eaf0f8a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHP: 60
+  NowHP: 0
+  iThisNow: 0
+  jThisNow: 0
+  Attack: 10
+--- !u!114 &114692879642046876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1448642264821466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c29b9c6ff6ff74b9ee78d281ac6aba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114949423500023282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,6 +156,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ee918dbd827ee4097d3b4912ddbda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UserAttackFlg: 0
+  iThisNext: 0
+  jThisNext: 0
+  iThisNow: 0
+  jThisNow: 0
 --- !u!124 &124210484197313556
 Behaviour:
   m_ObjectHideFlags: 1

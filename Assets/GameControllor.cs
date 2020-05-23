@@ -86,12 +86,12 @@ public class GameControllor : MonoBehaviour {
             timeCount += 1;
             if (timeCount == 10)
             {
-                AcitonFlg = false;
+                AcitonFlg = false; //if文でattackフラグをみて解除するかきめると同時にエネミーの攻撃時の移動処理を呼ぶ
                 timeCount = 0;
             }
             /*if (timeCount == 20)
             {
-                timeCount = 0;
+                timeCount = 0; //attckフラグを用意して攻撃時はこちらまで動かす
             }*/
 
         }
@@ -99,13 +99,13 @@ public class GameControllor : MonoBehaviour {
     }
 
     public void Push_U()
-    {
+    { 
         if (AcitonFlg != true) //移動中は入力無効にする
         {
             iNext = 0;
             jNext = 1;
             CheckBlockState();
-            //Player.GetComponent<ActionControllor>().SetDirection();
+            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
         }
     }
     public void Push_U_L()
@@ -115,6 +115,7 @@ public class GameControllor : MonoBehaviour {
             iNext = -1;
             jNext = 1;
             CheckBlockState();
+            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_LEFT);
         }
     }
     public void Push_U_R()
@@ -124,6 +125,7 @@ public class GameControllor : MonoBehaviour {
             iNext = 1;
             jNext = 1;
             CheckBlockState();
+            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_RIGHT);
         }
     }
     public void Push_D()
@@ -133,6 +135,7 @@ public class GameControllor : MonoBehaviour {
             iNext = 0;
             jNext = -1;
             CheckBlockState();
+            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
         }
     }
     public void Push_D_L()
@@ -142,6 +145,7 @@ public class GameControllor : MonoBehaviour {
             iNext = -1;
             jNext = -1;
             CheckBlockState();
+            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_LEFT);
         }
     }
     public void Push_D_R()
@@ -151,6 +155,7 @@ public class GameControllor : MonoBehaviour {
             iNext = 1;
             jNext = -1;
             CheckBlockState();
+            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_RIGHT);
         }
     }
     public void Push_L()
@@ -160,6 +165,7 @@ public class GameControllor : MonoBehaviour {
             iNext = -1;
             jNext = 0;
             CheckBlockState();
+            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.LEFT);
         }
     }
     public void Push_R()
@@ -169,6 +175,7 @@ public class GameControllor : MonoBehaviour {
             iNext = 1;
             jNext = 0;
             CheckBlockState();
+            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.RIGHT);
         }
     }
     public void Push_ATTCK()
@@ -178,6 +185,7 @@ public class GameControllor : MonoBehaviour {
             Player = GameObject.Find("PlayerPrefab(Clone)");
             Player.GetComponent<ActionControllor>().SetUserAttackFlagOn(iNext, jNext);
             Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
+            SetEnemyMove();
         }
     }
     public void Push_LOCK()

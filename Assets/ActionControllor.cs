@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ActionControllor : MonoBehaviour {
 
-    /*enum Direction
+    public enum Direction
     {
         UP = 0,
         UP_LEFT,
@@ -15,7 +15,7 @@ public class ActionControllor : MonoBehaviour {
         DOWN_LEFT,
         DOWN_RIGHT
     }
-    Direction thisDirection;*/
+    Direction thisDirection;
     bool UserActFlg;
     [SerializeField]
     bool UserAttackFlg;
@@ -23,31 +23,40 @@ public class ActionControllor : MonoBehaviour {
     [SerializeField]
     int iThisNext, jThisNext, iThisNow, jThisNow;
     [SerializeField]
+    Animator AnimatorState;
 
 
-    /*public void SetDirection()
+    public void SetDirection(Direction thisDirection)
     {
         switch (thisDirection)
         {
             //enumクラス名.文字列でアクセスする
-            case thisDirection.UP:
+            case Direction.UP:
+                AnimatorState.Play("UP");
                 break;
-            case thisDirection.UP_LEFT:
+            case Direction.UP_LEFT:
+                AnimatorState.Play("UP_LEFT");
                 break;
-            case thisDirection.UP_RIGHT:
+            case Direction.UP_RIGHT:
+                AnimatorState.Play("UP_RIGHT");
                 break;
-            case thisDirection.LEFT:
+            case Direction.LEFT:
+                AnimatorState.Play("LEFT");
                 break;
-            case thisDirection.RIGHT:
+            case Direction.RIGHT:
+                AnimatorState.Play("RIGHT");
                 break;
-            case thisDirection.DOWN:
+            case Direction.DOWN:
+                AnimatorState.Play("DOWN");
                 break;
-            case thisDirection.DOWN_LEFT:
+            case Direction.DOWN_LEFT:
+                AnimatorState.Play("DOWN_LEFT");
                 break;
-            case thisDirection.DOWN_RIGHT:
+            case Direction.DOWN_RIGHT:
+                AnimatorState.Play("DOWN_RIGHT");
                 break;
         }
-    }*/
+    }
     //次の移動するマスの
     public bool SetNextStep(int iNext, int jNext)
     {
@@ -72,7 +81,8 @@ public class ActionControllor : MonoBehaviour {
         UserAttackFlg = false;
         iThisNext = 0;
         jThisNext = 1;
-    }
+        AnimatorState = this.GetComponent<Animator>();
+   }
     public void SetUserActFlagOn()
     {
         count = 0;

@@ -22,10 +22,49 @@ public class PlayerAttack_1 : MonoBehaviour {
         int iThisNow = (int)this.transform.position.x;
         int jThisNow = (int)this.transform.position.y;
 
-        //仮設置：引数に方向をもってきて攻撃方向を設定してから↑の処理に
-        AttackHitcheck(iThisNow + 1, jThisNow + 1);
-        AttackHitcheck(iThisNow + 1, jThisNow);
-        AttackHitcheck(iThisNow + 1, jThisNow - 1);
+        switch(this.GetComponent<ActionControllor>().thisNowDirection)
+        {
+            case ActionControllor.Direction.UP:
+                AttackHitcheck(iThisNow - 1, jThisNow + 1);
+                AttackHitcheck(iThisNow , jThisNow + 1);
+                AttackHitcheck(iThisNow + 1, jThisNow + 1);
+                break;
+            case ActionControllor.Direction.UP_LEFT:
+                AttackHitcheck(iThisNow , jThisNow + 1);
+                AttackHitcheck(iThisNow - 1, jThisNow + 1);
+                AttackHitcheck(iThisNow - 1, jThisNow );
+                break;
+            case ActionControllor.Direction.UP_RIGHT:
+                AttackHitcheck(iThisNow, jThisNow + 1);
+                AttackHitcheck(iThisNow + 1, jThisNow + 1);
+                AttackHitcheck(iThisNow + 1, jThisNow);
+                break;
+            case ActionControllor.Direction.LEFT:
+                AttackHitcheck(iThisNow - 1, jThisNow + 1);
+                AttackHitcheck(iThisNow - 1, jThisNow);
+                AttackHitcheck(iThisNow - 1, jThisNow - 1);
+                break;
+            case ActionControllor.Direction.RIGHT:
+                AttackHitcheck(iThisNow + 1, jThisNow + 1);
+                AttackHitcheck(iThisNow + 1, jThisNow);
+                AttackHitcheck(iThisNow + 1, jThisNow - 1);
+                break;
+            case ActionControllor.Direction.DOWN:
+                AttackHitcheck(iThisNow - 1, jThisNow - 1);
+                AttackHitcheck(iThisNow , jThisNow - 1);
+                AttackHitcheck(iThisNow + 1, jThisNow - 1);
+                break;
+            case ActionControllor.Direction.DOWN_LEFT:
+                AttackHitcheck(iThisNow - 1, jThisNow);
+                AttackHitcheck(iThisNow - 1, jThisNow - 1);
+                AttackHitcheck(iThisNow , jThisNow - 1);
+                break;
+            case ActionControllor.Direction.DOWN_RIGHT:
+                AttackHitcheck(iThisNow + 1, jThisNow);
+                AttackHitcheck(iThisNow + 1, jThisNow - 1);
+                AttackHitcheck(iThisNow, jThisNow - 1);
+                break;
+        }
     }
     // Use this for initialization
     void Start () {

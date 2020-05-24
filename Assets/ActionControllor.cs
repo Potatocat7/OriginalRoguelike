@@ -15,7 +15,7 @@ public class ActionControllor : MonoBehaviour {
         DOWN_LEFT,
         DOWN_RIGHT
     }
-    Direction thisDirection;
+    public Direction thisNowDirection;
     bool UserActFlg;
     [SerializeField]
     bool UserAttackFlg;
@@ -33,27 +33,35 @@ public class ActionControllor : MonoBehaviour {
             //enumクラス名.文字列でアクセスする
             case Direction.UP:
                 AnimatorState.Play("UP");
+                thisNowDirection = Direction.UP;
                 break;
             case Direction.UP_LEFT:
                 AnimatorState.Play("UP_LEFT");
+                thisNowDirection = Direction.UP_LEFT;
                 break;
             case Direction.UP_RIGHT:
                 AnimatorState.Play("UP_RIGHT");
+                thisNowDirection = Direction.UP_RIGHT;
                 break;
             case Direction.LEFT:
                 AnimatorState.Play("LEFT");
+                thisNowDirection = Direction.LEFT;
                 break;
             case Direction.RIGHT:
                 AnimatorState.Play("RIGHT");
+                thisNowDirection = Direction.RIGHT;
                 break;
             case Direction.DOWN:
                 AnimatorState.Play("DOWN");
+                thisNowDirection = Direction.DOWN;
                 break;
             case Direction.DOWN_LEFT:
                 AnimatorState.Play("DOWN_LEFT");
+                thisNowDirection = Direction.DOWN_LEFT;
                 break;
             case Direction.DOWN_RIGHT:
                 AnimatorState.Play("DOWN_RIGHT");
+                thisNowDirection = Direction.DOWN_RIGHT;
                 break;
         }
     }
@@ -82,7 +90,8 @@ public class ActionControllor : MonoBehaviour {
         iThisNext = 0;
         jThisNext = 1;
         AnimatorState = this.GetComponent<Animator>();
-   }
+        thisNowDirection = Direction.DOWN;
+    }
     public void SetUserActFlagOn()
     {
         count = 0;
@@ -110,7 +119,6 @@ public class ActionControllor : MonoBehaviour {
         //if (GameCtlObj.GetComponent<GameControllor>().AcitonFlg == true)
         if(UserActFlg == true)
         {
-            //敵とプレイヤーで同じスクリプトを使うので修正が必要
             if (UserAttackFlg == true)
             {
                 //10Fかけて攻撃動作

@@ -23,7 +23,48 @@ public class GameControllor : MonoBehaviour {
     GameObject Player;
     GameObject Enemy;
     int timeCount;
+    public bool PatkFlg;
 
+    void SetEnemyDirection(int iStep,int jStep)
+    {
+        if (iStep == 0 && jStep == 1)
+        {//UP
+            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
+        }
+        else if (iStep == -1 && jStep == 1)
+        {//UP_LEFT
+            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_LEFT);
+        }
+        else if (iStep == 1 && jStep == 1)
+        {//UP_RIGHT
+            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_RIGHT);
+        }
+        else if (iStep == -1 && jStep == 0)
+        {//LEFT
+            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.LEFT);
+        }
+        else if (iStep == 1 && jStep == 0)
+        {//RIGHT
+            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.RIGHT);
+        }
+        else if (iStep == 0 && jStep == -1)
+        {//DOWN
+            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
+        }
+        else if (iStep == -1 && jStep == -1)
+        {//DOWN_LEFT
+            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_LEFT);
+        }
+        else if (iStep == 1 && jStep == -1)
+        {//DOWN_RIGHT
+            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_RIGHT);
+        }
+        else
+        {//動かないときはそのまま
+            
+        }
+
+    }
     void SetEnemyMove()
     {
         //※敵動作については条件で複数パターンあるため現状は仮設定
@@ -40,6 +81,7 @@ public class GameControllor : MonoBehaviour {
             }
             else
             {
+                SetEnemyDirection(iRandom, jRandom);
                 Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
                 checkRandom = false;
             }
@@ -74,6 +116,7 @@ public class GameControllor : MonoBehaviour {
         iNext = 0;
         jNext = 1;
         AcitonFlg = false;
+        PatkFlg = false; 
         timeCount = 0;
     }
 
@@ -86,13 +129,22 @@ public class GameControllor : MonoBehaviour {
             timeCount += 1;
             if (timeCount == 10)
             {
-                AcitonFlg = false; //if文でattackフラグをみて解除するかきめると同時にエネミーの攻撃時の移動処理を呼ぶ
-                timeCount = 0;
+                if (PatkFlg == true)
+                {
+                    SetEnemyMove();
+                }
+                else
+                {
+                    AcitonFlg = false; //if文でattackフラグをみて解除するかきめると同時にエネミーの攻撃時の移動処理を呼ぶ
+                    timeCount = 0;
+                }
             }
-            /*if (timeCount == 20)
+            if (timeCount == 20)
             {
+                PatkFlg = false;
+                AcitonFlg = false;
                 timeCount = 0; //attckフラグを用意して攻撃時はこちらまで動かす
-            }*/
+            }
 
         }
 
@@ -180,12 +232,13 @@ public class GameControllor : MonoBehaviour {
     }
     public void Push_ATTCK()
     {
+        Player = GameObject.Find("PlayerPrefab(Clone)");
         if (AcitonFlg != true) //移動中は入力無効にする
         {
-            Player = GameObject.Find("PlayerPrefab(Clone)");
             Player.GetComponent<ActionControllor>().SetUserAttackFlagOn(iNext, jNext);
             Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
-            SetEnemyMove();
+            AcitonFlg = true;
+            PatkFlg = true;
         }
     }
     public void Push_LOCK()

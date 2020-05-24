@@ -24,6 +24,11 @@ public class GameControllor : MonoBehaviour {
     GameObject Enemy;
     int timeCount;
     public bool PatkFlg;
+    //確認用に宣言
+    public int Pmap, Emap;
+    public int iPmap, jPmap;
+    public int iEmap, jEmap;
+
 
     void SetEnemyDirection(int iStep,int jStep)
     {
@@ -65,10 +70,8 @@ public class GameControllor : MonoBehaviour {
         }
 
     }
-    void SetEnemyMove()
+    void EnemyMoveRandom()
     {
-        //※敵動作については条件で複数パターンあるため現状は仮設定
-        Enemy = GameObject.Find("EnemyPrefab(Clone)");
         bool checkRandom = true;
         //敵の移動　ランダムに動かす移動可能のマスになるまでwhile文で繰り返すまで
         while (checkRandom == true)
@@ -88,6 +91,69 @@ public class GameControllor : MonoBehaviour {
 
         }
     }
+    void EnemyMoveTargetPlayer()
+    {
+        int iEnemyNext, jEnemyNext;
+
+        if ((int)Player.transform.position.x - (int)Enemy.transform.position.x > 0)
+        {
+            iEnemyNext = 1;
+        }
+        else if((int)Player.transform.position.x - (int)Enemy.transform.position.x < 0)
+        {
+            iEnemyNext = -1;
+        }
+        else
+        {//(int)Player.transform.position.x == (int)Enemy.transform.position.x
+            iEnemyNext = 0;
+        }
+
+        if ((int)Player.transform.position.y - (int)Enemy.transform.position.y > 0)
+        {
+            jEnemyNext = 1;
+        }
+        else if ((int)Player.transform.position.y - (int)Enemy.transform.position.y < 0)
+        {
+            jEnemyNext = -1;
+        }
+        else
+        {//(int)Player.transform.position.y == (int)Enemy.transform.position.y
+            jEnemyNext = 0;
+        }
+
+        if (Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext) == false)
+        {
+
+        }
+        else
+        {
+            SetEnemyDirection(iEnemyNext, jEnemyNext);
+            Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
+        }
+    }
+    void SetEnemyMove()
+    {
+        if (MapGenerator.EnemyCount >= 1) {
+            //※敵動作については条件で複数パターンあるため現状は仮設定
+            Enemy = GameObject.Find("EnemyPrefab(Clone)");
+            //確認用に宣言中　現在Playerの位置情報が移動前の位置情報を所得している※positionが少数点で0.999になると切り捨てになってしまう
+            iEmap =(int)Enemy.transform.position.x;
+            iPmap =(int)Player.transform.position.x;
+            jEmap =(int)Enemy.transform.position.y;
+            jPmap =(int)Player.transform.position.y;
+            //
+            Emap = MapGenerator.map[(int)Enemy.transform.position.x, (int)Enemy.transform.position.y];
+            Pmap = MapGenerator.map[(int)Player.transform.position.x, (int)Player.transform.position.y];
+            if (MapGenerator.map[(int)Player.transform.position.x, (int)Player.transform.position.y] == MapGenerator.map[(int)Enemy.transform.position.x, (int)Enemy.transform.position.y])
+            {
+                EnemyMoveTargetPlayer();
+            }
+            else
+            {
+                EnemyMoveRandom();
+            }
+        }
+    }
     void CheckBlockState()
     {
         Player = GameObject.Find("PlayerPrefab(Clone)");
@@ -96,7 +162,8 @@ public class GameControllor : MonoBehaviour {
         //次に移動予定のマスが壁でないかのチェック
         if (Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext) == false)
         {
-
+            iNext = 0;
+            jNext = 0;
         }
         else
         {
@@ -139,7 +206,7 @@ public class GameControllor : MonoBehaviour {
                     timeCount = 0;
                 }
             }
-            if (timeCount == 20)
+            if (timeCount == 20)//敵が複数いた場合順々に攻撃してもらう処理が必要？（現在だと敵の攻撃は同時になる）
             {
                 PatkFlg = false;
                 AcitonFlg = false;
@@ -235,6 +302,8 @@ public class GameControllor : MonoBehaviour {
         Player = GameObject.Find("PlayerPrefab(Clone)");
         if (AcitonFlg != true) //移動中は入力無効にする
         {
+            iNext = 0;
+            jNext = 0;
             Player.GetComponent<ActionControllor>().SetUserAttackFlagOn(iNext, jNext);
             Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
             AcitonFlg = true;

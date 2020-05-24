@@ -13,8 +13,9 @@ public class MapGenerator : MonoBehaviour {
     public GameObject PowerItemObj;
     public GameObject[,] Mapobj = new GameObject[20, 20];
     public static int[,] map = new int[20, 20];       //選択後の
-    public static int iNow, jNow;
+    public static int iNow, jNow, EnemyCount;
     public int mapNum;
+   
 
     bool CheckMapstate(int tate, int yoko)
     {
@@ -24,14 +25,14 @@ public class MapGenerator : MonoBehaviour {
         {
             for (int jPix = 0; jPix < 3; jPix++) //mapHeight
             {
-                if (map[ iPix + tate - 1, jPix + yoko - 1] == 0)//周囲の通路の数を確認
+                if (map[ iPix + tate - 1, jPix + yoko - 1] == 1)//周囲の壁の数を確認
                 {
                     count += 1;
 
                 }
             }
         }
-        if (count >= 3) //カウントが3以上の時（大体３つ以上なら部屋である可能性）
+        if (count <= 5) //カウントが3以上の時（大体３つ以上なら部屋である可能性）
         {
             return (true);
         }
@@ -49,7 +50,7 @@ public class MapGenerator : MonoBehaviour {
             int randomiPix = Random.Range(1, 19);        // 1～19の乱数を取得
             int randomjPix = Random.Range(1, 19);        // 1～19の乱数を取得
 
-            if (map[randomiPix, randomjPix] == 0)    //MAPが通路のなとき
+            if (map[randomiPix, randomjPix] != 1)    //MAPが通路のなとき(壁でないとき)
             {
                 if (CheckMapstate(randomiPix, randomjPix) == true) //条件が達成されていたら
                 {
@@ -70,6 +71,7 @@ public class MapGenerator : MonoBehaviour {
         // Use this for initialization
     void Start () {
         mapNum = Random.Range(0, 3);        // 0～3の乱数を取得
+        EnemyCount = 0;
         //for文で配列に情報を入れていく(MapDataScript.mapDataだと引数が増えるため)
         for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++) //mapWidth
         {
@@ -101,6 +103,7 @@ public class MapGenerator : MonoBehaviour {
         SetUniqObj(GoalObj);
         SetUniqObj(PlayerObj);
         SetUniqObj(EnemyObj);
+        EnemyCount += 1; 
         //アイテム等はここで同じ用に生成
 
     }

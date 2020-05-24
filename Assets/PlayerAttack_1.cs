@@ -7,14 +7,17 @@ public class PlayerAttack_1 : MonoBehaviour {
     void AttackHitcheck(int iAttack,int jAttack)
     {
         //複数or0だったときの処理が必要？
-        GameObject Enemy = GameObject.Find("EnemyPrefab(Clone)");
-        if (Enemy.GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack) == true)
+        if (MapGenerator.EnemyCount >= 1)
         {
-            Enemy.GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
-        }
-        else
-        {
+            GameObject Enemy = GameObject.Find("EnemyPrefab(Clone)");
+            if (Enemy.GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack) == true)
+            {
+                Enemy.GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
+            }
+            else
+            {
 
+            }
         }
     }
     public void AttackAreaSet()

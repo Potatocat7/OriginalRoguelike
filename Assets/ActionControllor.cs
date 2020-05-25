@@ -84,20 +84,24 @@ public class ActionControllor : MonoBehaviour {
                 break;
         }
     }
-    //次の移動するマスの
-    public bool SetNextStep(int iNext, int jNext)
+    //次の移動するマスのチェック
+    public bool CheckNextStep()
     {
-        if (MapGenerator.map[iThisNow + iNext, jThisNow + jNext] == 1)
+        if (MapGenerator.map[iThisNow + iThisNext, jThisNow + jThisNext] == 1)
         {
             return false;
         }
         else
         {
-            iThisNext = iNext;
-            jThisNext = jNext;
             return true;
         }
     }
+    public void SetNextStep(int iNext, int jNext)
+    {
+        iThisNext = iNext;
+        jThisNext = jNext;
+    }
+
     // Use this for initialization
     void Start () {
         //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
@@ -124,10 +128,8 @@ public class ActionControllor : MonoBehaviour {
     {
         return jThisNow + jThisNext;
     }
-    public void SetUserAttackFlagOn(int iNext, int jNext)
+    public void SetUserAttackFlagOn()
     {
-        iThisNext = iNext;
-        jThisNext = jNext;
         count = 0;
         UserActFlg = true;
         UserAttackFlg = true;

@@ -225,6 +225,7 @@ public class GameControllor : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Player = GameObject.Find("PlayerPrefab(Clone)"); //エラー箇所
+        Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
         iNext = 0;
         jNext = 1;
         AcitonFlg = false;

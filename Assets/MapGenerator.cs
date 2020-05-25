@@ -56,16 +56,15 @@ public class MapGenerator : MonoBehaviour {
                 {
                     // プレハブを元に、インスタンスを生成、
                     Mapobj[randomiPix, randomjPix] = (GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity);
-
                     iLoopflg = true;
                     if (PrefabObj.tag == "Player") {
-                        PrefabObj.GetComponent<ActionControllor>().StartSetUp();
+                        Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
                         iNow = randomiPix;
                         jNow = randomjPix;
                     }
                     else if(PrefabObj.tag == "Enemy")
                     {
-                        PrefabObj.GetComponent<ActionControllor>().StartSetUp();
+                        Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
 
                     }
                 }

@@ -25,6 +25,9 @@ public class ActionControllor : MonoBehaviour {
     bool UserAttackFlg;
     int count;
     [SerializeField]
+    int aaa, bbb;
+    [SerializeField]
+    int ccc, ddd;
     public int iThisNext { get; private set; }
     public int jThisNext { get; private set; }
     public int iThisNow { get; private set; }
@@ -41,11 +44,14 @@ public class ActionControllor : MonoBehaviour {
         //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
         iThisNow = (int)Math.Round(this.transform.position.x);
         jThisNow = (int)Math.Round(this.transform.position.y);
+        aaa = (int)Math.Round(this.transform.position.x);
+        bbb = (int)Math.Round(this.transform.position.y);
+
         count = 0;
         UserActFlg = false;
         UserAttackFlg = false;
         iThisNext = 0;
-        jThisNext = 1;
+        jThisNext = 0;
         AnimatorState = this.GetComponent<Animator>();
         thisNowDirection = Direction.DOWN;
     }
@@ -107,6 +113,10 @@ public class ActionControllor : MonoBehaviour {
     //次の移動するマスのチェック
     public bool CheckNextStep()
     {
+        aaa = iThisNow;
+        bbb = jThisNow;
+        ccc = iThisNext;
+        ddd = jThisNext;
         if (MapGenerator.map[iThisNow + iThisNext, jThisNow + jThisNext] == 1)
         {
             return false;

@@ -145,17 +145,25 @@ public class GameControllor : MonoBehaviour {
 
             if (Enemy.GetComponent< EnemyAttack >().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
             {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
+                //Enemy.GetComponent<ActionControllor>().SetUserAttackFlagOn(iStep, jStep); 引数があって呼び出せないので引数を使った処理と分割する必要あり
                 Enemy.GetComponent<EnemyAttack>().AttackHit();
             }
             else
             {
-                if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)])
-                {
-                    EnemyMoveTargetPlayer();
+                if (MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)] == 0)
+                {//通路だった場合は
+                    EnemyMoveRandom(); //現状はランダム移動（後で通路は直進するようにしたい）
                 }
                 else
                 {
-                    EnemyMoveRandom();
+                    if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)])
+                    {
+                        EnemyMoveTargetPlayer();
+                    }
+                    else
+                    {
+                        EnemyMoveRandom();
+                    }
                 }
             }
         }

@@ -16,12 +16,13 @@ public class ActionControllor : MonoBehaviour {
         DOWN_RIGHT
     }
     public Direction thisNowDirection;
+    [SerializeField]
     bool UserActFlg;
     [SerializeField]
     bool UserAttackFlg;
     int count;
     [SerializeField]
-    int iThisNext, jThisNext, iThisNow, jThisNow;
+    int iThisNext, jThisNext, iThisNow, jThisNow, iAtkDir, jAtkDir;
     [SerializeField]
     Animator AnimatorState;
 
@@ -34,34 +35,50 @@ public class ActionControllor : MonoBehaviour {
             case Direction.UP:
                 AnimatorState.Play("UP");
                 thisNowDirection = Direction.UP;
+                iAtkDir = 0;
+                jAtkDir = 1;
                 break;
             case Direction.UP_LEFT:
                 AnimatorState.Play("UP_LEFT");
                 thisNowDirection = Direction.UP_LEFT;
+                iAtkDir = -1;
+                jAtkDir = 1;
                 break;
             case Direction.UP_RIGHT:
                 AnimatorState.Play("UP_RIGHT");
                 thisNowDirection = Direction.UP_RIGHT;
+                iAtkDir = 1;
+                jAtkDir = 1;
                 break;
             case Direction.LEFT:
                 AnimatorState.Play("LEFT");
                 thisNowDirection = Direction.LEFT;
+                iAtkDir = -1;
+                jAtkDir = 0;
                 break;
             case Direction.RIGHT:
                 AnimatorState.Play("RIGHT");
                 thisNowDirection = Direction.RIGHT;
+                iAtkDir = 1;
+                jAtkDir = 0;
                 break;
             case Direction.DOWN:
                 AnimatorState.Play("DOWN");
                 thisNowDirection = Direction.DOWN;
+                iAtkDir = 0;
+                jAtkDir = -1;
                 break;
             case Direction.DOWN_LEFT:
                 AnimatorState.Play("DOWN_LEFT");
                 thisNowDirection = Direction.DOWN_LEFT;
+                iAtkDir = -1;
+                jAtkDir = -1;
                 break;
             case Direction.DOWN_RIGHT:
                 AnimatorState.Play("DOWN_RIGHT");
                 thisNowDirection = Direction.DOWN_RIGHT;
+                iAtkDir = 1;
+                jAtkDir = -1;
                 break;
         }
     }
@@ -97,6 +114,14 @@ public class ActionControllor : MonoBehaviour {
         count = 0;
         UserActFlg = true;
     }
+    public int SetiNextStepArea()
+    {
+        return iThisNow + iThisNext;
+    }
+    public int SetjNextStepArea()
+    {
+        return jThisNow + jThisNext;
+    }
     public void SetUserAttackFlagOn(int iNext, int jNext)
     {
         iThisNext = iNext;
@@ -124,12 +149,12 @@ public class ActionControllor : MonoBehaviour {
                 //10Fかけて攻撃動作
                 if (count < 5 )
                 {
-                    this.transform.Translate(iThisNext * 0.1f, jThisNext * 0.1f, 0);
+                    this.transform.Translate(iAtkDir * 0.1f, jAtkDir * 0.1f, 0);
                     count += 1;
                 }
                 else
                 {
-                    this.transform.Translate(iThisNext * -0.1f, jThisNext * -0.1f, 0);
+                    this.transform.Translate(iAtkDir * -0.1f, jAtkDir * -0.1f, 0);
                     count += 1;
                 }
                 if (count == 10)

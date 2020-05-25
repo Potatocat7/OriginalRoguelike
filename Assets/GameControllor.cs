@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class GameControllor : MonoBehaviour {
 
@@ -76,8 +77,8 @@ public class GameControllor : MonoBehaviour {
         //敵の移動　ランダムに動かす移動可能のマスになるまでwhile文で繰り返すまで
         while (checkRandom == true)
         {
-            iRandom = (int)Random.Range(-1, 2);
-            jRandom = (int)Random.Range(-1, 2);
+            iRandom = (int)UnityEngine.Random.Range(-1, 2);
+            jRandom = (int)UnityEngine.Random.Range(-1, 2);
             if (Enemy.GetComponent<ActionControllor>().SetNextStep(iRandom, jRandom) == false)
             {
 
@@ -95,11 +96,11 @@ public class GameControllor : MonoBehaviour {
     {
         int iEnemyNext, jEnemyNext;
 
-        if ((int)Player.transform.position.x - (int)Enemy.transform.position.x > 0)
+        if (Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) > 0)
         {
             iEnemyNext = 1;
         }
-        else if((int)Player.transform.position.x - (int)Enemy.transform.position.x < 0)
+        else if(Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) < 0)
         {
             iEnemyNext = -1;
         }
@@ -108,11 +109,11 @@ public class GameControllor : MonoBehaviour {
             iEnemyNext = 0;
         }
 
-        if ((int)Player.transform.position.y - (int)Enemy.transform.position.y > 0)
+        if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) > 0)
         {
             jEnemyNext = 1;
         }
-        else if ((int)Player.transform.position.y - (int)Enemy.transform.position.y < 0)
+        else if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) < 0)
         {
             jEnemyNext = -1;
         }
@@ -136,15 +137,16 @@ public class GameControllor : MonoBehaviour {
         if (MapGenerator.EnemyCount >= 1) {
             //※敵動作については条件で複数パターンあるため現状は仮設定
             Enemy = GameObject.Find("EnemyPrefab(Clone)");
+            //現状プレイヤーの移動前の情報を所得しているので移動先の情報にする必要あり
             //確認用に宣言中　現在Playerの位置情報が移動前の位置情報を所得している※positionが少数点で0.999になると切り捨てになってしまう
-            iEmap =(int)Enemy.transform.position.x;
-            iPmap =(int)Player.transform.position.x;
-            jEmap =(int)Enemy.transform.position.y;
-            jPmap =(int)Player.transform.position.y;
+            iEmap = (int)Math.Round(Enemy.transform.position.x);
+            iPmap = Player.GetComponent<ActionControllor>().SetiNextStepArea();
+            jEmap =(int)Math.Round(Enemy.transform.position.y);
+            jPmap = Player.GetComponent<ActionControllor>().SetjNextStepArea();
             //
-            Emap = MapGenerator.map[(int)Enemy.transform.position.x, (int)Enemy.transform.position.y];
-            Pmap = MapGenerator.map[(int)Player.transform.position.x, (int)Player.transform.position.y];
-            if (MapGenerator.map[(int)Player.transform.position.x, (int)Player.transform.position.y] == MapGenerator.map[(int)Enemy.transform.position.x, (int)Enemy.transform.position.y])
+            Emap = MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)];
+            Pmap = MapGenerator.map[iPmap, jPmap];
+            if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)])
             {
                 EnemyMoveTargetPlayer();
             }

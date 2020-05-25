@@ -101,6 +101,11 @@ public class ActionControllor : MonoBehaviour {
         iThisNext = iNext;
         jThisNext = jNext;
     }
+    public void SetThisNowStep()
+    {
+        iThisNow = (int)Math.Round(this.transform.position.x);
+        jThisNow = (int)Math.Round(this.transform.position.y);
+    }
 
     // Use this for initialization
     void Start () {

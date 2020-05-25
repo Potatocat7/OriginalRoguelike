@@ -78,14 +78,13 @@ public class GameControllor : MonoBehaviour {
         {
             iRandom = (int)UnityEngine.Random.Range(-1, 2);
             jRandom = (int)UnityEngine.Random.Range(-1, 2);
+            Enemy.GetComponent<ActionControllor>().SetNextStep(iRandom, jRandom);
             if (Enemy.GetComponent<ActionControllor>().CheckNextStep() == false)
             {
-
             }
             else
             {
                 SetEnemyDirection(iRandom, jRandom);
-                Enemy.GetComponent<ActionControllor>().SetNextStep(iRandom, jRandom);
                 Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
                 checkRandom = false;
             }
@@ -122,13 +121,16 @@ public class GameControllor : MonoBehaviour {
             jEnemyNext = 0;
         }
 
+        Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
         if (Enemy.GetComponent<ActionControllor>().CheckNextStep() == false)
         {
-
+            SetEnemyDirection(iEnemyNext, jEnemyNext);
+            iEnemyNext = 0;
+            jEnemyNext = 0;
+            Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
         }
         else
         {
-            Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
             SetEnemyDirection(iEnemyNext, jEnemyNext);
             Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
         }
@@ -147,7 +149,7 @@ public class GameControllor : MonoBehaviour {
 
             if (Enemy.GetComponent< EnemyAttack >().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
             {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
-                //Enemy.GetComponent<ActionControllor>().SetUserAttackFlagOn(iStep, jStep); 引数があって呼び出せないので引数を使った処理と分割する必要あり
+                Enemy.GetComponent<ActionControllor>().SetUserAttackFlagOn(); 
                 Enemy.GetComponent<EnemyAttack>().AttackHit();
             }
             else
@@ -176,17 +178,18 @@ public class GameControllor : MonoBehaviour {
 
         //static部分を修正予定
         //次に移動予定のマスが壁でないかのチェック
+        Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
         if (Player.GetComponent<ActionControllor>().CheckNextStep() == false)
         {
             iNext = 0;
             jNext = 0;
+            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
         }
         else
         {
             MapGenerator.iNow = MapGenerator.iNow + iNext;
             MapGenerator.jNow = MapGenerator.jNow + jNext;
             AcitonFlg = true;
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetUserActFlagOn();
             //※敵オブジェクトは0になることもあるため複数対応+無しのときの対応も必要
             SetEnemyMove();
@@ -329,6 +332,7 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 0;
             jNext = 0;
+            Player.GetComponent<ActionControllor>().SetThisNowStep();
             Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetUserAttackFlagOn();
             Player.GetComponent<PlayerAttack_1>().AttackHit();

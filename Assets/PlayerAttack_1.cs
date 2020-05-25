@@ -5,10 +5,10 @@ using System;
 
 
 public class PlayerAttack_1 : MonoBehaviour {
-    public int iThisNow, jThisNow;
-    public int iThisAtkArea1, jThisAtkArea1, iThisAtkArea2, jThisAtkArea2, iThisAtkArea3, jThisAtkArea3;
-
-    public bool test;
+    [SerializeField]
+    int iThisNow, jThisNow;
+    [SerializeField]
+    int iThisAtkArea1, jThisAtkArea1, iThisAtkArea2, jThisAtkArea2, iThisAtkArea3, jThisAtkArea3;
 
     void AttackHitcheck(int iAttack,int jAttack)
     {
@@ -16,7 +16,6 @@ public class PlayerAttack_1 : MonoBehaviour {
         if (MapGenerator.EnemyCount >= 1)
         {
             GameObject Enemy = GameObject.Find("EnemyPrefab(Clone)");
-            test = Enemy.GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack);
             if (Enemy.GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack) == true)
             {
                 Enemy.GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);

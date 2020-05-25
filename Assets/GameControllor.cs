@@ -19,16 +19,15 @@ public class GameControllor : MonoBehaviour {
     }
     Direction PlayerDirection;*/
     public bool AcitonFlg;
-    public int iNext, jNext;
-    public int iRandom, jRandom;
+    public bool PatkFlg;
+    int iNext, jNext;
+    int iRandom, jRandom;
     GameObject Player;
     GameObject Enemy;
     int timeCount;
-    public bool PatkFlg;
     //確認用に宣言
-    public int Pmap, Emap;
-    public int iPmap, jPmap;
-    public int iEmap, jEmap;
+    int iPmap, jPmap;
+    int iEmap, jEmap;
 
 
     void SetEnemyDirection(int iStep,int jStep)
@@ -143,9 +142,7 @@ public class GameControllor : MonoBehaviour {
             iPmap = Player.GetComponent<ActionControllor>().SetiNextStepArea();
             jEmap =(int)Math.Round(Enemy.transform.position.y);
             jPmap = Player.GetComponent<ActionControllor>().SetjNextStepArea();
-            //
-            Emap = MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)];
-            Pmap = MapGenerator.map[iPmap, jPmap];
+
             if (Enemy.GetComponent< EnemyAttack >().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
             {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
                 Enemy.GetComponent<EnemyAttack>().AttackHit();

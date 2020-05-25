@@ -18,7 +18,7 @@ public class StatusDataScript : MonoBehaviour {
     public bool CheckAttack(int iAttack, int jAttack)
     {
         //敵への攻撃が敵の移動後の座標で判定してしまっている
-        iThisNow = (int)Math.Round(this.transform.position.x);
+        iThisNow = this.GetComponents< ActionControllor>().iThisNext;//(int)Math.Round(this.transform.position.x);
         jThisNow = (int)Math.Round(this.transform.position.y);
         if (iThisNow == iAttack && jThisNow == jAttack)
         {

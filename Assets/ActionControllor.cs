@@ -17,6 +17,7 @@ public class ActionControllor : MonoBehaviour {
         DOWN_LEFT,
         DOWN_RIGHT
     }
+    [SerializeField]
     public Direction thisNowDirection;
     [SerializeField]
     bool UserActFlg;
@@ -24,7 +25,13 @@ public class ActionControllor : MonoBehaviour {
     bool UserAttackFlg;
     int count;
     [SerializeField]
-    int iThisNext, jThisNext, iThisNow, jThisNow, iAtkDir, jAtkDir;
+    public int iThisNext { get; private set; }
+    public int jThisNext { get; private set; }
+    public int iThisNow { get; private set; }
+    public int jThisNow { get; private set; }
+    public int iAtkDir { get; private set; }
+    public int jAtkDir { get; private set; }
+
     [SerializeField]
     Animator AnimatorState;
 
@@ -109,6 +116,7 @@ public class ActionControllor : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Debug.Log(this);
         //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
         iThisNow = (int)Math.Round(this.transform.position.x);
         jThisNow = (int)Math.Round(this.transform.position.y);

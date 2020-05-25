@@ -37,8 +37,8 @@ public class PlayerAttack_1 : MonoBehaviour {
     {
        //int iThisNow = (int)Math.Round(this.transform.position.x);
        //int jThisNow = (int)Math.Round(this.transform.position.y);
-        iThisNow = (int)Math.Round(this.transform.position.x);
-        jThisNow = (int)Math.Round(this.transform.position.y);
+        iThisNow = (int)Math.Round(this.transform.position.x)-1;
+        jThisNow = (int)Math.Round(this.transform.position.y)-1;
 
         switch (this.GetComponent<ActionControllor>().thisNowDirection)
         {

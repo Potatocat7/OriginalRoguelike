@@ -56,10 +56,17 @@ public class MapGenerator : MonoBehaviour {
                 {
                     // プレハブを元に、インスタンスを生成、
                     Mapobj[randomiPix, randomjPix] = (GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity);
+
                     iLoopflg = true;
                     if (PrefabObj.tag == "Player") {
+                        PrefabObj.GetComponent<ActionControllor>().StartSetUp();
                         iNow = randomiPix;
                         jNow = randomjPix;
+                    }
+                    else if(PrefabObj.tag == "Enemy")
+                    {
+                        PrefabObj.GetComponent<ActionControllor>().StartSetUp();
+
                     }
                 }
             }
@@ -68,8 +75,12 @@ public class MapGenerator : MonoBehaviour {
             }
         }
     }
-        // Use this for initialization
-    void Start () {
+    // Use this for initialization
+    void Start()
+    {
+    }
+    void Awake()
+    {
         mapNum = Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
         //for文で配列に情報を入れていく(MapDataScript.mapDataだと引数が増えるため)

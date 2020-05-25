@@ -35,7 +35,20 @@ public class ActionControllor : MonoBehaviour {
     [SerializeField]
     Animator AnimatorState;
 
-
+    public void StartSetUp( )
+    {
+        //Debug.Log(this);
+        //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
+        iThisNow = (int)Math.Round(this.transform.position.x);
+        jThisNow = (int)Math.Round(this.transform.position.y);
+        count = 0;
+        UserActFlg = false;
+        UserAttackFlg = false;
+        iThisNext = 0;
+        jThisNext = 1;
+        AnimatorState = this.GetComponent<Animator>();
+        thisNowDirection = Direction.DOWN;
+    }
     public void SetDirection(Direction thisDirection)
     {
         switch (thisDirection)
@@ -116,17 +129,6 @@ public class ActionControllor : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        //Debug.Log(this);
-        //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
-        iThisNow = (int)Math.Round(this.transform.position.x);
-        jThisNow = (int)Math.Round(this.transform.position.y);
-        count = 0;
-        UserActFlg = false;
-        UserAttackFlg = false;
-        iThisNext = 0;
-        jThisNext = 1;
-        AnimatorState = this.GetComponent<Animator>();
-        thisNowDirection = Direction.DOWN;
     }
     public void SetUserActFlagOn()
     {

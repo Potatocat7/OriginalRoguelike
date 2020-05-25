@@ -7,6 +7,7 @@ public class MapGenerator : MonoBehaviour {
     public GameObject WallObj;
     public GameObject GoalObj;
     public GameObject EnemyObj;
+    public List<GameObject> EnemyList = new List<GameObject>();
     public GameObject PlayerObj;
     public GameObject FloorObj;
     public GameObject HealItemObj;
@@ -15,7 +16,6 @@ public class MapGenerator : MonoBehaviour {
     public static int[,] map = new int[20, 20];       //選択後の
     public static int iNow, jNow, EnemyCount;
     public int mapNum;
-   
 
     bool CheckMapstate(int tate, int yoko)
     {
@@ -102,14 +102,20 @@ public class MapGenerator : MonoBehaviour {
         //※すでに追加オブジェクトがある場所には生成しないようにする処理が必要
         SetUniqObj(GoalObj);
         SetUniqObj(PlayerObj);
-        SetUniqObj(EnemyObj);
-        EnemyCount += 1; 
+        //for (int Ecount=0 ; Ecount < 3 ; Ecount++)
+        //{
+            SetUniqObj(EnemyObj);
+            //EnemyList.Add(EnemyObj);
+            EnemyCount += 1;
+
+        //}
         //アイテム等はここで同じ用に生成
 
+        //コントローラの初期化関数呼び出し
+        //GetComponent<GameControllor>().AftorMakeMapStart();
     }
 
     // Update is called once per frame
     void Update () {
-		
-	}
+    }
 }

@@ -453,10 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AcitonFlg: 0
-  iNext: 0
-  jNext: 0
-  iRandom: 0
-  jRandom: 0
+  PatkFlg: 0
 --- !u!1 &1001384552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1432,6 +1429,7 @@ MonoBehaviour:
   WallObj: {fileID: 1204325984152940, guid: 60695017f9845b84daa1df0d26fd1ea6, type: 2}
   GoalObj: {fileID: 1653616096706262, guid: 2b819a5bd34fe2440a1f2d9a278fcce8, type: 2}
   EnemyObj: {fileID: 1289174727360638, guid: 0218c9001f0eda8448eab24e6897e37a, type: 2}
+  EnemyList: []
   PlayerObj: {fileID: 1448642264821466, guid: 718639248aed6994789604d5964f1c15, type: 2}
   FloorObj: {fileID: 1061476967306026, guid: 462bde33a7c54094b8deb21ea5f8c920, type: 2}
   HealItemObj: {fileID: 1901750714422164, guid: 5edfc5329a5f7324497cf98d88a87e80,

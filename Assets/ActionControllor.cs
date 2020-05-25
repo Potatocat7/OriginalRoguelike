@@ -116,7 +116,7 @@ public class ActionControllor : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Debug.Log(this);
+        //Debug.Log(this);
         //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
         iThisNow = (int)Math.Round(this.transform.position.x);
         jThisNow = (int)Math.Round(this.transform.position.y);

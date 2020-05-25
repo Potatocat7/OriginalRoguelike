@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class ActionControllor : MonoBehaviour {
 
@@ -99,8 +101,8 @@ public class ActionControllor : MonoBehaviour {
     // Use this for initialization
     void Start () {
         //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
-        iThisNow = (int)this.transform.position.x;
-        jThisNow = (int)this.transform.position.y;
+        iThisNow = (int)Math.Round(this.transform.position.x);
+        jThisNow = (int)Math.Round(this.transform.position.y);
         count = 0;
         UserActFlg = false;
         UserAttackFlg = false;

@@ -146,13 +146,20 @@ public class GameControllor : MonoBehaviour {
             //
             Emap = MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)];
             Pmap = MapGenerator.map[iPmap, jPmap];
-            if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)])
-            {
-                EnemyMoveTargetPlayer();
+            if (Enemy.GetComponent< EnemyAttack >().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
+            {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
+                Enemy.GetComponent<EnemyAttack>().AttackHit();
             }
             else
             {
-                EnemyMoveRandom();
+                if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)])
+                {
+                    EnemyMoveTargetPlayer();
+                }
+                else
+                {
+                    EnemyMoveRandom();
+                }
             }
         }
     }
@@ -227,6 +234,7 @@ public class GameControllor : MonoBehaviour {
             jNext = 1;
             CheckBlockState();
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
+            Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
         }
     }
     public void Push_U_L()
@@ -237,6 +245,7 @@ public class GameControllor : MonoBehaviour {
             jNext = 1;
             CheckBlockState();
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_LEFT);
+            Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
         }
     }
     public void Push_U_R()
@@ -247,6 +256,7 @@ public class GameControllor : MonoBehaviour {
             jNext = 1;
             CheckBlockState();
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_RIGHT);
+            Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
         }
     }
     public void Push_D()
@@ -257,6 +267,7 @@ public class GameControllor : MonoBehaviour {
             jNext = -1;
             CheckBlockState();
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
+            Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
         }
     }
     public void Push_D_L()
@@ -267,6 +278,7 @@ public class GameControllor : MonoBehaviour {
             jNext = -1;
             CheckBlockState();
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_LEFT);
+            Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
         }
     }
     public void Push_D_R()
@@ -277,6 +289,7 @@ public class GameControllor : MonoBehaviour {
             jNext = -1;
             CheckBlockState();
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_RIGHT);
+            Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
         }
     }
     public void Push_L()
@@ -287,6 +300,7 @@ public class GameControllor : MonoBehaviour {
             jNext = 0;
             CheckBlockState();
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.LEFT);
+            Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
         }
     }
     public void Push_R()
@@ -297,6 +311,7 @@ public class GameControllor : MonoBehaviour {
             jNext = 0;
             CheckBlockState();
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.RIGHT);
+            Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
         }
     }
     public void Push_ATTCK()
@@ -307,7 +322,7 @@ public class GameControllor : MonoBehaviour {
             iNext = 0;
             jNext = 0;
             Player.GetComponent<ActionControllor>().SetUserAttackFlagOn(iNext, jNext);
-            Player.GetComponent<PlayerAttack_1>().AttackAreaSet();
+            Player.GetComponent<PlayerAttack_1>().AttackHit();
             AcitonFlg = true;
             PatkFlg = true;
         }
@@ -318,5 +333,6 @@ public class GameControllor : MonoBehaviour {
         {
         }
     }
+    
 
 }

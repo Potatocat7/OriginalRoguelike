@@ -1,8 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
 
 public class PlayerAttack_1 : MonoBehaviour {
+    public int iThisNow, jThisNow;
+    public int iThisAtkArea1, jThisAtkArea1, iThisAtkArea2, jThisAtkArea2, iThisAtkArea3, jThisAtkArea3;
+
+    public bool test;
 
     void AttackHitcheck(int iAttack,int jAttack)
     {
@@ -10,6 +16,7 @@ public class PlayerAttack_1 : MonoBehaviour {
         if (MapGenerator.EnemyCount >= 1)
         {
             GameObject Enemy = GameObject.Find("EnemyPrefab(Clone)");
+            test = Enemy.GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack);
             if (Enemy.GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack) == true)
             {
                 Enemy.GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
@@ -20,52 +27,85 @@ public class PlayerAttack_1 : MonoBehaviour {
             }
         }
     }
+    public void AttackHit()
+    {
+        AttackHitcheck(iThisAtkArea1, jThisAtkArea1);
+        AttackHitcheck(iThisAtkArea2, jThisAtkArea2);
+        AttackHitcheck(iThisAtkArea3, jThisAtkArea3);
+    }
+
     public void AttackAreaSet()
     {
-        int iThisNow = (int)this.transform.position.x;
-        int jThisNow = (int)this.transform.position.y;
+       //int iThisNow = (int)Math.Round(this.transform.position.x);
+       //int jThisNow = (int)Math.Round(this.transform.position.y);
+        iThisNow = (int)Math.Round(this.transform.position.x);
+        jThisNow = (int)Math.Round(this.transform.position.y);
 
-        switch(this.GetComponent<ActionControllor>().thisNowDirection)
+        switch (this.GetComponent<ActionControllor>().thisNowDirection)
         {
             case ActionControllor.Direction.UP:
-                AttackHitcheck(iThisNow - 1, jThisNow + 1);
-                AttackHitcheck(iThisNow , jThisNow + 1);
-                AttackHitcheck(iThisNow + 1, jThisNow + 1);
+                iThisAtkArea1 = iThisNow - 1;
+                jThisAtkArea1 = jThisNow + 1;
+                iThisAtkArea2 = iThisNow;
+                jThisAtkArea2 = jThisNow + 1;
+                iThisAtkArea3 = iThisNow + 1;
+                jThisAtkArea3 = jThisNow + 1;
                 break;
             case ActionControllor.Direction.UP_LEFT:
-                AttackHitcheck(iThisNow , jThisNow + 1);
-                AttackHitcheck(iThisNow - 1, jThisNow + 1);
-                AttackHitcheck(iThisNow - 1, jThisNow );
+                iThisAtkArea1 = iThisNow;
+                jThisAtkArea1 = jThisNow + 1;
+                iThisAtkArea2 = iThisNow - 1;
+                jThisAtkArea2 = jThisNow + 1;
+                iThisAtkArea3 = iThisNow - 1;
+                jThisAtkArea3 = jThisNow;
                 break;
             case ActionControllor.Direction.UP_RIGHT:
-                AttackHitcheck(iThisNow, jThisNow + 1);
-                AttackHitcheck(iThisNow + 1, jThisNow + 1);
-                AttackHitcheck(iThisNow + 1, jThisNow);
+                iThisAtkArea1 = iThisNow;
+                jThisAtkArea1 = jThisNow + 1;
+                iThisAtkArea2 = iThisNow + 1;
+                jThisAtkArea2 = jThisNow + 1;
+                iThisAtkArea3 = iThisNow + 1;
+                jThisAtkArea3 = jThisNow;
                 break;
             case ActionControllor.Direction.LEFT:
-                AttackHitcheck(iThisNow - 1, jThisNow + 1);
-                AttackHitcheck(iThisNow - 1, jThisNow);
-                AttackHitcheck(iThisNow - 1, jThisNow - 1);
+                iThisAtkArea1 = iThisNow - 1;
+                jThisAtkArea1 = jThisNow + 1;
+                iThisAtkArea2 = iThisNow - 1;
+                jThisAtkArea2 = jThisNow;
+                iThisAtkArea3 = iThisNow - 1;
+                jThisAtkArea3 = jThisNow - 1;
                 break;
             case ActionControllor.Direction.RIGHT:
-                AttackHitcheck(iThisNow + 1, jThisNow + 1);
-                AttackHitcheck(iThisNow + 1, jThisNow);
-                AttackHitcheck(iThisNow + 1, jThisNow - 1);
+                iThisAtkArea1 = iThisNow + 1;
+                jThisAtkArea1 = jThisNow + 1;
+                iThisAtkArea2 = iThisNow + 1;
+                jThisAtkArea2 = jThisNow;
+                iThisAtkArea3 = iThisNow + 1;
+                jThisAtkArea3 = jThisNow - 1;
                 break;
             case ActionControllor.Direction.DOWN:
-                AttackHitcheck(iThisNow - 1, jThisNow - 1);
-                AttackHitcheck(iThisNow , jThisNow - 1);
-                AttackHitcheck(iThisNow + 1, jThisNow - 1);
+                iThisAtkArea1 = iThisNow - 1;
+                jThisAtkArea1 = jThisNow - 1;
+                iThisAtkArea2 = iThisNow;
+                jThisAtkArea2 = jThisNow - 1;
+                iThisAtkArea3 = iThisNow + 1;
+                jThisAtkArea3 = jThisNow - 1;
                 break;
             case ActionControllor.Direction.DOWN_LEFT:
-                AttackHitcheck(iThisNow - 1, jThisNow);
-                AttackHitcheck(iThisNow - 1, jThisNow - 1);
-                AttackHitcheck(iThisNow , jThisNow - 1);
+                iThisAtkArea1 = iThisNow - 1;
+                jThisAtkArea1 = jThisNow;
+                iThisAtkArea2 = iThisNow - 1;
+                jThisAtkArea2 = jThisNow - 1;
+                iThisAtkArea3 = iThisNow;
+                jThisAtkArea3 = jThisNow - 1;
                 break;
             case ActionControllor.Direction.DOWN_RIGHT:
-                AttackHitcheck(iThisNow + 1, jThisNow);
-                AttackHitcheck(iThisNow + 1, jThisNow - 1);
-                AttackHitcheck(iThisNow, jThisNow - 1);
+                iThisAtkArea1 = iThisNow + 1;
+                jThisAtkArea1 = jThisNow;
+                iThisAtkArea2 = iThisNow + 1;
+                jThisAtkArea2 = jThisNow - 1;
+                iThisAtkArea3 = iThisNow;
+                jThisAtkArea3 = jThisNow - 1;
                 break;
         }
     }

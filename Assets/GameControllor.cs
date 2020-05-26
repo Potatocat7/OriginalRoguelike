@@ -28,14 +28,15 @@ public class GameControllor : MonoBehaviour {
     GameObject MapGeneObj;
     [SerializeField]
     //GameObject Enemy;
-    List<GameObject> EnemyList = new List<GameObject>();
+    public List<GameObject> EnemyList = new List<GameObject>();
     List<GameObject> AtkEnemy = new List<GameObject>();
     List<GameObject> MoveEnemy = new List<GameObject>();
     int timeCount;
-    int EnemyCount;
+    public int EnemyCount;
     //確認用に宣言
     int iPmap, jPmap;
     int iEmap, jEmap;
+    bool PmoveFlg;
 
     public void AftorMakeMapStart()
     {
@@ -43,8 +44,17 @@ public class GameControllor : MonoBehaviour {
         Player = GameObject.Find("PlayerPrefab(Clone)");
         //Enemy = GameObject.Find("EnemyPrefab(Clone)");
 
-        EnemyList = MapGeneObj.GetComponent<MapGenerator>().EnemyList;
-        EnemyCount = MapGenerator.EnemyCount;
+        for (int count = 0; count < MapGenerator.EnemyCount; count++)
+        {
+            if (MapGeneObj.GetComponent<MapGenerator>().EnemyList[count] != null)
+            {
+                EnemyList.Add(MapGeneObj.GetComponent<MapGenerator>().EnemyList[count]);
+                EnemyCount += 1;
+            }
+        }
+        //EnemyList = MapGeneObj.GetComponent<MapGenerator>().EnemyList;
+        //EnemyCount = MapGenerator.EnemyCount;
+        PmoveFlg = false;
     }
 
     void SetEnemyDirection(int iStep,int jStep , GameObject Enemy)
@@ -221,17 +231,26 @@ public class GameControllor : MonoBehaviour {
                 if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Player.GetComponent<ActionControllor>().SetiNextStepArea(), Player.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
                 //if (Enemy.GetComponent<ActionControllor>().CheckNowStep(Player.GetComponent<ActionControllor>().SetiNextStepArea(), Player.GetComponent<ActionControllor>().SetjNextStepArea()) == true) 
                 {
-                    iNext = 0;
-                    jNext = 0;
-                    Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
+                    PmoveFlg = true;
                 }
                 else
-                {
-                    AcitonFlg = true;
-                    Player.GetComponent<ActionControllor>().SetUserActFlagOn();
-                    //※敵オブジェクトは0になることもあるため複数対応+無しのときの対応も必要
-                    SetEnemyMove();
+                {//近くにいないとうごいちゃう
                 }
+            }
+            if (PmoveFlg == true)
+            {
+                iNext = 0;
+                jNext = 0;
+                Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
+                PmoveFlg = false;
+            }
+            else
+            {
+                AcitonFlg = true;
+                Player.GetComponent<ActionControllor>().SetUserActFlagOn();
+                //※敵オブジェクトは0になることもあるため複数対応+無しのときの対応も必要
+                SetEnemyMove();
+
             }
         }
 
@@ -251,6 +270,21 @@ public class GameControllor : MonoBehaviour {
         AtkCheckflg = false;
     }
 
+    void ResetEnemyList()
+    {
+        //Listの初期化
+        EnemyList.Clear();
+        EnemyCount = 0;
+        for (int count = 0; count < MapGenerator.EnemyCount; count++)
+        {
+            if (MapGeneObj.GetComponent<MapGenerator>().EnemyList[count] != null)
+            {
+                EnemyList.Add(MapGeneObj.GetComponent<MapGenerator>().EnemyList[count]);
+                EnemyCount += 1;
+            }
+        }
+
+    }
     // Update is called once per frame
     void Update () {
 
@@ -260,6 +294,7 @@ public class GameControllor : MonoBehaviour {
             timeCount += 1;
             if (timeCount == 10)
             {
+                ResetEnemyList();
                 if (PatkFlg == true)
                 {
                     SetEnemyMove();
@@ -280,11 +315,11 @@ public class GameControllor : MonoBehaviour {
             }
 
             if (EndPhase == true)
-            {
+            {       //全動作終了時ここにくるので、リストの全削除と再設定をここで行いたい
+                ResetEnemyList();
                 EndPhase = false;
             }
         }
-
     }
 
     public void Push_U()

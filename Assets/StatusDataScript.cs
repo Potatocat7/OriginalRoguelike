@@ -18,8 +18,6 @@ public class StatusDataScript : MonoBehaviour {
     public bool CheckAttack(int iAttack, int jAttack)
     {
         //敵への攻撃が敵の移動後の座標で判定してしまっている
-        iThisNow = this.GetComponent< ActionControllor>().iThisNow;
-        jThisNow = this.GetComponent< ActionControllor>().jThisNow;
         if (iThisNow == iAttack && jThisNow == jAttack)
         {
             return true;
@@ -45,7 +43,9 @@ public class StatusDataScript : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if(NowHP <= 0)
+        iThisNow = this.GetComponent<ActionControllor>().iThisNow;
+        jThisNow = this.GetComponent<ActionControllor>().jThisNow;
+        if (NowHP <= 0)
         {
             Destroy(gameObject);
             MapGenerator.EnemyCount -= 1;

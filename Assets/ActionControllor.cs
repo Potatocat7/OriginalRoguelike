@@ -110,13 +110,21 @@ public class ActionControllor : MonoBehaviour {
                 break;
         }
     }
+    //このオブジェクトの現在位置のチェック
+    public bool CheckNowStep(int iCheckStep,int jCheckStep)
+    {
+        if (iThisNow ==  iCheckStep && jThisNow == jCheckStep)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     //次の移動するマスのチェック
     public bool CheckNextStep()
     {
-        aaa = iThisNow;
-        bbb = jThisNow;
-        ccc = iThisNext;
-        ddd = jThisNext;
         if (MapGenerator.map[iThisNow + iThisNext, jThisNow + jThisNext] == 1)
         {
             return false;
@@ -169,9 +177,12 @@ public class ActionControllor : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        aaa = iThisNow;
+        bbb = jThisNow;
+        ccc = iThisNext;
+        ddd = jThisNext;
         //アクション動作で攻撃と移動をここで処理
-        //if (GameCtlObj.GetComponent<GameControllor>().AcitonFlg == true)
-        if(UserActFlg == true)
+        if (UserActFlg == true)
         {
             if (UserAttackFlg == true)
             {

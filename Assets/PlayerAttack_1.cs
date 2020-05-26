@@ -9,6 +9,8 @@ public class PlayerAttack_1 : MonoBehaviour {
     int iThisNow, jThisNow;
     [SerializeField]
     int iThisAtkArea1, jThisAtkArea1, iThisAtkArea2, jThisAtkArea2, iThisAtkArea3, jThisAtkArea3;
+    [SerializeField]
+    GameObject Contollor;
 
     void AttackHitcheck(int iAttack,int jAttack)
     {
@@ -26,19 +28,15 @@ public class PlayerAttack_1 : MonoBehaviour {
             }
         }
     }
-    public void AttackHit()
+    void AttackHit()
     {
         AttackHitcheck(iThisAtkArea1, jThisAtkArea1);
         AttackHitcheck(iThisAtkArea2, jThisAtkArea2);
         AttackHitcheck(iThisAtkArea3, jThisAtkArea3);
     }
 
-    public void AttackAreaSet()
+    void AttackAreaSet()
     {
-       //int iThisNow = (int)Math.Round(this.transform.position.x);
-       //int jThisNow = (int)Math.Round(this.transform.position.y);
-        iThisNow = this.GetComponent<ActionControllor>().iThisNow;
-        jThisNow = this.GetComponent<ActionControllor>().jThisNow;
 
         switch (this.GetComponent<ActionControllor>().thisNowDirection)
         {
@@ -115,6 +113,15 @@ public class PlayerAttack_1 : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+
+        Contollor = GameObject.Find("GameControllor");
+        if (Contollor.GetComponent<GameControllor>().AtkCheckflg == true)
+        {
+            AttackHit();
+            Contollor.GetComponent<GameControllor>().AtkCheckflg = false;
+        }
+        iThisNow = this.GetComponent<ActionControllor>().iThisNow;
+        jThisNow = this.GetComponent<ActionControllor>().jThisNow;
+        AttackAreaSet();
+    }
 }

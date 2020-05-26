@@ -29,10 +29,14 @@ public class GameControllor : MonoBehaviour {
     [SerializeField]
     //GameObject Enemy;
     public List<GameObject> EnemyList = new List<GameObject>();
-    List<GameObject> AtkEnemy = new List<GameObject>();
-    List<GameObject> MoveEnemy = new List<GameObject>();
+    List<GameObject> AtkEnemyList = new List<GameObject>();
+    List<GameObject> AtkResetEnemyList = new List<GameObject>();
+    List<GameObject> MoveEnemyList = new List<GameObject>();
     int timeCount;
+    [SerializeField]
     public int EnemyCount;
+    [SerializeField]
+    int EnemyAtkCount, EnemyMoveCount, EnemyAtkResetCount,EattackTimeCount;
     //確認用に宣言
     int iPmap, jPmap;
     int iEmap, jEmap;
@@ -54,7 +58,11 @@ public class GameControllor : MonoBehaviour {
         }
         //EnemyList = MapGeneObj.GetComponent<MapGenerator>().EnemyList;
         //EnemyCount = MapGenerator.EnemyCount;
+        EnemyAtkCount = 0;
+        EnemyMoveCount = 0;
+        EnemyAtkResetCount = 0;
         PmoveFlg = false;
+        EattackTimeCount = 1;
     }
 
     void SetEnemyDirection(int iStep,int jStep , GameObject Enemy)
@@ -97,69 +105,146 @@ public class GameControllor : MonoBehaviour {
         }
 
     }
-    void EnemyMoveRandom(GameObject Enemy)
+    void EnemyMoveRandom(GameObject Enemy, int thisCount)
     {
         bool checkRandom = true;
+        int breakFlagCount = 0;
         //敵の移動　ランダムに動かす移動可能のマスになるまでwhile文で繰り返すまで
         while (checkRandom == true)
         {
+            /*breakFlagCount += 1;
+            if (breakFlagCount > 100)
+            {
+                checkRandom = false;
+            }*/
             iRandom = (int)UnityEngine.Random.Range(-1, 2);
             jRandom = (int)UnityEngine.Random.Range(-1, 2);
             Enemy.GetComponent<ActionControllor>().SetNextStep(iRandom, jRandom);
-            if (Enemy.GetComponent<ActionControllor>().CheckNextStep() == false)
+            bool otherEmoveFlg = false;
+
+            for (int count = 0; count < thisCount; count++)
             {
+                if (count != thisCount)//自分の位置については無視
+                {
+                    if (EnemyList[count].GetComponent<ActionControllor>().CheckNextStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
+                    {
+                        otherEmoveFlg = true;
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+            for (int count = 0; count < EnemyCount; count++)
+            {
+                if (count != thisCount)//自分の位置については無視
+                {
+                    if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
+                    {
+                        otherEmoveFlg = true;
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+            if (otherEmoveFlg != true)
+            {
+                if (Enemy.GetComponent<ActionControllor>().CheckNextStepWall() == false)
+                {
+                }
+                else
+                {
+                    SetEnemyDirection(iRandom, jRandom, Enemy);
+                    Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
+                    checkRandom = false;
+                }
+            }
+        }
+    }
+    void EnemyMoveTargetPlayer(GameObject Enemy,int thisCount)
+    {
+        int iEnemyNext, jEnemyNext;
+        bool otherEmoveFlg = false;
+
+        //for分で該当オブジェクトより手前に設定している敵オブジェクトをしらべる（後のオブジェクトは移動先を設定していないため）
+        for (int count = 0; count < thisCount; count++)
+        {
+            if (count != thisCount) //自分の位置については無視//こっちは自分の番号まで来ないからいらない？
+            {
+                //全的オブジェクトの移動位置を調べて移動先にいないかのチェック。いたらtrueを返す
+                if (EnemyList[count].GetComponent<ActionControllor>().CheckNextStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
+                {
+                    otherEmoveFlg = true;
+                }
+                else
+                {
+                }
+            }
+        }
+        //for分で全敵オブジェクトをチェックする（うまくいかない）
+        for (int count = 0; count < EnemyCount; count++)
+        {
+            if (count != thisCount) //自分の位置については無視
+            {
+                //全的オブジェクトの現在位置を調べて移動先にいないかのチェック。いたらtrueを返す
+                if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
+                {
+                    otherEmoveFlg = true;
+                }
+                else
+                {
+                }
+            }
+        }
+        if (otherEmoveFlg != true)
+        {
+            if (Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) > 0)
+            {
+                iEnemyNext = 1;
+            }
+            else if (Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) < 0)
+            {
+                iEnemyNext = -1;
+            }
+            else
+            {//(int)Player.transform.position.x == (int)Enemy.transform.position.x
+                iEnemyNext = 0;
+            }
+
+            if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) > 0)
+            {
+                jEnemyNext = 1;
+            }
+            else if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) < 0)
+            {
+                jEnemyNext = -1;
+            }
+            else
+            {//(int)Player.transform.position.y == (int)Enemy.transform.position.y
+                jEnemyNext = 0;
+            }
+
+            Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
+            if (Enemy.GetComponent<ActionControllor>().CheckNextStepWall() == false)
+            {
+                SetEnemyDirection(iEnemyNext, jEnemyNext, Enemy);
+                iEnemyNext = 0;
+                jEnemyNext = 0;
+                Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
             }
             else
             {
-                SetEnemyDirection(iRandom, jRandom, Enemy);
+                SetEnemyDirection(iEnemyNext, jEnemyNext, Enemy);
                 Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
-                checkRandom = false;
             }
-
-        }
-    }
-    void EnemyMoveTargetPlayer(GameObject Enemy)
-    {
-        int iEnemyNext, jEnemyNext;
-
-        if (Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) > 0)
-        {
-            iEnemyNext = 1;
-        }
-        else if(Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) < 0)
-        {
-            iEnemyNext = -1;
         }
         else
-        {//(int)Player.transform.position.x == (int)Enemy.transform.position.x
-            iEnemyNext = 0;
-        }
-
-        if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) > 0)
         {
-            jEnemyNext = 1;
-        }
-        else if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) < 0)
-        {
-            jEnemyNext = -1;
-        }
-        else
-        {//(int)Player.transform.position.y == (int)Enemy.transform.position.y
-            jEnemyNext = 0;
-        }
-
-        Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
-        if (Enemy.GetComponent<ActionControllor>().CheckNextStep() == false)
-        {
-            SetEnemyDirection(iEnemyNext, jEnemyNext, Enemy);
             iEnemyNext = 0;
             jEnemyNext = 0;
             Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
-        }
-        else
-        {
-            SetEnemyDirection(iEnemyNext, jEnemyNext, Enemy);
-            Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
+
         }
     }
     void SetEnemyMove()
@@ -181,10 +266,14 @@ public class GameControllor : MonoBehaviour {
                 //if (Enemy.GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
                 if (EnemyList[count].GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
                 {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
-                    //Enemy.GetComponent<ActionControllor>().SetUserAttackFlagOn();
-                    EnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
-                    //Enemy.GetComponent<EnemyAttack>().AttackHit();
-                    EnemyList[count].GetComponent<EnemyAttack>().AttackHit();
+                 //Enemy.GetComponent<ActionControllor>().SetUserAttackFlagOn();
+                     EnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
+                 //Enemy.GetComponent<EnemyAttack>().AttackHit();
+                     EnemyList[count].GetComponent<EnemyAttack>().AttackHit();
+
+                    //攻撃リストに登録 ※ここは攻撃前
+                    AtkEnemyList.Add(EnemyList[count]);
+                    EnemyAtkCount += 1;
                 }
                 else
                 {
@@ -192,7 +281,7 @@ public class GameControllor : MonoBehaviour {
                     if (MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)] == 0)
                     {//通路だった場合は
                         //EnemyMoveRandom(Enemy); //現状はランダム移動（後で通路は直進するようにしたい）
-                        EnemyMoveRandom(EnemyList[count]); //現状はランダム移動（後で通路は直進するようにしたい）
+                        EnemyMoveRandom(EnemyList[count], count); //現状はランダム移動（後で通路は直進するようにしたい）
                     }
                     else
                     {
@@ -200,12 +289,12 @@ public class GameControllor : MonoBehaviour {
                     if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)])
                     {
                         //EnemyMoveTargetPlayer(Enemy);
-                            EnemyMoveTargetPlayer(EnemyList[count]);
+                            EnemyMoveTargetPlayer(EnemyList[count], count);
                         }
                         else
                         {
                             //EnemyMoveRandom(Enemy);
-                            EnemyMoveRandom(EnemyList[count]);
+                            EnemyMoveRandom(EnemyList[count],count);
                         }
                     }
                 }
@@ -218,7 +307,7 @@ public class GameControllor : MonoBehaviour {
         //Enemy = GameObject.Find("EnemyPrefab(Clone)");
 
         //次に移動予定のマスが壁でないかのチェック
-        if (Player.GetComponent<ActionControllor>().CheckNextStep() == false)
+        if (Player.GetComponent<ActionControllor>().CheckNextStepWall() == false)
         {
             iNext = 0;
             jNext = 0;
@@ -285,6 +374,24 @@ public class GameControllor : MonoBehaviour {
         }
 
     }
+
+    void ResetAttkEnemyList()
+    {
+
+        //Listの初期化
+        AtkResetEnemyList.Clear();
+        EnemyAtkResetCount = 0;
+        for (int count = 0; count < EnemyAtkCount; count++)
+        {
+            if (AtkEnemyList[count] != null)
+            {
+                AtkResetEnemyList.Add(AtkEnemyList[count]);
+                EnemyAtkResetCount += 1;
+            }
+        }
+
+    }
+
     // Update is called once per frame
     void Update () {
 
@@ -301,11 +408,44 @@ public class GameControllor : MonoBehaviour {
                 }
                 else
                 {
+                    //ResetAttkEnemyList();
                     EndPhase = true;
                     AcitonFlg = false; //if文でattackフラグをみて解除するかきめると同時にエネミーの攻撃時の移動処理を呼ぶ
                     timeCount = 0;
                 }
+//                EattackTimeCount += 1;
             }
+            /*if (EattackTimeCount < EnemyAtkCount ) { 
+                if (timeCount == (10 * EattackTimeCount) + 10)
+                {
+                    AtkEnemyList[EattackTimeCount].GetComponent<ActionControllor>().SetUserAttackFlagOn();
+                    AtkEnemyList[EattackTimeCount].GetComponent<EnemyAttack>().AttackHit();
+                    EattackTimeCount += 1;
+                }
+            }
+            else
+            {
+                EndPhase = true;
+                PatkFlg = false;
+                AcitonFlg = false;
+                timeCount = 0; //attckフラグを用意して攻撃時はこちらまで動かす
+                EattackTimeCount = 1;
+            }
+            //for (int count = 0; count < EnemyAtkCount; count++)
+            //{
+            //    if (timeCount == (10 *  count) + 20)
+            //    {
+            //        AtkEnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
+            //        AtkEnemyList[count].GetComponent<EnemyAttack>().AttackHit();
+            //    }
+            //}
+            //if (timeCount == (10 * EnemyAtkCount) + 20)//敵が複数いた場合順々に攻撃してもらう処理が必要？（現在だと敵の攻撃は同時になる）
+            //{
+            //    EndPhase = true;
+            //    PatkFlg = false;
+            //    AcitonFlg = false;
+            //    timeCount = 0; //attckフラグを用意して攻撃時はこちらまで動かす
+            //}*/
             if (timeCount == 20)//敵が複数いた場合順々に攻撃してもらう処理が必要？（現在だと敵の攻撃は同時になる）
             {
                 EndPhase = true;
@@ -313,6 +453,7 @@ public class GameControllor : MonoBehaviour {
                 AcitonFlg = false;
                 timeCount = 0; //attckフラグを用意して攻撃時はこちらまで動かす
             }
+            
 
             if (EndPhase == true)
             {       //全動作終了時ここにくるので、リストの全削除と再設定をここで行いたい

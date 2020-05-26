@@ -111,9 +111,9 @@ public class ActionControllor : MonoBehaviour {
         }
     }
     //このオブジェクトの現在位置のチェック
-    public bool CheckNowStep(int iCheckStep,int jCheckStep)
+    public bool CheckNowStep(int iCheckStep, int jCheckStep)
     {
-        if (iThisNow ==  iCheckStep && jThisNow == jCheckStep)
+        if (iThisNow == iCheckStep && jThisNow == jCheckStep)
         {
             return true;
         }
@@ -122,8 +122,20 @@ public class ActionControllor : MonoBehaviour {
             return false;
         }
     }
-    //次の移動するマスのチェック
-    public bool CheckNextStep()
+    //このオブジェクトの移動予定位置のチェック
+    public bool CheckNextStep(int iCheckStep, int jCheckStep)
+    {
+        if (iThisNow + iThisNext == iCheckStep && jThisNow + jThisNext == jCheckStep)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    //次の移動するマスが壁かどうかのチェック
+    public bool CheckNextStepWall()
     {
         if (MapGenerator.map[iThisNow + iThisNext, jThisNow + jThisNext] == 1)
         {
@@ -216,6 +228,8 @@ public class ActionControllor : MonoBehaviour {
                     count = 0;
                     iThisNow = iThisNow + iThisNext;
                     jThisNow = jThisNow + jThisNext;
+                    iThisNext = 0 ;
+                    jThisNext = 0 ;
                 }
             }
         }		

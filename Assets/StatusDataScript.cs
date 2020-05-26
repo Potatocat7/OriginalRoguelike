@@ -48,7 +48,6 @@ public class StatusDataScript : MonoBehaviour {
         if (NowHP <= 0)
         {
             Destroy(gameObject);
-            MapGenerator.EnemyCount -= 1;
         }
     }
 }

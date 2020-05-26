@@ -12,7 +12,7 @@ public class EnemyAttack : MonoBehaviour {
 
     public bool CheckPlayerThisAround(int iPstate,int jPstate, int iEstate, int jEstate)
     {
-        if (iEstate == 0 && jEstate+1 == jPstate)
+        if (iEstate == iPstate && jEstate+1 == jPstate)
         {//UP
             this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
             return true;

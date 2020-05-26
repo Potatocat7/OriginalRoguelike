@@ -8,13 +8,15 @@ public class MapGenerator : MonoBehaviour {
     public GameObject GoalObj;
     public GameObject EnemyObj;
     public List<GameObject> EnemyList = new List<GameObject>();
+    public List<int> iObjState = new List<int>();
+    public List<int> jObjState = new List<int>();
     public GameObject PlayerObj;
     public GameObject FloorObj;
     public GameObject HealItemObj;
     public GameObject PowerItemObj;
     public GameObject[,] Mapobj = new GameObject[20, 20];
     public static int[,] map = new int[20, 20];       //選択後の
-    public static int iNow, jNow, EnemyCount;
+    public static int iNow, jNow, EnemyCount,UniqObjCount;
     public int mapNum;
 
     bool CheckMapstate(int tate, int yoko)
@@ -41,6 +43,19 @@ public class MapGenerator : MonoBehaviour {
             return (false);
         }
     }
+    bool CheckMapstateUobj(int tate, int yoko)
+    {
+        bool flg = true;
+        for (int count = 0;　count < UniqObjCount; count++)
+        {
+            if (tate == iObjState[count] && yoko == jObjState[count]) //作成済みオブジェクトと座標がかぶってないか
+            {
+                flg = false; 
+            }
+
+        }
+        return (flg);
+    }
     void SetUniqObj(  GameObject PrefabObj)
     {
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
@@ -54,18 +69,26 @@ public class MapGenerator : MonoBehaviour {
             {
                 if (CheckMapstate(randomiPix, randomjPix) == true) //条件が達成されていたら
                 {
-                    // プレハブを元に、インスタンスを生成、
-                    Mapobj[randomiPix, randomjPix] = (GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity);
-                    iLoopflg = true;
-                    if (PrefabObj.tag == "Player") {
-                        Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
-                        iNow = randomiPix;
-                        jNow = randomjPix;
-                    }
-                    else if(PrefabObj.tag == "Enemy")
+                    if (CheckMapstateUobj(randomiPix, randomjPix) == true) //条件が達成されていたら
                     {
-                        Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
-                        EnemyList.Add(Mapobj[randomiPix, randomjPix]);
+                        // プレハブを元に、インスタンスを生成、
+                        Mapobj[randomiPix, randomjPix] = (GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity);
+                        iLoopflg = true;
+                        if (PrefabObj.tag == "Player")
+                        {
+                            Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
+                            iNow = randomiPix;
+                            jNow = randomjPix;
+                            iObjState.Add(randomiPix);
+                            jObjState.Add(randomjPix);
+                        }
+                        else if (PrefabObj.tag == "Enemy")
+                        {
+                            Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
+                            EnemyList.Add(Mapobj[randomiPix, randomjPix]);
+                            iObjState.Add(randomiPix);
+                            jObjState.Add(randomjPix);
+                        }
                     }
                 }
             }
@@ -82,12 +105,13 @@ public class MapGenerator : MonoBehaviour {
     {
         mapNum = Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
+        UniqObjCount = 0;
         //for文で配列に情報を入れていく(MapDataScript.mapDataだと引数が増えるため)
         for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++) //mapWidth
         {
             for (int jPix = 0; jPix < MapDataScript.mapData.GetLength(2); jPix++) //mapHeight
             {
-                map[iPix, jPix] = MapDataScript.mapData[mapNum, iPix, jPix];
+                map[iPix, jPix] = MapDataScript.mapData[2, iPix, jPix];// mapNum
             }
         }
 
@@ -112,10 +136,12 @@ public class MapGenerator : MonoBehaviour {
         //※すでに追加オブジェクトがある場所には生成しないようにする処理が必要
         SetUniqObj(GoalObj);
         SetUniqObj(PlayerObj);
-        for (int Ecount = 0; Ecount < 20; Ecount++)
+        UniqObjCount = 1;
+        for (int Ecount = 0; Ecount < 5; Ecount++)
         {
             SetUniqObj(EnemyObj);
             EnemyCount += 1;
+            UniqObjCount +=1;
 
         }
         //アイテム等はここで同じ用に生成

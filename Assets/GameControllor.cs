@@ -62,7 +62,7 @@ public class GameControllor : MonoBehaviour {
         EnemyMoveCount = 0;
         EnemyAtkResetCount = 0;
         PmoveFlg = false;
-        EattackTimeCount = 1;
+        EattackTimeCount = 0;
     }
 
     void SetEnemyDirection(int iStep,int jStep , GameObject Enemy)
@@ -167,6 +167,33 @@ public class GameControllor : MonoBehaviour {
         int iEnemyNext, jEnemyNext;
         bool otherEmoveFlg = false;
 
+        if (Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) > 0)
+        {
+            iEnemyNext = 1;
+        }
+        else if (Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) < 0)
+        {
+            iEnemyNext = -1;
+        }
+        else
+        {//(int)Player.transform.position.x == (int)Enemy.transform.position.x
+            iEnemyNext = 0;
+        }
+
+        if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) > 0)
+        {
+            jEnemyNext = 1;
+        }
+        else if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) < 0)
+        {
+            jEnemyNext = -1;
+        }
+        else
+        {//(int)Player.transform.position.y == (int)Enemy.transform.position.y
+            jEnemyNext = 0;
+        }
+        Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
+
         //for分で該当オブジェクトより手前に設定している敵オブジェクトをしらべる（後のオブジェクトは移動先を設定していないため）
         for (int count = 0; count < thisCount; count++)
         {
@@ -199,33 +226,6 @@ public class GameControllor : MonoBehaviour {
         }
         if (otherEmoveFlg != true)
         {
-            if (Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) > 0)
-            {
-                iEnemyNext = 1;
-            }
-            else if (Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) < 0)
-            {
-                iEnemyNext = -1;
-            }
-            else
-            {//(int)Player.transform.position.x == (int)Enemy.transform.position.x
-                iEnemyNext = 0;
-            }
-
-            if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) > 0)
-            {
-                jEnemyNext = 1;
-            }
-            else if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) < 0)
-            {
-                jEnemyNext = -1;
-            }
-            else
-            {//(int)Player.transform.position.y == (int)Enemy.transform.position.y
-                jEnemyNext = 0;
-            }
-
-            Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
             if (Enemy.GetComponent<ActionControllor>().CheckNextStepWall() == false)
             {
                 SetEnemyDirection(iEnemyNext, jEnemyNext, Enemy);
@@ -413,8 +413,9 @@ public class GameControllor : MonoBehaviour {
                     AcitonFlg = false; //if文でattackフラグをみて解除するかきめると同時にエネミーの攻撃時の移動処理を呼ぶ
                     timeCount = 0;
                 }
-//                EattackTimeCount += 1;
+                //                EattackTimeCount += 1;
             }
+
             /*if (EattackTimeCount < EnemyAtkCount ) { 
                 if (timeCount == (10 * EattackTimeCount) + 10)
                 {
@@ -453,10 +454,10 @@ public class GameControllor : MonoBehaviour {
                 AcitonFlg = false;
                 timeCount = 0; //attckフラグを用意して攻撃時はこちらまで動かす
             }
-            
 
             if (EndPhase == true)
             {       //全動作終了時ここにくるので、リストの全削除と再設定をここで行いたい
+                EnemyAtkCount = 0;
                 ResetEnemyList();
                 EndPhase = false;
             }

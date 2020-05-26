@@ -112,17 +112,19 @@ public class MapGenerator : MonoBehaviour {
         //※すでに追加オブジェクトがある場所には生成しないようにする処理が必要
         SetUniqObj(GoalObj);
         SetUniqObj(PlayerObj);
-        //for (int Ecount=0 ; Ecount < 3 ; Ecount++)
-        //{
+        for (int Ecount=0 ; Ecount < 3 ; Ecount++)
+        {
             SetUniqObj(EnemyObj);
-            //EnemyList.Add(EnemyObj);
+            EnemyList.Add(EnemyObj);
             EnemyCount += 1;
 
-        //}
+        }
         //アイテム等はここで同じ用に生成
 
         //コントローラの初期化関数呼び出し
-        //GetComponent<GameControllor>().AftorMakeMapStart();
+
+        GameObject Contollor = GameObject.Find("GameControllor");
+        Contollor.GetComponent<GameControllor>().AftorMakeMapStart();
     }
 
     // Update is called once per frame

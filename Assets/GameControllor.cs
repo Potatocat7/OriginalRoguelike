@@ -25,8 +25,9 @@ public class GameControllor : MonoBehaviour {
     int iNext, jNext;
     int iRandom, jRandom;
     GameObject Player;
+    GameObject MapGeneObj;
     [SerializeField]
-    GameObject Enemy;
+    //GameObject Enemy;
     List<GameObject> EnemyList = new List<GameObject>();
     List<GameObject> AtkEnemy = new List<GameObject>();
     List<GameObject> MoveEnemy = new List<GameObject>();
@@ -38,10 +39,12 @@ public class GameControllor : MonoBehaviour {
 
     public void AftorMakeMapStart()
     {
+        MapGeneObj = GameObject.Find("MapGenerator");
         Player = GameObject.Find("PlayerPrefab(Clone)");
-        Enemy = GameObject.Find("EnemyPrefab(Clone)");
-        //EnemyList = GetComponent<MapGenerator>().EnemyList;
-        //EnemyCount = MapGenerator.EnemyCount;
+        //Enemy = GameObject.Find("EnemyPrefab(Clone)");
+
+        EnemyList = MapGeneObj.GetComponent<MapGenerator>().EnemyList;
+        EnemyCount = MapGenerator.EnemyCount;
     }
 
     void SetEnemyDirection(int iStep,int jStep , GameObject Enemy)
@@ -151,58 +154,58 @@ public class GameControllor : MonoBehaviour {
     }
     void SetEnemyMove()
     {
-        //for (int count = 0; count < EnemyCount; count++)
-        //{
+        for (int count = 0; count < EnemyCount; count++)
+        {
             if (MapGenerator.EnemyCount >= 1) {
                 //※敵動作については条件で複数パターンあるため現状は仮設定
-                Enemy = GameObject.Find("EnemyPrefab(Clone)");
+                //Enemy = GameObject.Find("EnemyPrefab(Clone)");
                 //現状プレイヤーの移動前の情報を所得しているので移動先の情報にする必要あり
                 //確認用に宣言中　現在Playerの位置情報が移動前の位置情報を所得している※positionが少数点で0.999になると切り捨てになってしまう
-                iEmap = (int)Math.Round(Enemy.transform.position.x);
-                //iEmap = (int)Math.Round(EnemyList[count].transform.position.x);
+                //iEmap = (int)Math.Round(Enemy.transform.position.x);
+                iEmap = (int)Math.Round(EnemyList[count].transform.position.x);
                 iPmap = Player.GetComponent<ActionControllor>().SetiNextStepArea();
-                jEmap = (int)Math.Round(Enemy.transform.position.y);
-                //jEmap = (int)Math.Round(EnemyList[count].transform.position.y);
+                //jEmap = (int)Math.Round(Enemy.transform.position.y);
+                jEmap = (int)Math.Round(EnemyList[count].transform.position.y);
                 jPmap = Player.GetComponent<ActionControllor>().SetjNextStepArea();
 
-                if (Enemy.GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
-                //if (EnemyList[count].GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
+                //if (Enemy.GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
+                if (EnemyList[count].GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
                 {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
-                Enemy.GetComponent<ActionControllor>().SetUserAttackFlagOn();
-                    //EnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
-                    Enemy.GetComponent<EnemyAttack>().AttackHit();
-                    //EnemyList[count].GetComponent<EnemyAttack>().AttackHit();
+                    //Enemy.GetComponent<ActionControllor>().SetUserAttackFlagOn();
+                    EnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
+                    //Enemy.GetComponent<EnemyAttack>().AttackHit();
+                    EnemyList[count].GetComponent<EnemyAttack>().AttackHit();
                 }
                 else
                 {
-                    if (MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)] == 0)
-                    //if (MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)] == 0)
+                    //if (MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)] == 0)
+                    if (MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)] == 0)
                     {//通路だった場合は
-                        EnemyMoveRandom(Enemy); //現状はランダム移動（後で通路は直進するようにしたい）
-                        //EnemyMoveRandom(EnemyList[count]); //現状はランダム移動（後で通路は直進するようにしたい）
+                        //EnemyMoveRandom(Enemy); //現状はランダム移動（後で通路は直進するようにしたい）
+                        EnemyMoveRandom(EnemyList[count]); //現状はランダム移動（後で通路は直進するようにしたい）
                     }
                     else
                     {
-                    if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)])
-                    //if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)])
+                    //if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)])
+                    if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)])
                     {
-                        EnemyMoveTargetPlayer(Enemy);
-                            //EnemyMoveTargetPlayer(EnemyList[count]);
+                        //EnemyMoveTargetPlayer(Enemy);
+                            EnemyMoveTargetPlayer(EnemyList[count]);
                         }
                         else
                         {
-                            EnemyMoveRandom(Enemy);
-                            //EnemyMoveRandom(EnemyList[count]);
+                            //EnemyMoveRandom(Enemy);
+                            EnemyMoveRandom(EnemyList[count]);
                         }
                     }
                 }
             }
-        //}
+        }
     }
     void CheckBlockState()
     {
         Player = GameObject.Find("PlayerPrefab(Clone)");
-        Enemy = GameObject.Find("EnemyPrefab(Clone)");
+        //Enemy = GameObject.Find("EnemyPrefab(Clone)");
 
         //次に移動予定のマスが壁でないかのチェック
         if (Player.GetComponent<ActionControllor>().CheckNextStep() == false)
@@ -213,19 +216,22 @@ public class GameControllor : MonoBehaviour {
         }
         else
         {
-            //リスト化した時に修正忘れないように
-            if (Enemy.GetComponent<ActionControllor>().CheckNowStep(Player.GetComponent<ActionControllor>().SetiNextStepArea(), Player.GetComponent<ActionControllor>().SetjNextStepArea()) == true) 
+            for (int count = 0; count < EnemyCount; count++)
             {
-                iNext = 0;
-                jNext = 0;
-                Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
-            }
-            else
-            {
-                AcitonFlg = true;
-                Player.GetComponent<ActionControllor>().SetUserActFlagOn();
-                //※敵オブジェクトは0になることもあるため複数対応+無しのときの対応も必要
-                SetEnemyMove();
+                if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Player.GetComponent<ActionControllor>().SetiNextStepArea(), Player.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
+                //if (Enemy.GetComponent<ActionControllor>().CheckNowStep(Player.GetComponent<ActionControllor>().SetiNextStepArea(), Player.GetComponent<ActionControllor>().SetjNextStepArea()) == true) 
+                {
+                    iNext = 0;
+                    jNext = 0;
+                    Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
+                }
+                else
+                {
+                    AcitonFlg = true;
+                    Player.GetComponent<ActionControllor>().SetUserActFlagOn();
+                    //※敵オブジェクトは0になることもあるため複数対応+無しのときの対応も必要
+                    SetEnemyMove();
+                }
             }
         }
 

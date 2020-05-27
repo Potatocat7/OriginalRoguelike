@@ -81,6 +81,7 @@ public class MapGenerator : MonoBehaviour {
                             jNow = randomjPix;
                             iObjState.Add(randomiPix);
                             jObjState.Add(randomjPix);
+
                         }
                         else if (PrefabObj.tag == "Enemy")
                         {

@@ -26,6 +26,7 @@ public class GameControllor : MonoBehaviour {
     int iNext, jNext;
     int iRandom, jRandom;
     GameObject Player;
+    //GameObject AttackEffect;
     GameObject MapGeneObj;
     [SerializeField]
     //GameObject Enemy;
@@ -62,8 +63,10 @@ public class GameControllor : MonoBehaviour {
                 EnemyCount += 1;
             }
         }
+        //AttackEffect = GameObject.Find("PlayerPrefab(Clone)/AtkEF");
+        //AttackEffect.GetComponent<Renderer>().enabled = false;
         //EnemyList = MapGeneObj.GetComponent<MapGenerator>().EnemyList;
-        //EnemyCount = MapGenerator.EnemyCount;
+        //EnemyCount = MapGenerator.EnemyCount; 
         EnemyAtkCount = 0;
         EnemyMoveCount = 0;
         EnemyAtkResetCount = 0;

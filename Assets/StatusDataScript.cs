@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 
 public class StatusDataScript : MonoBehaviour {
 
     [SerializeField]
-    int MaxHP,NowHP,iThisNow,jThisNow;
-
+    int MaxHP,NowHP,iThisNow,jThisNow,dispDamege;
+    [SerializeField]
+    Text DamageDisply;
     public int Attack;
     // Use this for initialization
     void Start () {
         NowHP = MaxHP;
+        DamageDisply.text = "";
+        //DamageDisply = this.transform.GetChild(0).GetComponent<Text>();
+        // DamageDisply = this.transform.GetChildCount(0);
 
     }
     public bool CheckAttack(int iAttack, int jAttack)
@@ -28,9 +33,19 @@ public class StatusDataScript : MonoBehaviour {
         }
     }
 
+    IEnumerator coHitDameDisp()
+    {
+        DamageDisply.text = dispDamege.ToString();
+
+        yield return new WaitForSeconds(0.2f);
+
+        DamageDisply.text = "";
+    }
     public void HitDamage(int Damge)
     {
         NowHP -= Damge;
+        dispDamege = Damge;
+        StartCoroutine("coHitDameDisp");
     }
     public void HealItem(int Heal)
     {

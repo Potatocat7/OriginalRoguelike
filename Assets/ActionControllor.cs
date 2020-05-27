@@ -35,6 +35,7 @@ public class ActionControllor : MonoBehaviour {
     public int iAtkDir { get; private set; }
     public int jAtkDir { get; private set; }
 
+    public bool AtkEfFlg;
     [SerializeField]
     Animator AnimatorState;
 
@@ -54,6 +55,7 @@ public class ActionControllor : MonoBehaviour {
         jThisNext = 0;
         AnimatorState = this.GetComponent<Animator>();
         thisNowDirection = Direction.DOWN;
+        AtkEfFlg = false;
     }
     public void SetDirection(Direction thisDirection)
     {
@@ -203,11 +205,13 @@ public class ActionControllor : MonoBehaviour {
                 {
                     this.transform.Translate(iAtkDir * 0.1f, jAtkDir * 0.1f, 0);
                     count += 1;
+                    AtkEfFlg = true;
                 }
                 else
                 {
                     this.transform.Translate(iAtkDir * -0.1f, jAtkDir * -0.1f, 0);
                     count += 1;
+                    AtkEfFlg = false;
                 }
                 if (count == 10)
                 {
@@ -215,6 +219,7 @@ public class ActionControllor : MonoBehaviour {
                     UserActFlg = false;
                     count = 0;
                 }
+
             }
             else
             {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using System;
 
@@ -44,6 +45,8 @@ public class GameControllor : MonoBehaviour {
     int iPmap, jPmap;
     int iEmap, jEmap;
     bool PmoveFlg;
+    [SerializeField]
+    bool GoalFlg;
 
     public void AftorMakeMapStart()
     {
@@ -65,6 +68,7 @@ public class GameControllor : MonoBehaviour {
         EnemyMoveCount = 0;
         EnemyAtkResetCount = 0;
         PmoveFlg = false;
+        GoalFlg = false;
         EattackTimeCount = 0;
     }
 
@@ -350,7 +354,11 @@ public class GameControllor : MonoBehaviour {
 
             }
         }
-
+        GameObject Goal = GameObject.Find("GoalPrefab(Clone)");
+        if (Player.GetComponent<ActionControllor>().SetiNextStepArea() == (int)Math.Round(Goal.transform.position.x) && Player.GetComponent<ActionControllor>().SetjNextStepArea() == (int)Math.Round(Goal.transform.position.y))
+        {
+            GoalFlg = true;
+        }
 
     }
 
@@ -428,6 +436,11 @@ public class GameControllor : MonoBehaviour {
         else
         {
             Player.GetComponent<ActionControllor>().SetUserActFlagOn();
+            if (GoalFlg == true)
+            {
+                yield return new WaitForSeconds(0.3f);
+                SceneManager.LoadScene("GameScene");
+            }
         }
         for (int count = 0; count < EnemyMoveCount; count++)
         {

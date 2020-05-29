@@ -22,9 +22,19 @@ public class SaveDataScript : MonoBehaviour {
     {
         SaveFlg = true;
     }
+    //public void SetFlgOff()
+    //{
+    //    SaveFlg = false;
+    //}
     public bool GetFlg()
     {
         return SaveFlg;
+    }
+    public void ClearData()
+    {
+        SaveFlg = false;
+        PlayerHpNowData = 0;
+        FloorCount = 1;
     }
 
     public void SavePlayerHpNowData(int NowHP)
@@ -33,10 +43,13 @@ public class SaveDataScript : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Awake()
+    {
         SaveFlg = false;
         PlayerHpNowData = 0;
         FloorCount = 1;
+    }
+    void Start () {
     }
 	
 	// Update is called once per frame

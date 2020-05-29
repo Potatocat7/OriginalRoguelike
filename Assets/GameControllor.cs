@@ -52,7 +52,6 @@ public class GameControllor : MonoBehaviour {
     {
         MapGeneObj = GameObject.Find("MapGenerator");
         Player = GameObject.Find("PlayerPrefab(Clone)");
-        //Enemy = GameObject.Find("EnemyPrefab(Clone)");
 
         for (int count = 0; count < MapGenerator.EnemyCount; count++)
         {
@@ -62,10 +61,6 @@ public class GameControllor : MonoBehaviour {
                 EnemyCount += 1;
             }
         }
-        //AttackEffect = GameObject.Find("PlayerPrefab(Clone)/AtkEF");
-        //AttackEffect.GetComponent<Renderer>().enabled = false;
-        //EnemyList = MapGeneObj.GetComponent<MapGenerator>().EnemyList;
-        //EnemyCount = MapGenerator.EnemyCount; 
         EnemyAtkCount = 0;
         EnemyMoveCount = 0;
         EnemyAtkResetCount = 0;
@@ -120,11 +115,6 @@ public class GameControllor : MonoBehaviour {
         //敵の移動　ランダムに動かす移動可能のマスになるまでwhile文で繰り返すまで
         while (checkRandom == true)
         {
-            /*breakFlagCount += 1;
-            if (breakFlagCount > 100)
-            {
-                checkRandom = false;
-            }*/
             iRandom = (int)UnityEngine.Random.Range(-1, 2);
             jRandom = (int)UnityEngine.Random.Range(-1, 2);
             Enemy.GetComponent<ActionControllor>().SetNextStep(iRandom, jRandom);

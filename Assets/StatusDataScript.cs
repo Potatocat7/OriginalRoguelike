@@ -96,7 +96,7 @@ public class StatusDataScript : MonoBehaviour {
         {
             if (this.tag == "Player")
             {
-                SceneManager.LoadScene("GameScene");
+                SceneManager.LoadScene("EndScene");
             }
             else
             {

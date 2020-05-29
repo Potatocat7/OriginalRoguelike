@@ -25,8 +25,6 @@ public class ActionControllor : MonoBehaviour {
     bool UserAttackFlg;
     int count;
     [SerializeField]
-    int aaa, bbb;
-    [SerializeField]
     int ccc, ddd;
     public int iThisNext { get; private set; }
     public int jThisNext { get; private set; }
@@ -45,8 +43,6 @@ public class ActionControllor : MonoBehaviour {
         //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
         iThisNow = (int)Math.Round(this.transform.position.x);
         jThisNow = (int)Math.Round(this.transform.position.y);
-        aaa = (int)Math.Round(this.transform.position.x);
-        bbb = (int)Math.Round(this.transform.position.y);
 
         count = 0;
         UserActFlg = false;
@@ -191,10 +187,6 @@ public class ActionControllor : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        aaa = iThisNow;
-        bbb = jThisNow;
-        ccc = iThisNext;
-        ddd = jThisNext;
         //アクション動作で攻撃と移動をここで処理
         if (UserActFlg == true)
         {

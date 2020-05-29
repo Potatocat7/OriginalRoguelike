@@ -21,8 +21,8 @@ public class GameControllor : MonoBehaviour {
     Direction PlayerDirection;*/
     public bool AcitonFlg;
     public bool PatkFlg;
+    public bool LockFlg;
     public bool AtkCheckflg;//攻撃判定のフラグ
-    bool EndPhase;
     int iNext, jNext;
     int iRandom, jRandom;
     GameObject Player;
@@ -37,11 +37,10 @@ public class GameControllor : MonoBehaviour {
     List<GameObject> AtkResetEnemyList = new List<GameObject>();
     [SerializeField]
     List<GameObject> MoveEnemyList = new List<GameObject>();
-    int timeCount;
     [SerializeField]
     public int EnemyCount;
     [SerializeField]
-    int EnemyAtkCount, EnemyMoveCount, EnemyAtkResetCount,EattackTimeCount;
+    int EnemyAtkCount, EnemyMoveCount, EnemyAtkResetCount;
     //確認用に宣言
     int iPmap, jPmap;
     int iEmap, jEmap;
@@ -72,7 +71,7 @@ public class GameControllor : MonoBehaviour {
         EnemyAtkResetCount = 0;
         PmoveFlg = false;
         GoalFlg = false;
-        EattackTimeCount = 0;
+        LockFlg = false;
     }
 
     void SetEnemyDirection(int iStep,int jStep , GameObject Enemy)
@@ -118,7 +117,6 @@ public class GameControllor : MonoBehaviour {
     void EnemyMoveRandom(GameObject Enemy, int thisCount)
     {
         bool checkRandom = true;
-        int breakFlagCount = 0;
         //敵の移動　ランダムに動かす移動可能のマスになるまでwhile文で繰り返すまで
         while (checkRandom == true)
         {
@@ -249,7 +247,6 @@ public class GameControllor : MonoBehaviour {
             else
             {
                 SetEnemyDirection(iEnemyNext, jEnemyNext, Enemy);
-                //Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
             }
         }
         else
@@ -278,37 +275,26 @@ public class GameControllor : MonoBehaviour {
                 jEmap = (int)Math.Round(EnemyList[count].transform.position.y);
                 jPmap = Player.GetComponent<ActionControllor>().SetjNextStepArea();
 
-                //if (Enemy.GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
                 if (EnemyList[count].GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
                 {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
-                 //Enemy.GetComponent<ActionControllor>().SetUserAttackFlagOn();
-                     //EnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
-                 //Enemy.GetComponent<EnemyAttack>().AttackHit();
-                     //EnemyList[count].GetComponent<EnemyAttack>().AttackHit();
-
                     //攻撃リストに登録 ※ここは攻撃前
                     AtkEnemyList.Add(EnemyList[count]);
                     EnemyAtkCount += 1;
                 }
                else
                 {
-                    //if (MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)] == 0)
                     if (MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)] == 0)
                     {//通路だった場合は
-                        //EnemyMoveRandom(Enemy); //現状はランダム移動（後で通路は直進するようにしたい）
                         EnemyMoveRandom(EnemyList[count], count); //現状はランダム移動（後で通路は直進するようにしたい）
                     }
                     else
                     {
-                    //if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(Enemy.transform.position.x), (int)Math.Round(Enemy.transform.position.y)])
                     if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)])
                     {
-                        //EnemyMoveTargetPlayer(Enemy);
                             EnemyMoveTargetPlayer(EnemyList[count], count);
                         }
                         else
                         {
-                            //EnemyMoveRandom(Enemy);
                             EnemyMoveRandom(EnemyList[count],count);
                         }
                     }
@@ -319,7 +305,6 @@ public class GameControllor : MonoBehaviour {
     void CheckBlockState()
     {
         Player = GameObject.Find("PlayerPrefab(Clone)");
-        //Enemy = GameObject.Find("EnemyPrefab(Clone)");
 
         //次に移動予定のマスが壁でないかのチェック
         if (Player.GetComponent<ActionControllor>().CheckNextStepWall() == false)
@@ -333,7 +318,6 @@ public class GameControllor : MonoBehaviour {
             for (int count = 0; count < EnemyCount; count++)
             {
                 if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Player.GetComponent<ActionControllor>().SetiNextStepArea(), Player.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
-                //if (Enemy.GetComponent<ActionControllor>().CheckNowStep(Player.GetComponent<ActionControllor>().SetiNextStepArea(), Player.GetComponent<ActionControllor>().SetjNextStepArea()) == true) 
                 {
                     PmoveFlg = true;
                 }
@@ -373,8 +357,6 @@ public class GameControllor : MonoBehaviour {
         jNext = 1;
         AcitonFlg = false;
         PatkFlg = false; 
-        timeCount = 0;
-        EndPhase = false;
         AtkCheckflg = false;
     }
 
@@ -417,9 +399,18 @@ public class GameControllor : MonoBehaviour {
         EnemyAtkCount = EnemyAtkResetCount;
 
     }
+    void SaveData()
+    {
+        GameObject Save;
+        Save = GameObject.Find("SaveDataObject"); 
+        Save.GetComponent<SaveDataScript>().SaveFloorCount();
+        Save.GetComponent<SaveDataScript>().SavePlayerHpNowData(Player.GetComponent<StatusDataScript>().GetNowHP());
+        Save.GetComponent<SaveDataScript>().SetFlgOn();
+    }
     IEnumerator coActionFlgOnSub(int count)
     {
         yield return  new WaitForSeconds(0.3f);
+
         if (EnemyMoveCount > 0)
         {
             AtkEnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
@@ -442,6 +433,7 @@ public class GameControllor : MonoBehaviour {
             if (GoalFlg == true)
             {
                 yield return new WaitForSeconds(0.3f);
+                SaveData();
                 SceneManager.LoadScene("GameScene");
             }
         }
@@ -472,69 +464,6 @@ public class GameControllor : MonoBehaviour {
         if (AcitonFlg == true)//プレイヤーフェーズとエネミーフェーズを用意が必要
         {
 
-    //        timeCount += 1;
-    //        if (timeCount == 10)
-    //        {
-    //            ResetEnemyList();
-    //            if (PatkFlg == true)
-    //            {
-    //                SetEnemyMove();
-    //            }
-    //            else
-    //            {
-    //                //ResetAttkEnemyList();
-    //                EndPhase = true;
-    //                AcitonFlg = false; //if文でattackフラグをみて解除するかきめると同時にエネミーの攻撃時の移動処理を呼ぶ
-    //                timeCount = 0;
-    //            }
-    //            //                EattackTimeCount += 1;
-    //        }
-
-            /*if (EattackTimeCount < EnemyAtkCount ) { 
-                if (timeCount == (10 * EattackTimeCount) + 10)
-                {
-                    AtkEnemyList[EattackTimeCount].GetComponent<ActionControllor>().SetUserAttackFlagOn();
-                    AtkEnemyList[EattackTimeCount].GetComponent<EnemyAttack>().AttackHit();
-                    EattackTimeCount += 1;
-                }
-            }
-            else
-            {
-                EndPhase = true;
-                PatkFlg = false;
-                AcitonFlg = false;
-                timeCount = 0; //attckフラグを用意して攻撃時はこちらまで動かす
-                EattackTimeCount = 1;
-            }
-            //for (int count = 0; count < EnemyAtkCount; count++)
-            //{
-            //    if (timeCount == (10 *  count) + 20)
-            //    {
-            //        AtkEnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
-            //        AtkEnemyList[count].GetComponent<EnemyAttack>().AttackHit();
-            //    }
-            //}
-            //if (timeCount == (10 * EnemyAtkCount) + 20)//敵が複数いた場合順々に攻撃してもらう処理が必要？（現在だと敵の攻撃は同時になる）
-            //{
-            //    EndPhase = true;
-            //    PatkFlg = false;
-            //    AcitonFlg = false;
-            //    timeCount = 0; //attckフラグを用意して攻撃時はこちらまで動かす
-            //}*/
-  //          if (timeCount == 20)//敵が複数いた場合順々に攻撃してもらう処理が必要？（現在だと敵の攻撃は同時になる）
-  //          {
-  //              EndPhase = true;
-  //              PatkFlg = false;
-  //              AcitonFlg = false;
-  //              timeCount = 0; //attckフラグを用意して攻撃時はこちらまで動かす
-  //          }
-  //
-  //          if (EndPhase == true)
-  //          {       //全動作終了時ここにくるので、リストの全削除と再設定をここで行いたい
-  //              EnemyAtkCount = 0;
-  //              ResetEnemyList();
-  //              EndPhase = false;
-  //          }
         }
     }
 
@@ -546,8 +475,11 @@ public class GameControllor : MonoBehaviour {
             jNext = 1;
             Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
-            CheckBlockState();
-            StartCoroutine("coActionFlgOnMain");
+            if (LockFlg != true) //移動中は入力無効にする
+            {
+                CheckBlockState();
+                StartCoroutine("coActionFlgOnMain");
+            }
         }
     }
     public void Push_U_L()
@@ -558,8 +490,11 @@ public class GameControllor : MonoBehaviour {
             jNext = 1;
             Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_LEFT);
-            CheckBlockState();
-            StartCoroutine("coActionFlgOnMain");
+            if (LockFlg != true) //移動中は入力無効にする
+            {
+                CheckBlockState();
+                StartCoroutine("coActionFlgOnMain");
+            }
         }
     }
     public void Push_U_R()
@@ -570,8 +505,11 @@ public class GameControllor : MonoBehaviour {
             jNext = 1;
             Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_RIGHT);
-            CheckBlockState();
-            StartCoroutine("coActionFlgOnMain");
+            if (LockFlg != true) //移動中は入力無効にする
+            {
+                CheckBlockState();
+                StartCoroutine("coActionFlgOnMain");
+            }
         }
     }
     public void Push_D()
@@ -582,8 +520,11 @@ public class GameControllor : MonoBehaviour {
             jNext = -1;
             Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
-            CheckBlockState();
-            StartCoroutine("coActionFlgOnMain");
+            if (LockFlg != true) //移動中は入力無効にする
+            {
+                CheckBlockState();
+                StartCoroutine("coActionFlgOnMain");
+            }
         }
     }
     public void Push_D_L()
@@ -594,8 +535,11 @@ public class GameControllor : MonoBehaviour {
             jNext = -1;
             Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_LEFT);
-            CheckBlockState();
-            StartCoroutine("coActionFlgOnMain");
+            if (LockFlg != true) //移動中は入力無効にする
+            {
+                CheckBlockState();
+                StartCoroutine("coActionFlgOnMain");
+            }
         }
     }
     public void Push_D_R()
@@ -606,8 +550,11 @@ public class GameControllor : MonoBehaviour {
             jNext = -1;
             Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_RIGHT);
-            CheckBlockState();
-            StartCoroutine("coActionFlgOnMain");
+            if (LockFlg != true) //移動中は入力無効にする
+            {
+                CheckBlockState();
+                StartCoroutine("coActionFlgOnMain");
+            }
         }
     }
     public void Push_L()
@@ -618,8 +565,11 @@ public class GameControllor : MonoBehaviour {
             jNext = 0;
             Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.LEFT);
-            CheckBlockState();
-            StartCoroutine("coActionFlgOnMain");
+            if (LockFlg != true) //移動中は入力無効にする
+            {
+                CheckBlockState();
+                StartCoroutine("coActionFlgOnMain");
+            }
         }
     }
     public void Push_R()
@@ -630,8 +580,11 @@ public class GameControllor : MonoBehaviour {
             jNext = 0;
             Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.RIGHT);
-            CheckBlockState();
-            StartCoroutine("coActionFlgOnMain");
+            if (LockFlg != true) //移動中は入力無効にする
+            {
+                CheckBlockState();
+                StartCoroutine("coActionFlgOnMain");
+            }
         }
     }
     public void Push_ATTCK()
@@ -656,6 +609,14 @@ public class GameControllor : MonoBehaviour {
     {
         if (AcitonFlg != true) //移動中は入力無効にする
         {
+            if (LockFlg == true) //移動中は入力無効にする
+            {
+                LockFlg = false;
+            }
+            else
+            {
+                LockFlg = true;
+            }
         }
     }
     

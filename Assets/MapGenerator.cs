@@ -19,6 +19,7 @@ public class MapGenerator : MonoBehaviour {
     public static int iNow, jNow, EnemyCount,UniqObjCount;
     public int mapNum;
 
+
     bool CheckMapstate(int tate, int yoko)
     {
         //周囲のマスを調べて床のマスがいくつあるか調べる
@@ -81,7 +82,6 @@ public class MapGenerator : MonoBehaviour {
                             jNow = randomjPix;
                             iObjState.Add(randomiPix);
                             jObjState.Add(randomjPix);
-
                         }
                         else if (PrefabObj.tag == "Enemy")
                         {
@@ -107,6 +107,11 @@ public class MapGenerator : MonoBehaviour {
         mapNum = Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
         UniqObjCount = 0;
+        //シーンまたぎ用オブジェクト
+        GameObject Save;
+        Save = GameObject.Find("SaveDataObject");
+        DontDestroyOnLoad(Save);
+
         //for文で配列に情報を入れていく(MapDataScript.mapDataだと引数が増えるため)
         for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++) //mapWidth
         {
@@ -138,7 +143,7 @@ public class MapGenerator : MonoBehaviour {
         SetUniqObj(GoalObj);
         SetUniqObj(PlayerObj);
         UniqObjCount = 1;
-        for (int Ecount = 0; Ecount < 5; Ecount++)
+        for (int Ecount = 0; Ecount < 20; Ecount++)
         {
             SetUniqObj(EnemyObj);
             EnemyCount += 1;

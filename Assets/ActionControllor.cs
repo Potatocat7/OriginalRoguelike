@@ -183,11 +183,55 @@ public class ActionControllor : MonoBehaviour {
     //        UserActFlg = false;
     //    }
     //
+    IEnumerator coActionMove()
+    {
+        for (int count = 1; count < 11; count++)
+        {
+            this.transform.Translate(iThisNext * 0.1f, jThisNext *  0.1f, 0);
+            yield return new WaitForSeconds(0.01f);
+        }
+        //yield return new WaitForSeconds(0.3f);
+        UserActFlg = false;
+        count = 0;
+        iThisNow = iThisNow + iThisNext;
+        jThisNow = jThisNow + jThisNext;
+        iThisNext = 0;
+        jThisNext = 0;
+    }
+    IEnumerator coActionAttack()
+    {
+        AtkEfFlg = true;
+        for (int count = 1; count < 6; count++)
+        {
+            this.transform.Translate(iAtkDir * 0.1f, jAtkDir *  0.1f, 0);
+            yield return new WaitForSeconds(0.025f);
+        }
+        AtkEfFlg = false;
+        for (int count = 1; count < 6; count++)
+        {
+            this.transform.Translate(iAtkDir * - 0.1f, jAtkDir * -0.1f, 0);
+            yield return new WaitForSeconds(0.025f);
+        }
+        UserAttackFlg = false;
+        UserActFlg = false;
+        count = 0;
+    }
+    public void ActionStart()
+    {
+        if (UserAttackFlg == true)
+        {
+            StartCoroutine("coActionAttack");
+        }
+        else
+        {
+            StartCoroutine("coActionMove");
+        }
+    }
 
 
     // Update is called once per frame
     void Update () {
-        //アクション動作で攻撃と移動をここで処理
+ /*       //アクション動作で攻撃と移動をここで処理
         if (UserActFlg == true)
         {
             if (UserAttackFlg == true)
@@ -229,6 +273,6 @@ public class ActionControllor : MonoBehaviour {
                     jThisNext = 0 ;
                 }
             }
-        }		
+        }	*/	
 	}
 }

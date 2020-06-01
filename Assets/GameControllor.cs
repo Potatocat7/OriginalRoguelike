@@ -404,6 +404,7 @@ public class GameControllor : MonoBehaviour {
         if (EnemyMoveCount > 0)
         {
             AtkEnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
+            AtkEnemyList[count].GetComponent<ActionControllor>().ActionStart();
             EnemyList[count].GetComponent<EnemyAttack>().AttackHit();
         }
     }
@@ -414,12 +415,14 @@ public class GameControllor : MonoBehaviour {
         if (PatkFlg == true)
         {
             Player.GetComponent<ActionControllor>().SetUserAttackFlagOn();
+            Player.GetComponent<ActionControllor>().ActionStart();
             yield return new WaitForSeconds(0.3f);
             ResetAttkEnemyList();//攻撃で敵が消えた時のため
         }
         else
         {
             Player.GetComponent<ActionControllor>().SetUserActFlagOn();
+            Player.GetComponent<ActionControllor>().ActionStart();
             if (GoalFlg == true)
             {
                 yield return new WaitForSeconds(0.3f);
@@ -430,6 +433,8 @@ public class GameControllor : MonoBehaviour {
         for (int count = 0; count < EnemyMoveCount; count++)
         {
             MoveEnemyList[count].GetComponent<ActionControllor>().SetUserActFlagOn();
+            MoveEnemyList[count].GetComponent<ActionControllor>().ActionStart();
+            
         }
 
         //敵攻撃

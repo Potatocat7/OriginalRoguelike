@@ -27,7 +27,7 @@ public class StatusDataScript : MonoBehaviour {
             }
             else
             {
-                NowHP = MaxHP;
+                NowHP = MaxHP;  
             }
         }
         else

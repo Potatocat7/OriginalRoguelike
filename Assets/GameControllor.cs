@@ -109,7 +109,7 @@ public class GameControllor : MonoBehaviour {
         }
 
     }
-    bool checkotherEmoveFlg(GameObject Enemy, int MaxCount)
+    bool checkNowotherEmoveFlg(GameObject Enemy, int MaxCount)
     {
         for (int count = 0; count < EnemyCount; count++)
         {
@@ -117,6 +117,24 @@ public class GameControllor : MonoBehaviour {
             {
                 //全的オブジェクトの現在位置を調べて移動先にいないかのチェック。いたらtrueを返す
                 if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
+                {
+                    return true;
+                }
+                else
+                {
+                }
+            }
+        }
+        return false;//何事もなく終わったとき
+    }
+    bool checkNextotherEmoveFlg(GameObject Enemy, int MaxCount)
+    {
+        for (int count = 0; count < EnemyCount; count++)
+        {
+            if (count != MaxCount) //自分の位置については無視
+            {
+                //全的オブジェクトの現在位置を調べて移動先にいないかのチェック。いたらtrueを返す
+                if (EnemyList[count].GetComponent<ActionControllor>().CheckNextStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
                 {
                     return true;
                 }
@@ -140,11 +158,11 @@ public class GameControllor : MonoBehaviour {
 
             if (thisCount == 0)//[0]のみ現在位置で調べる
             {
-                otherEmoveFlg = checkotherEmoveFlg(Enemy, EnemyCount);
+                otherEmoveFlg = checkNowotherEmoveFlg(Enemy, EnemyCount);
             }
             else
             {
-                otherEmoveFlg = checkotherEmoveFlg(Enemy, thisCount);
+                otherEmoveFlg = checkNextotherEmoveFlg(Enemy, thisCount);
             }
             if (otherEmoveFlg != true)
             {
@@ -159,8 +177,6 @@ public class GameControllor : MonoBehaviour {
                 }
             }
         }
-        MoveEnemyList.Add(Enemy);
-        EnemyMoveCount += 1;
 
     }
     void EnemyMoveTargetPlayer(GameObject Enemy,int thisCount)
@@ -196,13 +212,15 @@ public class GameControllor : MonoBehaviour {
         Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
 
         //for分で該当オブジェクトより手前に設定している敵オブジェクトをしらべる（後のオブジェクトは移動先を設定していないため）
+        //※後半のオブジェクトが移動しなかった場合重なる可能性がある（例：後半の敵で攻撃可能がいた場合）
+        //ここでの処理を攻撃と移動のリストに分けたうえで移動側のみ調べる。調べる対象は全リスト
         if (thisCount == 0)//[0]のみ現在位置で調べる
         {
-            otherEmoveFlg = checkotherEmoveFlg(Enemy, EnemyCount);
+            otherEmoveFlg = checkNowotherEmoveFlg(Enemy, EnemyCount);
         }
         else
         {
-            otherEmoveFlg = checkotherEmoveFlg(Enemy, thisCount);
+            otherEmoveFlg = checkNextotherEmoveFlg(Enemy, thisCount);
         }
         if (otherEmoveFlg != true)
         {
@@ -225,8 +243,6 @@ public class GameControllor : MonoBehaviour {
             Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
 
         }
-        MoveEnemyList.Add(Enemy);
-        EnemyMoveCount += 1;
     }
     void SetEnemyMove()
     {
@@ -250,8 +266,10 @@ public class GameControllor : MonoBehaviour {
                     AtkEnemyList.Add(EnemyList[count]);
                     EnemyAtkCount += 1;
                 }
-               else
-                {
+                else
+                {   //※リストへの割り当てと移動方法への関数呼び出しは別にする
+                    MoveEnemyList.Add(EnemyList[count]);
+                    EnemyMoveCount += 1;
                     if (MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)] == 0)
                     {//通路だった場合は
                         EnemyMoveRandom(EnemyList[count], count); //現状はランダム移動（後で通路は直進するようにしたい）

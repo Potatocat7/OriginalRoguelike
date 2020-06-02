@@ -109,6 +109,24 @@ public class GameControllor : MonoBehaviour {
         }
 
     }
+    bool checkotherEmoveFlg(GameObject Enemy, int MaxCount)
+    {
+        for (int count = 0; count < EnemyCount; count++)
+        {
+            if (count != MaxCount) //自分の位置については無視
+            {
+                //全的オブジェクトの現在位置を調べて移動先にいないかのチェック。いたらtrueを返す
+                if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
+                {
+                    return true;
+                }
+                else
+                {
+                }
+            }
+        }
+        return false;//何事もなく終わったとき
+    }
     void EnemyMoveRandom(GameObject Enemy, int thisCount)
     {
         bool checkRandom = true;
@@ -120,31 +138,13 @@ public class GameControllor : MonoBehaviour {
             Enemy.GetComponent<ActionControllor>().SetNextStep(iRandom, jRandom);
             bool otherEmoveFlg = false;
 
-            for (int count = 0; count < thisCount; count++)
+            if (thisCount == 0)//[0]のみ現在位置で調べる
             {
-                if (count != thisCount)//自分の位置については無視
-                {
-                    if (EnemyList[count].GetComponent<ActionControllor>().CheckNextStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
-                    {
-                        otherEmoveFlg = true;
-                    }
-                    else
-                    {
-                    }
-                }
+                otherEmoveFlg = checkotherEmoveFlg(Enemy, EnemyCount);
             }
-            for (int count = 0; count < EnemyCount; count++)
+            else
             {
-                if (count != thisCount)//自分の位置については無視
-                {
-                    if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
-                    {
-                        otherEmoveFlg = true;
-                    }
-                    else
-                    {
-                    }
-                }
+                otherEmoveFlg = checkotherEmoveFlg(Enemy, thisCount);
             }
             if (otherEmoveFlg != true)
             {
@@ -196,34 +196,13 @@ public class GameControllor : MonoBehaviour {
         Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
 
         //for分で該当オブジェクトより手前に設定している敵オブジェクトをしらべる（後のオブジェクトは移動先を設定していないため）
-        for (int count = 0; count < thisCount; count++)
+        if (thisCount == 0)//[0]のみ現在位置で調べる
         {
-            if (count != thisCount) //自分の位置については無視//こっちは自分の番号まで来ないからいらない？
-            {
-                //全的オブジェクトの移動位置を調べて移動先にいないかのチェック。いたらtrueを返す
-                if (EnemyList[count].GetComponent<ActionControllor>().CheckNextStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
-                {
-                    otherEmoveFlg = true;
-                }
-                else
-                {
-                }
-            }
+            otherEmoveFlg = checkotherEmoveFlg(Enemy, EnemyCount);
         }
-        //for分で全敵オブジェクトをチェックする（うまくいかない）
-        for (int count = 0; count < EnemyCount; count++)
+        else
         {
-            if (count != thisCount) //自分の位置については無視
-            {
-                //全的オブジェクトの現在位置を調べて移動先にいないかのチェック。いたらtrueを返す
-                if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
-                {
-                    otherEmoveFlg = true;
-                }
-                else
-                {
-                }
-            }
+            otherEmoveFlg = checkotherEmoveFlg(Enemy, thisCount);
         }
         if (otherEmoveFlg != true)
         {

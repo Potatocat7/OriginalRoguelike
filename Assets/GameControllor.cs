@@ -262,30 +262,55 @@ public class GameControllor : MonoBehaviour {
 
                 if (EnemyList[count].GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
                 {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
-                    //攻撃リストに登録 ※ここは攻撃前
+                 //攻撃リストに登録 ※ここは攻撃前
+                 //※攻撃方向が指定できていないことがある
+                 //SetEnemyDirection(iEnemyNext, jEnemyNext, EnemyList[count]);
+                    EnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlg();
                     AtkEnemyList.Add(EnemyList[count]);
                     EnemyAtkCount += 1;
                 }
                 else
                 {   //※リストへの割り当てと移動方法への関数呼び出しは別にする
+                    //EnemyList[count].GetComponent<EnemyAttack>().SetDirectionPlayerThisAround(iPmap, jPmap, iEmap, jEmap);
                     MoveEnemyList.Add(EnemyList[count]);
                     EnemyMoveCount += 1;
+                }
+            }
+        }
+        for (int count = 0; count < EnemyCount; count++)
+        {
+            if (EnemyCount >= 1)
+            {
+                if (EnemyList[count].GetComponent<ActionControllor>().GetUserAttackFlg() == false)
+                {
                     if (MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)] == 0)
                     {//通路だった場合は
                         EnemyMoveRandom(EnemyList[count], count); //現状はランダム移動（後で通路は直進するようにしたい）
                     }
                     else
                     {
-                    if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)])
-                    {
+                        if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)])
+                        {
                             EnemyMoveTargetPlayer(EnemyList[count], count);
                         }
                         else
                         {
-                            EnemyMoveRandom(EnemyList[count],count);
+                            EnemyMoveRandom(EnemyList[count], count);
                         }
                     }
                 }
+            }
+        }
+        //攻撃リストの敵の攻撃方向の指定
+        for (int count = 0; count < EnemyAtkCount; count++)
+        {
+            if (EnemyAtkCount >= 1)
+            {
+                iEmap = (int)Math.Round(AtkEnemyList[count].transform.position.x);
+                iPmap = Player.GetComponent<ActionControllor>().SetiNextStepArea();
+                jEmap = (int)Math.Round(AtkEnemyList[count].transform.position.y);
+                jPmap = Player.GetComponent<ActionControllor>().SetjNextStepArea();
+                AtkEnemyList[count].GetComponent<EnemyAttack>().SetDirectionPlayerThisAround(iPmap, jPmap, iEmap, jEmap);
             }
         }
     }
@@ -322,7 +347,7 @@ public class GameControllor : MonoBehaviour {
             else
             {
                 AcitonFlg = true;
-                Player.GetComponent<ActionControllor>().SetUserActFlagOn();
+                //Player.GetComponent<ActionControllor>().SetUserActFlagOn();
                 //※敵オブジェクトは0になることもあるため複数対応+無しのときの対応も必要
                 SetEnemyMove();
 
@@ -398,11 +423,11 @@ public class GameControllor : MonoBehaviour {
     {
         yield return  new WaitForSeconds(0.3f);
 
-        if (EnemyMoveCount > 0)
+        if (EnemyAtkCount > 0)
         {
             AtkEnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
             AtkEnemyList[count].GetComponent<ActionControllor>().ActionStart();
-            EnemyList[count].GetComponent<EnemyAttack>().AttackHit();
+            AtkEnemyList[count].GetComponent<EnemyAttack>().AttackHit();
         }
     }
     IEnumerator coActionFlgOnMain()
@@ -465,11 +490,18 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 0;
             jNext = 1;
+            //Pの動作セット
             Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
             Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
             if (LockFlg != true) //移動中は入力無効にする
             {
+                //Eを攻撃/移動でリストにセット
+                //攻撃の方向をセット
+                //移動の移動先と方向をセット
                 CheckBlockState();
+                //コルーチン呼び出しで
+                //P/移動がまとめて移動
+                //攻撃が順に攻撃
                 StartCoroutine("coActionFlgOnMain");
             }
         }

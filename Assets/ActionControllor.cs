@@ -171,6 +171,14 @@ public class ActionControllor : MonoBehaviour {
     {
         return jThisNow + jThisNext;
     }
+    public void SetUserAttackFlg()
+    {
+        UserAttackFlg = true;
+    }
+    public bool GetUserAttackFlg()
+    {
+        return UserAttackFlg ;
+    }
     public void SetUserAttackFlagOn()
     {
         count = 0;

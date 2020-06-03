@@ -41,6 +41,17 @@ public class PlayerAttack_1 : MonoBehaviour {
         AttackHitcheck(iThisAtkArea2, jThisAtkArea2);
         AttackHitcheck(iThisAtkArea3, jThisAtkArea3);
     }
+    void SpAttackHit()
+    {
+        AttackHitcheck(iThisNow + 1, jThisNow + 1);
+        AttackHitcheck(iThisNow + 1, jThisNow - 1);
+        AttackHitcheck(iThisNow + 1, jThisNow    );
+        AttackHitcheck(iThisNow    , jThisNow + 1);
+        AttackHitcheck(iThisNow    , jThisNow - 1);
+        AttackHitcheck(iThisNow - 1, jThisNow + 1);
+        AttackHitcheck(iThisNow - 1, jThisNow - 1);
+        AttackHitcheck(iThisNow - 1, jThisNow    );
+    }
 
     void AttackAreaSet()
     {
@@ -123,8 +134,15 @@ public class PlayerAttack_1 : MonoBehaviour {
 
         Contollor = GameObject.Find("GameControllor");
         if (Contollor.GetComponent<GameControllor>().AtkCheckflg == true)
-        {
-            AttackHit();
+        { 
+            if (Contollor.GetComponent<GameControllor>().SpAtkflg == true)
+            {
+                SpAttackHit();
+            }
+            else
+            {
+                AttackHit();
+            }
             Contollor.GetComponent<GameControllor>().AtkCheckflg = false;
         }
         iThisNow = this.GetComponent<ActionControllor>().iThisNow;

@@ -117,7 +117,7 @@ public class MapGenerator : MonoBehaviour {
         {
             for (int jPix = 0; jPix < MapDataScript.mapData.GetLength(2); jPix++) //mapHeight
             {
-                map[iPix, jPix] = MapDataScript.mapData[mapNum, iPix, jPix];// 
+                map[iPix, jPix] = MapDataScript.mapData[2, iPix, jPix];// mapNum
             }
         }
 
@@ -143,7 +143,7 @@ public class MapGenerator : MonoBehaviour {
         SetUniqObj(GoalObj);
         SetUniqObj(PlayerObj);
         UniqObjCount = 1;
-        for (int Ecount = 0; Ecount < 7; Ecount++)
+        for (int Ecount = 0; Ecount < 5; Ecount++)
         {
             SetUniqObj(EnemyObj);
             EnemyCount += 1;

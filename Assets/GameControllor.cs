@@ -23,6 +23,7 @@ public class GameControllor : MonoBehaviour {
     public bool PatkFlg;
     public bool LockFlg;
     public bool AtkCheckflg;//攻撃判定のフラグ
+    public bool SpAtkflg;
     int iNext, jNext;
     int iRandom, jRandom;
     GameObject Player;
@@ -181,6 +182,7 @@ public class GameControllor : MonoBehaviour {
     }
     void EnemyMoveTargetPlayer(GameObject Enemy,int thisCount)
     {
+        //ここはいずれA*アルゴリズムで動かしたい
         int iEnemyNext, jEnemyNext;
         bool otherEmoveFlg = false;
 
@@ -265,6 +267,7 @@ public class GameControllor : MonoBehaviour {
                  //攻撃リストに登録 ※ここは攻撃前
                  //※攻撃方向が指定できていないことがある
                  //SetEnemyDirection(iEnemyNext, jEnemyNext, EnemyList[count]);
+                    //攻撃時のリスト追加と同時に攻撃フラグをture
                     EnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlg();
                     AtkEnemyList.Add(EnemyList[count]);
                     EnemyAtkCount += 1;
@@ -281,6 +284,7 @@ public class GameControllor : MonoBehaviour {
         {
             if (EnemyCount >= 1)
             {
+                //MoveEnemyListだと移動チェック時に他の敵の位置を見るときに攻撃時の敵を見ることが現状できないため
                 if (EnemyList[count].GetComponent<ActionControllor>().GetUserAttackFlg() == false)
                 {
                     if (MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)] == 0)
@@ -370,6 +374,7 @@ public class GameControllor : MonoBehaviour {
         AcitonFlg = false;
         PatkFlg = false; 
         AtkCheckflg = false;
+        SpAtkflg = false;
     }
 
     void ResetEnemyList()
@@ -437,7 +442,14 @@ public class GameControllor : MonoBehaviour {
         if (PatkFlg == true)
         {
             Player.GetComponent<ActionControllor>().SetUserAttackFlagOn();
-            Player.GetComponent<ActionControllor>().ActionStart();
+            if (SpAtkflg == true) //移動中は入力無効にする
+            {
+                Player.GetComponent<ActionControllor>().SpActionStart();
+            }
+            else
+            {
+                Player.GetComponent<ActionControllor>().ActionStart();
+            }
             yield return new WaitForSeconds(0.3f);
             ResetAttkEnemyList();//攻撃で敵が消えた時のため
         }
@@ -636,10 +648,12 @@ public class GameControllor : MonoBehaviour {
             if (LockFlg == true) //移動中は入力無効にする
             {
                 LockFlg = false;
+                SpAtkflg = false;
             }
             else
             {
                 LockFlg = true;
+                SpAtkflg = true;
             }
         }
     }

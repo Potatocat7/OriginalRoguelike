@@ -34,6 +34,7 @@ public class ActionControllor : MonoBehaviour {
     public int jAtkDir { get; private set; }
 
     public bool AtkEfFlg;
+    public bool SpAtkEfFlg;
     [SerializeField]
     Animator AnimatorState;
 
@@ -52,6 +53,7 @@ public class ActionControllor : MonoBehaviour {
         AnimatorState = this.GetComponent<Animator>();
         thisNowDirection = Direction.DOWN;
         AtkEfFlg = false;
+        SpAtkEfFlg = false;
     }
     public void SetDirection(Direction thisDirection)
     {
@@ -224,6 +226,18 @@ public class ActionControllor : MonoBehaviour {
         UserActFlg = false;
         count = 0;
     }
+    IEnumerator coSpActionAttack()
+    {
+        SpAtkEfFlg = true;
+        for (int count = 1; count < 11; count++)
+        {
+            yield return new WaitForSeconds(0.15f);
+        }
+        SpAtkEfFlg = false;
+        UserAttackFlg = false;
+        UserActFlg = false;
+        count = 0;
+    }
     public void ActionStart()
     {
         if (UserAttackFlg == true)
@@ -234,6 +248,10 @@ public class ActionControllor : MonoBehaviour {
         {
             StartCoroutine("coActionMove");
         }
+    }
+    public void SpActionStart()
+    {
+        StartCoroutine("coSpActionAttack");
     }
 
 

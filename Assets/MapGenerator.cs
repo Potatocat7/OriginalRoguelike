@@ -142,6 +142,7 @@ public class MapGenerator : MonoBehaviour {
         //※すでに追加オブジェクトがある場所には生成しないようにする処理が必要
         SetUniqObj(GoalObj);
         SetUniqObj(PlayerObj);
+        SetUniqObj(PowerItemObj);
         UniqObjCount = 1;
         for (int Ecount = 0; Ecount < 5; Ecount++)
         {

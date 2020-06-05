@@ -588,6 +588,7 @@ MonoBehaviour:
   PatkFlg: 0
   LockFlg: 0
   AtkCheckflg: 0
+  SpAtkflg: 0
   EnemyList: []
   AtkEnemyList: []
   AtkResetEnemyList: []

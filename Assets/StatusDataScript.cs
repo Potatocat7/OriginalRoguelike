@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 public class StatusDataScript : MonoBehaviour {
 
     [SerializeField]
-    int MaxHP,NowHP,iThisNow,jThisNow,dispDamege;
+    int MaxHP,NowHP,iThisNow,jThisNow,dispDamege,SPcount;
     [SerializeField]
     Text DamageDisplay;
     public int Attack;
@@ -17,6 +17,7 @@ public class StatusDataScript : MonoBehaviour {
     void Start () {
         if (this.tag == "Player")
         {
+            SPcount = 0;
             GameObject Save;
             Save = GameObject.Find("SaveDataObject");
             if (Save.GetComponent<SaveDataScript>().GetFlg() == true)
@@ -85,6 +86,14 @@ public class StatusDataScript : MonoBehaviour {
         {
             NowHP = MaxHP;
         }
+    }
+    public void SetSPcount(int count)
+    {
+        SPcount += count;
+    }
+    public int GetSpcount()
+    {
+        return SPcount;
     }
 
     // Update is called once per frame

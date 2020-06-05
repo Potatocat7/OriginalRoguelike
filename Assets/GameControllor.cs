@@ -45,9 +45,12 @@ public class GameControllor : MonoBehaviour {
     //確認用に宣言
     int iPmap, jPmap;
     int iEmap, jEmap;
+    int itemCount;
     bool PmoveFlg;
     [SerializeField]
     bool GoalFlg;
+    [SerializeField]
+    bool GetPItemFlg;
 
     public void AftorMakeMapStart()
     {
@@ -65,8 +68,10 @@ public class GameControllor : MonoBehaviour {
         EnemyAtkCount = 0;
         EnemyMoveCount = 0;
         EnemyAtkResetCount = 0;
+        itemCount = 1;          //アイテムの個数がある場合修正
         PmoveFlg = false;
         GoalFlg = false;
+        GetPItemFlg = false;
         LockFlg = false;
     }
 
@@ -362,6 +367,14 @@ public class GameControllor : MonoBehaviour {
         {
             GoalFlg = true;
         }
+        GameObject PItem = GameObject.Find("PowerItemPrefab(Clone)");
+        if (itemCount >= 1)
+        {
+            if (Player.GetComponent<ActionControllor>().SetiNextStepArea() == (int)Math.Round(PItem.transform.position.x) && Player.GetComponent<ActionControllor>().SetjNextStepArea() == (int)Math.Round(PItem.transform.position.y))
+            {
+                GetPItemFlg = true;
+            }
+        }
 
     }
 
@@ -445,6 +458,7 @@ public class GameControllor : MonoBehaviour {
             if (SpAtkflg == true) //移動中は入力無効にする
             {
                 Player.GetComponent<ActionControllor>().SpActionStart();
+                Player.GetComponent<StatusDataScript>().SetSPcount(-1);
             }
             else
             {
@@ -463,6 +477,17 @@ public class GameControllor : MonoBehaviour {
                 SaveData();
                 SceneManager.LoadScene("GameScene");
             }
+            if (GetPItemFlg == true)
+            {
+                yield return new WaitForSeconds(0.3f);
+                Player.GetComponent<StatusDataScript>().SetSPcount( 5 );
+                itemCount -= 1;
+                GetPItemFlg = false;
+                //アイテムが複数なら修正が必要
+                GameObject PItem = GameObject.Find("PowerItemPrefab(Clone)");
+                PItem.GetComponent<PItemScript>().GetDestroy();
+            }
+
         }
         for (int count = 0; count < EnemyMoveCount; count++)
         {
@@ -653,7 +678,14 @@ public class GameControllor : MonoBehaviour {
             else
             {
                 LockFlg = true;
-                SpAtkflg = true;
+                if (Player.GetComponent<StatusDataScript>().GetSpcount() >= 1)
+                {
+                    SpAtkflg = true;
+                }
+                else
+                {
+                    SpAtkflg = false;
+                }
             }
         }
     }

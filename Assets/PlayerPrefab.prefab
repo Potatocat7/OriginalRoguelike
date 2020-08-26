@@ -245,7 +245,7 @@ Animator:
   m_GameObject: {fileID: 1260895151470838}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 13b2a51a7ada75a4c864c3765be6f8eb, type: 2}
+  m_Controller: {fileID: 9100000, guid: 06b973588bac8964c83fecba5b2de27e, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -302,6 +302,7 @@ MonoBehaviour:
   iThisNow: 0
   jThisNow: 0
   dispDamege: 0
+  SPcount: 0
   DamageDisplay: {fileID: 114803470231973362}
   Attack: 10
 --- !u!114 &114702123805358766

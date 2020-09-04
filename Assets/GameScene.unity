@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c6502be74dcdd45813778188f77183, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  Player: {fileID: 1321754040716970, guid: 886f4d6e342803641b33e6341ad2ab0d, type: 2}
   FloorDisplay: 0
 --- !u!1 &721245075
 GameObject:
@@ -1577,7 +1577,7 @@ MonoBehaviour:
   EnemyList: []
   iObjState: 
   jObjState: 
-  PlayerObj: {fileID: 1260895151470838, guid: 718639248aed6994789604d5964f1c15, type: 2}
+  PlayerObj: {fileID: 1321754040716970, guid: 886f4d6e342803641b33e6341ad2ab0d, type: 2}
   FloorObj: {fileID: 1061476967306026, guid: 462bde33a7c54094b8deb21ea5f8c920, type: 2}
   HealItemObj: {fileID: 1901750714422164, guid: 5edfc5329a5f7324497cf98d88a87e80,
     type: 2}
@@ -1704,7 +1704,8 @@ MonoBehaviour:
   m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
+  m_FirstSelected: {fileID: 1321754040716970, guid: 886f4d6e342803641b33e6341ad2ab0d,
+    type: 2}
   m_sendNavigationEvents: 1
   m_DragThreshold: 5
 --- !u!4 &1607805698

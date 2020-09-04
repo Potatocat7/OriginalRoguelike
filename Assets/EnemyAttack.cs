@@ -9,7 +9,7 @@ public class EnemyAttack : MonoBehaviour {
 
     public void AttackHit()
     {
-        GameObject　Player = GameObject.Find("PlayerPrefab(Clone)");
+        GameObject　Player = GameObject.Find("Player_2_Prefab(Clone)");
         Player.GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
     }
 

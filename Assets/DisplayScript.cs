@@ -18,7 +18,7 @@ public class DisplayScript : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Player = GameObject.Find("PlayerPrefab(Clone)");
+        Player = GameObject.Find("Player_2_Prefab(Clone)");
         Save = GameObject.Find("SaveDataObject");
         
         FloorDisplay = Save.GetComponent<SaveDataScript>().FloorCount;

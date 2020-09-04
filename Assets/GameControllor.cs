@@ -55,7 +55,7 @@ public class GameControllor : MonoBehaviour {
     public void AftorMakeMapStart()
     {
         MapGeneObj = GameObject.Find("MapGenerator");
-        Player = GameObject.Find("PlayerPrefab(Clone)");
+        Player = GameObject.Find("Player_2_Prefab(Clone)");
 
         for (int count = 0; count < MapGenerator.EnemyCount; count++)
         {
@@ -325,7 +325,7 @@ public class GameControllor : MonoBehaviour {
     }
     void CheckBlockState()
     {
-        Player = GameObject.Find("PlayerPrefab(Clone)");
+        Player = GameObject.Find("Player_2_Prefab(Clone)");
 
         //次に移動予定のマスが壁でないかのチェック
         if (Player.GetComponent<ActionControllor>().CheckNextStepWall() == false)
@@ -380,7 +380,7 @@ public class GameControllor : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Player = GameObject.Find("PlayerPrefab(Clone)"); //エラー箇所
+        Player = GameObject.Find("Player_2_Prefab(Clone)"); //エラー箇所
         Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
         iNext = 0;
         jNext = 1;
@@ -650,7 +650,7 @@ public class GameControllor : MonoBehaviour {
     }
     public void Push_ATTCK()
     {
-        Player = GameObject.Find("PlayerPrefab(Clone)");
+        Player = GameObject.Find("Player_2_Prefab(Clone)");
         if (AcitonFlg != true) //移動中は入力無効にする
         {
             iNext = 0;

@@ -60,68 +60,68 @@ public class PlayerAttack_2 : MonoBehaviour {
         switch (this.GetComponent<ActionControllor>().thisNowDirection)
         {
             case ActionControllor.Direction.UP:
-                iThisAtkArea1 = iThisNow - 1;
+                iThisAtkArea1 = iThisNow;
                 jThisAtkArea1 = jThisNow + 1;
                 iThisAtkArea2 = iThisNow;
-                jThisAtkArea2 = jThisNow + 1;
-                iThisAtkArea3 = iThisNow + 1;
-                jThisAtkArea3 = jThisNow + 1;
+                jThisAtkArea2 = jThisNow + 2;
+                iThisAtkArea3 = iThisNow;
+                jThisAtkArea3 = jThisNow + 3;
                 break;
             case ActionControllor.Direction.UP_LEFT:
-                iThisAtkArea1 = iThisNow;
+                iThisAtkArea1 = iThisNow - 1;
                 jThisAtkArea1 = jThisNow + 1;
-                iThisAtkArea2 = iThisNow - 1;
-                jThisAtkArea2 = jThisNow + 1;
-                iThisAtkArea3 = iThisNow - 1;
-                jThisAtkArea3 = jThisNow;
+                iThisAtkArea2 = iThisNow - 2;
+                jThisAtkArea2 = jThisNow + 2;
+                iThisAtkArea3 = iThisNow - 3;
+                jThisAtkArea3 = jThisNow + 3;
                 break;
             case ActionControllor.Direction.UP_RIGHT:
-                iThisAtkArea1 = iThisNow;
+                iThisAtkArea1 = iThisNow + 1;
                 jThisAtkArea1 = jThisNow + 1;
-                iThisAtkArea2 = iThisNow + 1;
-                jThisAtkArea2 = jThisNow + 1;
-                iThisAtkArea3 = iThisNow + 1;
-                jThisAtkArea3 = jThisNow;
+                iThisAtkArea2 = iThisNow + 2;
+                jThisAtkArea2 = jThisNow + 2;
+                iThisAtkArea3 = iThisNow + 3;
+                jThisAtkArea3 = jThisNow + 3;
                 break;
             case ActionControllor.Direction.LEFT:
                 iThisAtkArea1 = iThisNow - 1;
-                jThisAtkArea1 = jThisNow + 1;
-                iThisAtkArea2 = iThisNow - 1;
+                jThisAtkArea1 = jThisNow;
+                iThisAtkArea2 = iThisNow - 2;
                 jThisAtkArea2 = jThisNow;
-                iThisAtkArea3 = iThisNow - 1;
-                jThisAtkArea3 = jThisNow - 1;
+                iThisAtkArea3 = iThisNow - 3;
+                jThisAtkArea3 = jThisNow;
                 break;
             case ActionControllor.Direction.RIGHT:
                 iThisAtkArea1 = iThisNow + 1;
-                jThisAtkArea1 = jThisNow + 1;
-                iThisAtkArea2 = iThisNow + 1;
+                jThisAtkArea1 = jThisNow;
+                iThisAtkArea2 = iThisNow + 2;
                 jThisAtkArea2 = jThisNow;
-                iThisAtkArea3 = iThisNow + 1;
-                jThisAtkArea3 = jThisNow - 1;
+                iThisAtkArea3 = iThisNow + 3;
+                jThisAtkArea3 = jThisNow;
                 break;
             case ActionControllor.Direction.DOWN:
-                iThisAtkArea1 = iThisNow - 1;
+                iThisAtkArea1 = iThisNow;
                 jThisAtkArea1 = jThisNow - 1;
                 iThisAtkArea2 = iThisNow;
-                jThisAtkArea2 = jThisNow - 1;
-                iThisAtkArea3 = iThisNow + 1;
-                jThisAtkArea3 = jThisNow - 1;
+                jThisAtkArea2 = jThisNow - 2;
+                iThisAtkArea3 = iThisNow;
+                jThisAtkArea3 = jThisNow - 3;
                 break;
             case ActionControllor.Direction.DOWN_LEFT:
                 iThisAtkArea1 = iThisNow - 1;
-                jThisAtkArea1 = jThisNow;
-                iThisAtkArea2 = iThisNow - 1;
-                jThisAtkArea2 = jThisNow - 1;
-                iThisAtkArea3 = iThisNow;
-                jThisAtkArea3 = jThisNow - 1;
+                jThisAtkArea1 = jThisNow - 1;
+                iThisAtkArea2 = iThisNow - 2;
+                jThisAtkArea2 = jThisNow - 2;
+                iThisAtkArea3 = iThisNow - 3;
+                jThisAtkArea3 = jThisNow - 3;
                 break;
             case ActionControllor.Direction.DOWN_RIGHT:
                 iThisAtkArea1 = iThisNow + 1;
-                jThisAtkArea1 = jThisNow;
-                iThisAtkArea2 = iThisNow + 1;
-                jThisAtkArea2 = jThisNow - 1;
-                iThisAtkArea3 = iThisNow;
-                jThisAtkArea3 = jThisNow - 1;
+                jThisAtkArea1 = jThisNow - 1;
+                iThisAtkArea2 = iThisNow + 2;
+                jThisAtkArea2 = jThisNow - 2;
+                iThisAtkArea3 = iThisNow + 3;
+                jThisAtkArea3 = jThisNow - 3;
                 break;
         }
     }

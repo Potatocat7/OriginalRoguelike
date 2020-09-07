@@ -39,9 +39,11 @@ public class GameControllor : MonoBehaviour {
     [SerializeField]
     List<GameObject> MoveEnemyList = new List<GameObject>();
     [SerializeField]
+    List<GameObject> MoveResetEnemyList = new List<GameObject>();
+    [SerializeField]
     public int EnemyCount;
     [SerializeField]
-    int EnemyAtkCount, EnemyMoveCount, EnemyAtkResetCount;
+    int EnemyAtkCount, EnemyMoveCount, EnemyAtkResetCount, EnemyMoveResetCount;
     //確認用に宣言
     int iPmap, jPmap;
     int iEmap, jEmap;
@@ -68,6 +70,7 @@ public class GameControllor : MonoBehaviour {
         EnemyAtkCount = 0;
         EnemyMoveCount = 0;
         EnemyAtkResetCount = 0;
+        EnemyMoveResetCount = 0;
         itemCount = 1;          //アイテムの個数がある場合修正
         PmoveFlg = false;
         GoalFlg = false;
@@ -429,6 +432,29 @@ public class GameControllor : MonoBehaviour {
         EnemyAtkCount = EnemyAtkResetCount;
 
     }
+    void ResetMoveEnemyList()
+    {
+
+        //Listの初期化
+        MoveResetEnemyList.Clear();
+        EnemyMoveResetCount = 0;
+        for (int count = 0; count < EnemyMoveCount; count++)
+        {
+            if (MoveEnemyList[count] != null)
+            {
+                MoveResetEnemyList.Add(MoveEnemyList[count]);
+                EnemyMoveResetCount += 1;
+            }
+        }
+
+        MoveEnemyList.Clear();
+        for (int count = 0; count < EnemyMoveResetCount; count++)
+        {
+            MoveEnemyList.Add(MoveResetEnemyList[count]);
+        }
+        EnemyMoveCount = EnemyMoveResetCount;
+
+    }
     void SaveData()
     {
         GameObject Save;
@@ -466,6 +492,7 @@ public class GameControllor : MonoBehaviour {
             }
             yield return new WaitForSeconds(0.3f);
             ResetAttkEnemyList();//攻撃で敵が消えた時のため
+            ResetMoveEnemyList();//攻撃で敵が消えた時のため
         }
         else
         {

@@ -210,7 +210,7 @@ public class ActionControllor : MonoBehaviour {
     }
     IEnumerator coActionAttack()
     {
-        AtkEfFlg = true;
+        AtkEfFlg = true; 
         for (int count = 1; count < 6; count++)
         {
             this.transform.Translate(iAtkDir * 0.1f, jAtkDir *  0.1f, 0);

@@ -6,7 +6,8 @@ public class EnemyAttack : MonoBehaviour {
 
     [SerializeField]
     int iiPstate, jjPstate, iiEstate, jjEstate;
-
+    [SerializeField]
+    ActionControllor ActionCtrl = null;
     public void AttackHit()
     {
         GameObject　Player = GameObject.Find("Player_2_Prefab(Clone)");
@@ -21,42 +22,43 @@ public class EnemyAttack : MonoBehaviour {
         jjEstate = jEstate;
         if (iEstate == iPstate && jEstate + 1 == jPstate)
         {//UP
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
+            ActionCtrl.SetDirection(ActionControllor.Direction.UP);
             return true;
         }
         else if (iEstate - 1 == iPstate && jEstate + 1 == jPstate)
         {//UP_LEFT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_LEFT);
+            //this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_LEFT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.UP_LEFT);
             return true;
         }
         else if (iEstate + 1 == iPstate && jEstate + 1 == jPstate)
         {//UP_RIGHT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_RIGHT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.UP_RIGHT);
             return true;
         }
         else if (iEstate - 1 == iPstate && jEstate == jPstate)
         {//LEFT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.LEFT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.LEFT);
             return true;
         }
         else if (iEstate + 1 == iPstate && jEstate == jPstate)
         {//RIGHT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.RIGHT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.RIGHT);
             return true;
         }
         else if (iEstate == iPstate && jEstate - 1 == jPstate)
         {//DOWN
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
+            ActionCtrl.SetDirection(ActionControllor.Direction.DOWN);
             return true;
         }
         else if (iEstate - 1 == iPstate && jEstate - 1 == jPstate)
         {//DOWN_LEFT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_LEFT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.DOWN_LEFT);
             return true;
         }
         else if (iEstate + 1 == iPstate && jEstate - 1 == jPstate)
         {//DOWN_RIGHT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_RIGHT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.DOWN_RIGHT);
             return true;
         }
         else
@@ -68,35 +70,35 @@ public class EnemyAttack : MonoBehaviour {
     {
         if (iEstate == iPstate && jEstate + 1 == jPstate)
         {//UP
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
+            ActionCtrl.SetDirection(ActionControllor.Direction.UP);
         }
         else if (iEstate - 1 == iPstate && jEstate + 1 == jPstate)
         {//UP_LEFT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_LEFT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.UP_LEFT);
         }
         else if (iEstate + 1 == iPstate && jEstate + 1 == jPstate)
         {//UP_RIGHT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_RIGHT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.UP_RIGHT);
         }
         else if (iEstate - 1 == iPstate && jEstate == jPstate)
         {//LEFT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.LEFT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.LEFT);
         }
         else if (iEstate + 1 == iPstate && jEstate == jPstate)
         {//RIGHT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.RIGHT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.RIGHT);
         }
         else if (iEstate == iPstate && jEstate - 1 == jPstate)
         {//DOWN
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
+            ActionCtrl.SetDirection(ActionControllor.Direction.DOWN);
         }
         else if (iEstate - 1 == iPstate && jEstate - 1 == jPstate)
         {//DOWN_LEFT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_LEFT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.DOWN_LEFT);
         }
         else if (iEstate + 1 == iPstate && jEstate - 1 == jPstate)
         {//DOWN_RIGHT
-            this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_RIGHT);
+            ActionCtrl.SetDirection(ActionControllor.Direction.DOWN_RIGHT);
         }
         else
         {//周囲にいなかったとき

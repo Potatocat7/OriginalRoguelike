@@ -7,7 +7,7 @@ public class SpAtkEF : MonoBehaviour {
     [SerializeField]
     bool AttackEffect;
     [SerializeField]
-    GameObject Player = null;
+    ActionControllor Player = null;
 
     // Use this for initialization
     void Start () {
@@ -16,7 +16,7 @@ public class SpAtkEF : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Player.GetComponent<ActionControllor>().SpAtkEfFlg == true)
+        if (Player.SpAtkEfFlg == true)
         {
             this.GetComponent<SpriteRenderer>().enabled = true;
             this.GetComponent<Animator>().SetTrigger("StartEF");

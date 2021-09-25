@@ -6,25 +6,24 @@ using System;
 
 public class PlayerAttack_1 : MonoBehaviour {
     [SerializeField]
-    int iThisNow, jThisNow;
+    private int iThisNow, jThisNow;
     [SerializeField]
-    int iThisAtkArea1, jThisAtkArea1, iThisAtkArea2, jThisAtkArea2, iThisAtkArea3, jThisAtkArea3;
+    private int iThisAtkArea1, jThisAtkArea1, iThisAtkArea2, jThisAtkArea2, iThisAtkArea3, jThisAtkArea3;
     [SerializeField]
-    GameObject Contollor;
+    private GameControllor Contollor;
 
     void AttackHitcheck(int iAttack,int jAttack)
     {
         //複数or0だったときの処理が必要？
         if (MapGenerator.EnemyCount >= 1)
         {
-            GameObject MapGeneObj = GameObject.Find("GameControllor");
-            for (int count = 0; count < MapGeneObj.GetComponent<GameControllor>().EnemyCount; count++)
+            for (int count = 0; count < Contollor.EnemyCount; count++)
             {
             //GameObject Enemy = GameObject.Find("EnemyPrefab(Clone)");
             //if (Enemy.GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack) == true)
-                if (MapGeneObj.GetComponent<GameControllor>().EnemyList[count].GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack) == true)
+                if (Contollor.EnemyList[count].GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack) == true)
                 {
-                    MapGeneObj.GetComponent<GameControllor>().EnemyList[count].GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
+                    Contollor.EnemyList[count].GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
                     //Enemy.GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
                 }
                 else
@@ -126,16 +125,16 @@ public class PlayerAttack_1 : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
 
-        Contollor = GameObject.Find("GameControllor");
-        if (Contollor.GetComponent<GameControllor>().AtkCheckflg == true)
+        //Contollor = GameObject.Find("GameControllor");
+        if (Contollor.AtkCheckflg == true)
         { 
-            if (Contollor.GetComponent<GameControllor>().SpAtkflg == true)
+            if (Contollor.SpAtkflg == true)
             {
                 SpAttackHit();
             }
@@ -143,7 +142,7 @@ public class PlayerAttack_1 : MonoBehaviour {
             {
                 AttackHit();
             }
-            Contollor.GetComponent<GameControllor>().AtkCheckflg = false;
+            Contollor.AtkCheckflg = false;
         }
         iThisNow = this.GetComponent<ActionControllor>().iThisNow;
         jThisNow = this.GetComponent<ActionControllor>().jThisNow;

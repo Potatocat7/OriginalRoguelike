@@ -20,10 +20,10 @@ public class ActionControllor : MonoBehaviour {
     [SerializeField]
     public Direction thisNowDirection;
     [SerializeField]
-    bool UserActFlg;
+    private bool UserActFlg;
     [SerializeField]
-    bool UserAttackFlg;
-    int count;
+    private bool UserAttackFlg;
+    private int count;
     [SerializeField]
     int ccc, ddd;
     public int iThisNext { get; private set; }
@@ -36,7 +36,7 @@ public class ActionControllor : MonoBehaviour {
     public bool AtkEfFlg;
     public bool SpAtkEfFlg;
     [SerializeField]
-    Animator AnimatorState;
+    private Animator AnimatorState;
 
     public void StartSetUp( )
     {

@@ -1,33 +1,81 @@
 fileFormatVersion: 2
-guid: 93e5d92ebc0559844b777f997d25a8a5
+guid: 44878287135d8c84c9bc2e14b9326a99
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: cha8r_gouseiki-01_yellow011_0
-    21300002: cha8r_gouseiki-01_yellow011_1
-    21300004: cha8r_gouseiki-01_yellow011_2
-    21300006: cha8r_gouseiki-01_yellow011_3
-    21300008: cha8r_gouseiki-01_yellow011_4
-    21300010: cha8r_gouseiki-01_yellow011_5
-    21300012: cha8r_gouseiki-01_yellow011_6
-    21300014: cha8r_gouseiki-01_yellow011_7
-    21300016: cha8r_gouseiki-01_yellow011_8
-    21300018: cha8r_gouseiki-01_yellow011_9
-    21300020: cha8r_gouseiki-01_yellow011_10
-    21300022: cha8r_gouseiki-01_yellow011_11
-    21300024: cha8r_gouseiki-01_yellow011_12
-    21300026: cha8r_gouseiki-01_yellow011_13
-    21300028: cha8r_gouseiki-01_yellow011_14
-    21300030: cha8r_gouseiki-01_yellow011_15
-    21300032: cha8r_gouseiki-01_yellow011_16
-    21300034: cha8r_gouseiki-01_yellow011_17
-    21300036: cha8r_gouseiki-01_yellow011_18
-    21300038: cha8r_gouseiki-01_yellow011_19
-    21300040: cha8r_gouseiki-01_yellow011_20
-    21300042: cha8r_gouseiki-01_yellow011_21
-    21300044: cha8r_gouseiki-01_yellow011_22
-    21300046: cha8r_gouseiki-01_yellow011_23
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: Chicken_black_0
+  - first:
+      213: 21300002
+    second: Chicken_black_1
+  - first:
+      213: 21300004
+    second: Chicken_black_2
+  - first:
+      213: 21300006
+    second: Chicken_black_3
+  - first:
+      213: 21300008
+    second: Chicken_black_4
+  - first:
+      213: 21300010
+    second: Chicken_black_5
+  - first:
+      213: 21300012
+    second: Chicken_black_6
+  - first:
+      213: 21300014
+    second: Chicken_black_7
+  - first:
+      213: 21300016
+    second: Chicken_black_8
+  - first:
+      213: 21300018
+    second: Chicken_black_9
+  - first:
+      213: 21300020
+    second: Chicken_black_10
+  - first:
+      213: 21300022
+    second: Chicken_black_11
+  - first:
+      213: 21300024
+    second: Chicken_black_12
+  - first:
+      213: 21300026
+    second: Chicken_black_13
+  - first:
+      213: 21300028
+    second: Chicken_black_14
+  - first:
+      213: 21300030
+    second: Chicken_black_15
+  - first:
+      213: 21300032
+    second: Chicken_black_16
+  - first:
+      213: 21300034
+    second: Chicken_black_17
+  - first:
+      213: 21300036
+    second: Chicken_black_18
+  - first:
+      213: 21300038
+    second: Chicken_black_19
+  - first:
+      213: 21300040
+    second: Chicken_black_20
+  - first:
+      213: 21300042
+    second: Chicken_black_21
+  - first:
+      213: 21300044
+    second: Chicken_black_22
+  - first:
+      213: 21300046
+    second: Chicken_black_23
   externalObjects: {}
-  serializedVersion: 4
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -45,6 +93,8 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -53,9 +103,9 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
-    aniso: -1
-    mipBias: -1
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -75,11 +125,14 @@ TextureImporter:
   spriteTessellationDetail: -1
   textureType: 8
   textureShape: 1
+  singleChannelComponent: 0
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
-  - buildTarget: DefaultTexturePlatform
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -89,7 +142,9 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - buildTarget: Standalone
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -99,7 +154,9 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - buildTarget: iPhone
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -109,7 +166,9 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - buildTarget: Android
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
+    buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -119,358 +178,527 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_0
+      name: Chicken_black_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 84
+        y: 48
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 02305410000000000800000000000000
+      internalID: 21300000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_1
+      name: Chicken_black_1
       rect:
         serializedVersion: 2
         x: 20
-        y: 84
+        y: 48
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 22305410000000000800000000000000
+      internalID: 21300002
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_2
+      name: Chicken_black_2
       rect:
         serializedVersion: 2
         x: 40
-        y: 84
+        y: 48
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 42305410000000000800000000000000
+      internalID: 21300004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_3
+      name: Chicken_black_3
       rect:
         serializedVersion: 2
         x: 60
-        y: 84
+        y: 48
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 62305410000000000800000000000000
+      internalID: 21300006
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_4
+      name: Chicken_black_4
       rect:
         serializedVersion: 2
         x: 80
-        y: 84
+        y: 48
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 82305410000000000800000000000000
+      internalID: 21300008
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_5
+      name: Chicken_black_5
       rect:
         serializedVersion: 2
         x: 100
-        y: 84
+        y: 48
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a2305410000000000800000000000000
+      internalID: 21300010
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_6
+      name: Chicken_black_6
       rect:
         serializedVersion: 2
         x: 0
-        y: 56
+        y: 32
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: c2305410000000000800000000000000
+      internalID: 21300012
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_7
+      name: Chicken_black_7
       rect:
         serializedVersion: 2
         x: 20
-        y: 56
+        y: 32
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e2305410000000000800000000000000
+      internalID: 21300014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_8
+      name: Chicken_black_8
       rect:
         serializedVersion: 2
         x: 40
-        y: 56
+        y: 32
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 03305410000000000800000000000000
+      internalID: 21300016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_9
+      name: Chicken_black_9
       rect:
         serializedVersion: 2
         x: 60
-        y: 56
+        y: 32
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 23305410000000000800000000000000
+      internalID: 21300018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_10
+      name: Chicken_black_10
       rect:
         serializedVersion: 2
         x: 80
-        y: 56
+        y: 32
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 43305410000000000800000000000000
+      internalID: 21300020
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_11
+      name: Chicken_black_11
       rect:
         serializedVersion: 2
         x: 100
-        y: 56
+        y: 32
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 63305410000000000800000000000000
+      internalID: 21300022
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_12
+      name: Chicken_black_12
       rect:
         serializedVersion: 2
         x: 0
-        y: 28
+        y: 16
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 83305410000000000800000000000000
+      internalID: 21300024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_13
+      name: Chicken_black_13
       rect:
         serializedVersion: 2
         x: 20
-        y: 28
+        y: 16
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a3305410000000000800000000000000
+      internalID: 21300026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_14
+      name: Chicken_black_14
       rect:
         serializedVersion: 2
         x: 40
-        y: 28
+        y: 16
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: c3305410000000000800000000000000
+      internalID: 21300028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_15
+      name: Chicken_black_15
       rect:
         serializedVersion: 2
         x: 60
-        y: 28
+        y: 16
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e3305410000000000800000000000000
+      internalID: 21300030
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_16
+      name: Chicken_black_16
       rect:
         serializedVersion: 2
         x: 80
-        y: 28
+        y: 16
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 04305410000000000800000000000000
+      internalID: 21300032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_17
+      name: Chicken_black_17
       rect:
         serializedVersion: 2
         x: 100
-        y: 28
+        y: 16
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 24305410000000000800000000000000
+      internalID: 21300034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_18
+      name: Chicken_black_18
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 44305410000000000800000000000000
+      internalID: 21300036
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_19
+      name: Chicken_black_19
       rect:
         serializedVersion: 2
         x: 20
         y: 0
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 64305410000000000800000000000000
+      internalID: 21300038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_20
+      name: Chicken_black_20
       rect:
         serializedVersion: 2
         x: 40
         y: 0
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: 84305410000000000800000000000000
+      internalID: 21300040
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_21
+      name: Chicken_black_21
       rect:
         serializedVersion: 2
         x: 60
         y: 0
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: a4305410000000000800000000000000
+      internalID: 21300042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_22
+      name: Chicken_black_22
       rect:
         serializedVersion: 2
         x: 80
         y: 0
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: c4305410000000000800000000000000
+      internalID: 21300044
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     - serializedVersion: 2
-      name: cha8r_gouseiki-01_yellow011_23
+      name: Chicken_black_23
       rect:
         serializedVersion: 2
         x: 100
         y: 0
         width: 20
-        height: 28
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
+      bones: []
+      spriteID: e4305410000000000800000000000000
+      internalID: 21300046
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
   spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

@@ -24,46 +24,47 @@ public class GameControllor : MonoBehaviour {
     public bool LockFlg;
     public bool AtkCheckflg;//攻撃判定のフラグ
     public bool SpAtkflg;
-    int iNext, jNext;
-    int iRandom, jRandom;
-    GameObject Player;
-    //GameObject AttackEffect;
-    GameObject MapGeneObj;
+    private int iNext, jNext;
+    private int iRandom, jRandom;
     [SerializeField]
-    //GameObject Enemy;
-    public List<GameObject> EnemyList = new List<GameObject>();
+    private ActionControllor Player = null;
     [SerializeField]
-    List<GameObject> AtkEnemyList = new List<GameObject>();
+    private MapGenerator MapGeneObj;
     [SerializeField]
-    List<GameObject> AtkResetEnemyList = new List<GameObject>();
+    public List<ActionControllor> EnemyList = new List<ActionControllor>();
     [SerializeField]
-    List<GameObject> MoveEnemyList = new List<GameObject>();
+    private List<ActionControllor> AtkEnemyList = new List<ActionControllor>();
     [SerializeField]
-    List<GameObject> MoveResetEnemyList = new List<GameObject>();
+    private List<ActionControllor> AtkResetEnemyList = new List<ActionControllor>();
+    [SerializeField]
+    private List<ActionControllor> MoveEnemyList = new List<ActionControllor>();
+    [SerializeField]
+    private List<ActionControllor> MoveResetEnemyList = new List<ActionControllor>();
     [SerializeField]
     public int EnemyCount;
     [SerializeField]
-    int EnemyAtkCount, EnemyMoveCount, EnemyAtkResetCount, EnemyMoveResetCount;
+    private int EnemyAtkCount, EnemyMoveCount, EnemyAtkResetCount, EnemyMoveResetCount;
     //確認用に宣言
-    int iPmap, jPmap;
-    int iEmap, jEmap;
-    int itemCount;
-    bool PmoveFlg;
+    private int iPmap, jPmap;
+    private int iEmap, jEmap;
+    private int itemCount;
+    private bool PmoveFlg;
     [SerializeField]
-    bool GoalFlg;
+    private bool GoalFlg;
     [SerializeField]
-    bool GetPItemFlg;
-
+    private bool GetPItemFlg;
+    
+    public  void SetPlayerActionCtrl(ActionControllor player)
+    {
+        Player = player;
+    }
     public void AftorMakeMapStart()
     {
-        MapGeneObj = GameObject.Find("MapGenerator");
-        Player = GameObject.Find("Player_2_Prefab(Clone)");
-
         for (int count = 0; count < MapGenerator.EnemyCount; count++)
         {
-            if (MapGeneObj.GetComponent<MapGenerator>().EnemyList[count] != null)
+            if (MapGeneObj.EnemyList[count] != null)
             {
-                EnemyList.Add(MapGeneObj.GetComponent<MapGenerator>().EnemyList[count]);
+                EnemyList.Add(MapGeneObj.EnemyList[count]);
                 EnemyCount += 1;
             }
         }
@@ -78,39 +79,40 @@ public class GameControllor : MonoBehaviour {
         LockFlg = false;
     }
 
-    void SetEnemyDirection(int iStep,int jStep , GameObject Enemy)
+    void SetEnemyDirection(int iStep,int jStep , ActionControllor Enemy)
     {
         if (iStep == 0 && jStep == 1)
         {//UP
-            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
+            //Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
+            Enemy.SetDirection(ActionControllor.Direction.UP);
         }
         else if (iStep == -1 && jStep == 1)
         {//UP_LEFT
-            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_LEFT);
+            Enemy.SetDirection(ActionControllor.Direction.UP_LEFT);
         }
         else if (iStep == 1 && jStep == 1)
         {//UP_RIGHT
-            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_RIGHT);
+            Enemy.SetDirection(ActionControllor.Direction.UP_RIGHT);
         }
         else if (iStep == -1 && jStep == 0)
         {//LEFT
-            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.LEFT);
+            Enemy.SetDirection(ActionControllor.Direction.LEFT);
         }
         else if (iStep == 1 && jStep == 0)
         {//RIGHT
-            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.RIGHT);
+            Enemy.SetDirection(ActionControllor.Direction.RIGHT);
         }
         else if (iStep == 0 && jStep == -1)
         {//DOWN
-            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
+            Enemy.SetDirection(ActionControllor.Direction.DOWN);
         }
         else if (iStep == -1 && jStep == -1)
         {//DOWN_LEFT
-            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_LEFT);
+            Enemy.SetDirection(ActionControllor.Direction.DOWN_LEFT);
         }
         else if (iStep == 1 && jStep == -1)
         {//DOWN_RIGHT
-            Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_RIGHT);
+            Enemy.SetDirection(ActionControllor.Direction.DOWN_RIGHT);
         }
         else
         {//動かないときはそのまま
@@ -118,14 +120,14 @@ public class GameControllor : MonoBehaviour {
         }
 
     }
-    bool checkNowotherEmoveFlg(GameObject Enemy, int MaxCount)
+    bool checkNowotherEmoveFlg(ActionControllor Enemy, int MaxCount)
     {
         for (int count = 0; count < EnemyCount; count++)
         {
             if (count != MaxCount) //自分の位置については無視
             {
                 //全的オブジェクトの現在位置を調べて移動先にいないかのチェック。いたらtrueを返す
-                if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
+                if (EnemyList[count].CheckNowStep(Enemy.SetiNextStepArea(), Enemy.SetjNextStepArea()) == true)
                 {
                     return true;
                 }
@@ -136,14 +138,14 @@ public class GameControllor : MonoBehaviour {
         }
         return false;//何事もなく終わったとき
     }
-    bool checkNextotherEmoveFlg(GameObject Enemy, int MaxCount)
+    bool checkNextotherEmoveFlg(ActionControllor Enemy, int MaxCount)
     {
         for (int count = 0; count < EnemyCount; count++)
         {
             if (count != MaxCount) //自分の位置については無視
             {
                 //全的オブジェクトの現在位置を調べて移動先にいないかのチェック。いたらtrueを返す
-                if (EnemyList[count].GetComponent<ActionControllor>().CheckNextStep(Enemy.GetComponent<ActionControllor>().SetiNextStepArea(), Enemy.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
+                if (EnemyList[count].CheckNextStep(Enemy.SetiNextStepArea(), Enemy.SetjNextStepArea()) == true)
                 {
                     return true;
                 }
@@ -154,7 +156,7 @@ public class GameControllor : MonoBehaviour {
         }
         return false;//何事もなく終わったとき
     }
-    void EnemyMoveRandom(GameObject Enemy, int thisCount)
+    void EnemyMoveRandom(ActionControllor Enemy, int thisCount)
     {
         bool checkRandom = true;
         //敵の移動　ランダムに動かす移動可能のマスになるまでwhile文で繰り返すまで
@@ -162,7 +164,7 @@ public class GameControllor : MonoBehaviour {
         {
             iRandom = (int)UnityEngine.Random.Range(-1, 2);
             jRandom = (int)UnityEngine.Random.Range(-1, 2);
-            Enemy.GetComponent<ActionControllor>().SetNextStep(iRandom, jRandom);
+            Enemy.SetNextStep(iRandom, jRandom);
             bool otherEmoveFlg = false;
 
             if (thisCount == 0)//[0]のみ現在位置で調べる
@@ -175,30 +177,29 @@ public class GameControllor : MonoBehaviour {
             }
             if (otherEmoveFlg != true)
             {
-                if (Enemy.GetComponent<ActionControllor>().CheckNextStepWall() == false)
+                if (Enemy.CheckNextStepWall() == false)
                 {
                 }
                 else
                 {
                     SetEnemyDirection(iRandom, jRandom, Enemy);
-                    //Enemy.GetComponent<ActionControllor>().SetUserActFlagOn();
                     checkRandom = false;
                 }
             }
         }
 
     }
-    void EnemyMoveTargetPlayer(GameObject Enemy,int thisCount)
+    void EnemyMoveTargetPlayer(ActionControllor Enemy, int thisCount)
     {
         //ここはいずれA*アルゴリズムで動かしたい
         int iEnemyNext, jEnemyNext;
         bool otherEmoveFlg = false;
 
-        if (Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) > 0)
+        if (Player.SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) > 0)
         {
             iEnemyNext = 1;
         }
-        else if (Player.GetComponent<ActionControllor>().SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) < 0)
+        else if (Player.SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) < 0)
         {
             iEnemyNext = -1;
         }
@@ -207,11 +208,11 @@ public class GameControllor : MonoBehaviour {
             iEnemyNext = 0;
         }
 
-        if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) > 0)
+        if (Player.SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) > 0)
         {
             jEnemyNext = 1;
         }
-        else if (Player.GetComponent<ActionControllor>().SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) < 0)
+        else if (Player.SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) < 0)
         {
             jEnemyNext = -1;
         }
@@ -219,7 +220,7 @@ public class GameControllor : MonoBehaviour {
         {//(int)Player.transform.position.y == (int)Enemy.transform.position.y
             jEnemyNext = 0;
         }
-        Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
+        Enemy.SetNextStep(iEnemyNext, jEnemyNext);
 
         //for分で該当オブジェクトより手前に設定している敵オブジェクトをしらべる（後のオブジェクトは移動先を設定していないため）
         //※後半のオブジェクトが移動しなかった場合重なる可能性がある（例：後半の敵で攻撃可能がいた場合）
@@ -234,12 +235,12 @@ public class GameControllor : MonoBehaviour {
         }
         if (otherEmoveFlg != true)
         {
-            if (Enemy.GetComponent<ActionControllor>().CheckNextStepWall() == false)
+            if (Enemy.CheckNextStepWall() == false)
             {
                 SetEnemyDirection(iEnemyNext, jEnemyNext, Enemy);
                 iEnemyNext = 0;
                 jEnemyNext = 0;
-                Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
+                Enemy.SetNextStep(iEnemyNext, jEnemyNext);
             }
             else
             {
@@ -250,7 +251,7 @@ public class GameControllor : MonoBehaviour {
         {
             iEnemyNext = 0;
             jEnemyNext = 0;
-            Enemy.GetComponent<ActionControllor>().SetNextStep(iEnemyNext, jEnemyNext);
+            Enemy.SetNextStep(iEnemyNext, jEnemyNext);
 
         }
     }
@@ -265,10 +266,10 @@ public class GameControllor : MonoBehaviour {
                 //確認用に宣言中　現在Playerの位置情報が移動前の位置情報を所得している※positionが少数点で0.999になると切り捨てになってしまう
                 //iEmap = (int)Math.Round(Enemy.transform.position.x);
                 iEmap = (int)Math.Round(EnemyList[count].transform.position.x);
-                iPmap = Player.GetComponent<ActionControllor>().SetiNextStepArea();
+                iPmap = Player.SetiNextStepArea();
                 //jEmap = (int)Math.Round(Enemy.transform.position.y);
                 jEmap = (int)Math.Round(EnemyList[count].transform.position.y);
-                jPmap = Player.GetComponent<ActionControllor>().SetjNextStepArea();
+                jPmap = Player.SetjNextStepArea();
 
                 if (EnemyList[count].GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
                 {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
@@ -319,29 +320,27 @@ public class GameControllor : MonoBehaviour {
             if (EnemyAtkCount >= 1)
             {
                 iEmap = (int)Math.Round(AtkEnemyList[count].transform.position.x);
-                iPmap = Player.GetComponent<ActionControllor>().SetiNextStepArea();
+                iPmap = Player.SetiNextStepArea();
                 jEmap = (int)Math.Round(AtkEnemyList[count].transform.position.y);
-                jPmap = Player.GetComponent<ActionControllor>().SetjNextStepArea();
+                jPmap = Player.SetjNextStepArea();
                 AtkEnemyList[count].GetComponent<EnemyAttack>().SetDirectionPlayerThisAround(iPmap, jPmap, iEmap, jEmap);
             }
         }
     }
     void CheckBlockState()
     {
-        Player = GameObject.Find("Player_2_Prefab(Clone)");
-
         //次に移動予定のマスが壁でないかのチェック
-        if (Player.GetComponent<ActionControllor>().CheckNextStepWall() == false)
+        if (Player.CheckNextStepWall() == false)
         {
             iNext = 0;
             jNext = 0;
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext); 
+            Player.SetNextStep(iNext, jNext); 
         }
         else
         {
             for (int count = 0; count < EnemyCount; count++)
             {
-                if (EnemyList[count].GetComponent<ActionControllor>().CheckNowStep(Player.GetComponent<ActionControllor>().SetiNextStepArea(), Player.GetComponent<ActionControllor>().SetjNextStepArea()) == true)
+                if (EnemyList[count].CheckNowStep(Player.SetiNextStepArea(), Player.SetjNextStepArea()) == true)
                 {
                     PmoveFlg = true;
                 }
@@ -353,27 +352,26 @@ public class GameControllor : MonoBehaviour {
             {
                 iNext = 0;
                 jNext = 0;
-                Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
+                Player.SetNextStep(iNext, jNext);
                 PmoveFlg = false;
             }
             else
             {
                 AcitonFlg = true;
-                //Player.GetComponent<ActionControllor>().SetUserActFlagOn();
                 //※敵オブジェクトは0になることもあるため複数対応+無しのときの対応も必要
                 SetEnemyMove();
 
             }
         }
         GameObject Goal = GameObject.Find("GoalPrefab(Clone)");
-        if (Player.GetComponent<ActionControllor>().SetiNextStepArea() == (int)Math.Round(Goal.transform.position.x) && Player.GetComponent<ActionControllor>().SetjNextStepArea() == (int)Math.Round(Goal.transform.position.y))
+        if (Player.SetiNextStepArea() == (int)Math.Round(Goal.transform.position.x) && Player.SetjNextStepArea() == (int)Math.Round(Goal.transform.position.y))
         {
             GoalFlg = true;
         }
         GameObject PItem = GameObject.Find("PowerItemPrefab(Clone)");
         if (itemCount >= 1)
         {
-            if (Player.GetComponent<ActionControllor>().SetiNextStepArea() == (int)Math.Round(PItem.transform.position.x) && Player.GetComponent<ActionControllor>().SetjNextStepArea() == (int)Math.Round(PItem.transform.position.y))
+            if (Player.SetiNextStepArea() == (int)Math.Round(PItem.transform.position.x) && Player.SetjNextStepArea() == (int)Math.Round(PItem.transform.position.y))
             {
                 GetPItemFlg = true;
             }
@@ -383,8 +381,7 @@ public class GameControllor : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        Player = GameObject.Find("Player_2_Prefab(Clone)"); //エラー箇所
-        Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
+        Player.SetDirection(ActionControllor.Direction.DOWN);
         iNext = 0;
         jNext = 1;
         AcitonFlg = false;
@@ -469,8 +466,8 @@ public class GameControllor : MonoBehaviour {
 
         if (EnemyAtkCount > 0)
         {
-            AtkEnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlagOn();
-            AtkEnemyList[count].GetComponent<ActionControllor>().ActionStart();
+            AtkEnemyList[count].SetUserAttackFlagOn();
+            AtkEnemyList[count].ActionStart();
             AtkEnemyList[count].GetComponent<EnemyAttack>().AttackHit();
         }
     }
@@ -480,15 +477,15 @@ public class GameControllor : MonoBehaviour {
         AcitonFlg = true;
         if (PatkFlg == true)
         {
-            Player.GetComponent<ActionControllor>().SetUserAttackFlagOn();
+            Player.SetUserAttackFlagOn();
             if (SpAtkflg == true) //移動中は入力無効にする
             {
-                Player.GetComponent<ActionControllor>().SpActionStart();
+                Player.SpActionStart();
                 Player.GetComponent<StatusDataScript>().SetSPcount(-1);
             }
             else
             {
-                Player.GetComponent<ActionControllor>().ActionStart();
+                Player.ActionStart();
             }
             yield return new WaitForSeconds(0.3f);
             ResetAttkEnemyList();//攻撃で敵が消えた時のため
@@ -496,8 +493,8 @@ public class GameControllor : MonoBehaviour {
         }
         else
         {
-            Player.GetComponent<ActionControllor>().SetUserActFlagOn();
-            Player.GetComponent<ActionControllor>().ActionStart();
+            Player.SetUserActFlagOn();
+            Player.ActionStart();
             if (GoalFlg == true)
             {
                 yield return new WaitForSeconds(0.3f);
@@ -518,9 +515,9 @@ public class GameControllor : MonoBehaviour {
         }
         for (int count = 0; count < EnemyMoveCount; count++)
         {
-            MoveEnemyList[count].GetComponent<ActionControllor>().SetUserActFlagOn();
-            MoveEnemyList[count].GetComponent<ActionControllor>().ActionStart();
-            
+            MoveEnemyList[count].SetUserActFlagOn();
+            MoveEnemyList[count].ActionStart();
+
         }
 
         //敵攻撃
@@ -555,8 +552,8 @@ public class GameControllor : MonoBehaviour {
             iNext = 0;
             jNext = 1;
             //Pの動作セット
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
-            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
+            Player.SetNextStep(iNext, jNext);
+            Player.SetDirection(ActionControllor.Direction.UP);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 //Eを攻撃/移動でリストにセット
@@ -576,8 +573,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = -1;
             jNext = 1;
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
-            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_LEFT);
+            Player.SetNextStep(iNext, jNext);
+            Player.SetDirection(ActionControllor.Direction.UP_LEFT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -591,8 +588,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 1;
             jNext = 1;
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
-            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_RIGHT);
+            Player.SetNextStep(iNext, jNext);
+            Player.SetDirection(ActionControllor.Direction.UP_RIGHT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -606,8 +603,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 0;
             jNext = -1;
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
-            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN);
+            Player.SetNextStep(iNext, jNext);
+            Player.SetDirection(ActionControllor.Direction.DOWN);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -621,8 +618,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = -1;
             jNext = -1;
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
-            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_LEFT);
+            Player.SetNextStep(iNext, jNext);
+            Player.SetDirection(ActionControllor.Direction.DOWN_LEFT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -636,8 +633,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 1;
             jNext = -1;
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
-            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.DOWN_RIGHT);
+            Player.SetNextStep(iNext, jNext);
+            Player.SetDirection(ActionControllor.Direction.DOWN_RIGHT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -651,8 +648,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = -1;
             jNext = 0;
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
-            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.LEFT);
+            Player.SetNextStep(iNext, jNext);
+            Player.SetDirection(ActionControllor.Direction.LEFT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -666,8 +663,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 1;
             jNext = 0;
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
-            Player.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.RIGHT);
+            Player.SetNextStep(iNext, jNext);
+            Player.SetDirection(ActionControllor.Direction.RIGHT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -677,17 +674,15 @@ public class GameControllor : MonoBehaviour {
     }
     public void Push_ATTCK()
     {
-        Player = GameObject.Find("Player_2_Prefab(Clone)");
+        //Player = GameObject.Find("Player_2_Prefab(Clone)");
         if (AcitonFlg != true) //移動中は入力無効にする
         {
             iNext = 0;
             jNext = 0;
-            Player.GetComponent<ActionControllor>().SetThisNowStep();
-            Player.GetComponent<ActionControllor>().SetNextStep(iNext, jNext);
-            //Player.GetComponent<ActionControllor>().SetUserAttackFlagOn();
+            Player.SetThisNowStep();
+            Player.SetNextStep(iNext, jNext);
             SetEnemyMove();
             AtkCheckflg = true;
-            //Player.GetComponent<PlayerAttack_1>().AttackHit();
             AcitonFlg = true;
             PatkFlg = true;
             StartCoroutine("coActionFlgOnMain");

@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
 
+    public GameControllor GameCtrl;
     public GameObject WallObj;
     public GameObject GoalObj;
     public GameObject EnemyObj;
-    public List<GameObject> EnemyList = new List<GameObject>();
+    public List<ActionControllor> EnemyList = new List<ActionControllor>();
     public List<int> iObjState = new List<int>();
     public List<int> jObjState = new List<int>();
     public GameObject PlayerObj;
@@ -78,6 +79,7 @@ public class MapGenerator : MonoBehaviour {
                         if (PrefabObj.tag == "Player")
                         {
                             Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
+                            GameCtrl.SetPlayerActionCtrl(Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
                             iNow = randomiPix;
                             jNow = randomjPix;
                             iObjState.Add(randomiPix);
@@ -86,7 +88,7 @@ public class MapGenerator : MonoBehaviour {
                         else if (PrefabObj.tag == "Enemy")
                         {
                             Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
-                            EnemyList.Add(Mapobj[randomiPix, randomjPix]);
+                            EnemyList.Add(Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
                             iObjState.Add(randomiPix);
                             jObjState.Add(randomjPix);
                         }
@@ -141,6 +143,7 @@ public class MapGenerator : MonoBehaviour {
         }
         //※すでに追加オブジェクトがある場所には生成しないようにする処理が必要
         SetUniqObj(GoalObj);
+        PlayerObj.GetComponent<PlayerAttack_2>().SetGameCtrl(GameCtrl);
         SetUniqObj(PlayerObj);
         SetUniqObj(PowerItemObj);
         UniqObjCount = 1;

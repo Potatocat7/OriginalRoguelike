@@ -5,64 +5,40 @@ using System;
 
 
 public class PlayerAttack_2 : MonoBehaviour {
-
     [SerializeField]
     int iThisNow, jThisNow;
     [SerializeField]
     int iThisAtkArea1, jThisAtkArea1, iThisAtkArea2, jThisAtkArea2, iThisAtkArea3, jThisAtkArea3;
-    [SerializeField]
     private GameControllor Contollor;
+    private ActionControllor _actCtrl;
+    private StatusDataScript _thisState;
 
-    public void SetGameCtrl(GameControllor ctrl)
-    {
-        Contollor = ctrl;
-    }
-    void AttackHitcheck(int iAttack, int jAttack)
-    {
-        //複数or0だったときの処理が必要？
-        if (MapGenerator.EnemyCount >= 1)
-        {
-            //GameObject MapGeneObj = GameObject.Find("GameControllor");
-            for (int count = 0; count < Contollor.EnemyCount; count++)
-            {
-                //GameObject Enemy = GameObject.Find("EnemyPrefab(Clone)");
-                //if (Enemy.GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack) == true)
-                if (Contollor.EnemyList[count].GetComponent<StatusDataScript>().CheckAttack(iAttack, jAttack) == true)
-                {
-                    //MapGeneObj.GetComponent<GameControllor>().EnemyList[count].GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
-                    Contollor.EnemyList[count].GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
-                    //Enemy.GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
-                }
-                else
-                {
-
-                }
-            }
-
-        }
-    }
+    //public void SetGameCtrl(GameControllor ctrl)
+    //{
+    //    Contollor = ctrl;
+    //}
     void AttackHit()
     {
-        AttackHitcheck(iThisAtkArea1, jThisAtkArea1);
-        AttackHitcheck(iThisAtkArea2, jThisAtkArea2);
-        AttackHitcheck(iThisAtkArea3, jThisAtkArea3);
+        Contollor.Hitcheck(iThisAtkArea1, jThisAtkArea1, _thisState.Attack);
+        Contollor.Hitcheck(iThisAtkArea2, jThisAtkArea2, _thisState.Attack);
+        Contollor.Hitcheck(iThisAtkArea3, jThisAtkArea3, _thisState.Attack);
     }
     void SpAttackHit()
     {
-        AttackHitcheck(iThisNow + 1, jThisNow + 1);
-        AttackHitcheck(iThisNow + 1, jThisNow - 1);
-        AttackHitcheck(iThisNow + 1, jThisNow);
-        AttackHitcheck(iThisNow, jThisNow + 1);
-        AttackHitcheck(iThisNow, jThisNow - 1);
-        AttackHitcheck(iThisNow - 1, jThisNow + 1);
-        AttackHitcheck(iThisNow - 1, jThisNow - 1);
-        AttackHitcheck(iThisNow - 1, jThisNow);
+        Contollor.Hitcheck(iThisNow + 1, jThisNow + 1, _thisState.Attack);
+        Contollor.Hitcheck(iThisNow + 1, jThisNow - 1, _thisState.Attack);
+        Contollor.Hitcheck(iThisNow + 1, jThisNow, _thisState.Attack);
+        Contollor.Hitcheck(iThisNow, jThisNow + 1, _thisState.Attack);
+        Contollor.Hitcheck(iThisNow, jThisNow - 1, _thisState.Attack);
+        Contollor.Hitcheck(iThisNow - 1, jThisNow + 1, _thisState.Attack);
+        Contollor.Hitcheck(iThisNow - 1, jThisNow - 1, _thisState.Attack);
+        Contollor.Hitcheck(iThisNow - 1, jThisNow, _thisState.Attack);
     }
 
     void AttackAreaSet()
     {
 
-        switch (this.GetComponent<ActionControllor>().thisNowDirection)
+        switch (_actCtrl.thisNowDirection)
         {
             case ActionControllor.Direction.UP:
                 iThisAtkArea1 = iThisNow;
@@ -133,15 +109,16 @@ public class PlayerAttack_2 : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
+        _actCtrl = this.GetComponent<ActionControllor>();
+        Contollor = _actCtrl.GetGameCtrl();
+        _thisState = this.GetComponent<StatusDataScript>();
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        //Contollor = (GameObject.Find("GameControllor");
-        if (Contollor.AtkCheckflg == true)//GetComponent<GameControllor>()
+        if (Contollor.AtkCheckflg == true)
         {
             if (Contollor.SpAtkflg == true)
             {
@@ -153,8 +130,8 @@ public class PlayerAttack_2 : MonoBehaviour {
             }
             Contollor.AtkCheckflg = false;
         }
-        iThisNow = this.GetComponent<ActionControllor>().iThisNow;
-        jThisNow = this.GetComponent<ActionControllor>().jThisNow;
+        iThisNow = _actCtrl.iThisNow;
+        jThisNow = _actCtrl.jThisNow;
         AttackAreaSet();
     }
 }

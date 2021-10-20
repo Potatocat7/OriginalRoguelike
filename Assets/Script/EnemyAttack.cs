@@ -8,10 +8,20 @@ public class EnemyAttack : MonoBehaviour {
     int iiPstate, jjPstate, iiEstate, jjEstate;
     [SerializeField]
     ActionControllor ActionCtrl = null;
+    private StatusDataScript Player;
+    private StatusDataScript thisEnemy;
+    public void GetPlayerStatusData(StatusDataScript playerData)
+    {
+        Player = playerData;
+    }
+    public void GetThisStatusData(StatusDataScript thisData)
+    {
+        thisEnemy = thisData;
+    }
+
     public void AttackHit()
     {
-        GameObject　Player = GameObject.Find("Player_2_Prefab(Clone)");
-        Player.GetComponent<StatusDataScript>().HitDamage(this.GetComponent<StatusDataScript>().Attack);
+        Player.HitDamage(thisEnemy.Attack);
     }
 
     public bool CheckPlayerThisAround(int iPstate, int jPstate, int iEstate, int jEstate)
@@ -27,7 +37,6 @@ public class EnemyAttack : MonoBehaviour {
         }
         else if (iEstate - 1 == iPstate && jEstate + 1 == jPstate)
         {//UP_LEFT
-            //this.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP_LEFT);
             ActionCtrl.SetDirection(ActionControllor.Direction.UP_LEFT);
             return true;
         }

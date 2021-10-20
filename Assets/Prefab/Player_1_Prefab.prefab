@@ -383,11 +383,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ee918dbd827ee4097d3b4912ddbda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisNowDirection: 0
-  UserActFlg: 0
-  UserAttackFlg: 0
-  ccc: 0
-  ddd: 0
+  Contollor: {fileID: 0}
+  thisNowDirection: 5
+  UserActFlg: 1
+  UserAttackFlg: 1
   AtkEfFlg: 0
   SpAtkEfFlg: 0
   AnimatorState: {fileID: 0}
@@ -411,8 +410,6 @@ MonoBehaviour:
   jThisAtkArea2: 0
   iThisAtkArea3: 0
   jThisAtkArea3: 0
-  Contollor: {fileID: 0}
-  MapGene: {fileID: 0}
 --- !u!114 &5273029559625437049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -659,4 +656,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackEffect: 0
-  Player: {fileID: 7277428086546084138}
+  Player: {fileID: 316836400354960968}

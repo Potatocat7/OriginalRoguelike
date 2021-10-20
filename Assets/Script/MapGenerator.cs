@@ -4,22 +4,29 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
 
-    public GameControllor GameCtrl;
-    public GameObject WallObj;
-    public GameObject GoalObj;
-    public GameObject EnemyObj;
-    public List<ActionControllor> EnemyList = new List<ActionControllor>();
-    public List<int> iObjState = new List<int>();
-    public List<int> jObjState = new List<int>();
-    public GameObject PlayerObj;
-    public GameObject FloorObj;
-    public GameObject HealItemObj;
-    public GameObject PowerItemObj;
-    public GameObject[,] Mapobj = new GameObject[20, 20];
+    [SerializeField] private GameControllor _gameCtrl;
+    [SerializeField] private GameObject _wallObj;
+    [SerializeField] private GameObject _goalObj;
+    [SerializeField] private GameObject _enemyObj;
+    [SerializeField] private PlayerSelector _playerSelectObj;
+    [SerializeField] private GameObject _floorObj;
+    [SerializeField] private GameObject _healItemObj;
+    [SerializeField] private GameObject _powerItemObj;
+    [SerializeField] private GameObject[,] _mapobj = new GameObject[20, 20];
+    private GameObject _playerObj;
+    private SaveCharaSelect CharaNum;
     public static int[,] map = new int[20, 20];       //選択後の
     public static int iNow, jNow, EnemyCount,UniqObjCount;
     public int mapNum;
-
+    [SerializeField]
+    private SaveDataScript _saveData;
+    [SerializeField]
+    private DisplayScript _displayScript;
+    private StatusDataScript _playerData;
+    public List<ActionControllor> EnemyList = new List<ActionControllor>();
+    public List<StatusDataScript> EnemyListStateData = new List<StatusDataScript>();
+    public List<int> iObjState = new List<int>();
+    public List<int> jObjState = new List<int>();
 
     bool CheckMapstate(int tate, int yoko)
     {
@@ -74,22 +81,28 @@ public class MapGenerator : MonoBehaviour {
                     if (CheckMapstateUobj(randomiPix, randomjPix) == true) //条件が達成されていたら
                     {
                         // プレハブを元に、インスタンスを生成、
-                        Mapobj[randomiPix, randomjPix] = (GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity);
+                        _mapobj[randomiPix, randomjPix] = (GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity);
                         iLoopflg = true;
                         if (PrefabObj.tag == "Player")
                         {
-                            Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
-                            GameCtrl.SetPlayerActionCtrl(Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
+                            _mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
+                            _gameCtrl.SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
                             iNow = randomiPix;
                             jNow = randomjPix;
                             iObjState.Add(randomiPix);
                             jObjState.Add(randomjPix);
+                            _playerData = _mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>();
+                            _displayScript.SetDisplayScript(_playerData);
+                            _gameCtrl.SetPlayerState(_playerData);
                         }
-                        else if (PrefabObj.tag == "Enemy")
+                        else if (PrefabObj.tag == "Enemy") 
                         {
-                            Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
-                            EnemyList.Add(Mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
-                            iObjState.Add(randomiPix);
+                            _mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
+                            _mapobj[randomiPix, randomjPix].GetComponent<EnemyAttack>().GetPlayerStatusData(_playerData);
+                            _mapobj[randomiPix, randomjPix].GetComponent<EnemyAttack>().GetThisStatusData(_mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>());
+                            EnemyList.Add(_mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
+                            EnemyListStateData.Add(_mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>());
+                            iObjState.Add(randomiPix); 
                             jObjState.Add(randomjPix);
                         }
                     }
@@ -101,18 +114,21 @@ public class MapGenerator : MonoBehaviour {
         }
     }
     // Use this for initialization
-    void Start()
-    {
-    }
     void Awake()
+    {
+        CharaNum = GameObject.Find("SaveCharaSelect").GetComponent<SaveCharaSelect>();
+    }
+    private void SetPlayerObject()
+    {
+        _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
+    }
+    public void MapGeneStart()
     {
         mapNum = Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
         UniqObjCount = 0;
         //シーンまたぎ用オブジェクト
-        GameObject Save;
-        Save = GameObject.Find("SaveDataObject");
-        DontDestroyOnLoad(Save);
+        DontDestroyOnLoad(_saveData);
 
         //for文で配列に情報を入れていく(MapDataScript.mapDataだと引数が増えるため)
         for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++) //mapWidth
@@ -131,25 +147,26 @@ public class MapGenerator : MonoBehaviour {
                 if (map[ iPix, jPix] == 1)        //壁
                 {
                     // プレハブを元に、インスタンスを生成、
-                    Mapobj[iPix, jPix] = (GameObject)Instantiate(WallObj, new Vector3(iPix , jPix , 0.0F), Quaternion.identity);
+                    _mapobj[iPix, jPix] = (GameObject)Instantiate(_wallObj, new Vector3(iPix , jPix , 0.0F), Quaternion.identity);
                 }
                 else                            //床  
                 {
                     // プレハブを元に、インスタンスを生成、
-                    Mapobj[iPix, jPix] = (GameObject)Instantiate(FloorObj, new Vector3(iPix, jPix , 0.0F), Quaternion.identity);
+                    _mapobj[iPix, jPix] = (GameObject)Instantiate(_floorObj, new Vector3(iPix, jPix , 0.0F), Quaternion.identity);
 
                 }
             }
         }
         //※すでに追加オブジェクトがある場所には生成しないようにする処理が必要
-        SetUniqObj(GoalObj);
-        PlayerObj.GetComponent<PlayerAttack_2>().SetGameCtrl(GameCtrl);
-        SetUniqObj(PlayerObj);
-        SetUniqObj(PowerItemObj);
+        SetUniqObj(_goalObj);
+        SetPlayerObject();
+        _playerObj.GetComponent<ActionControllor>().SetGameCtrl(_gameCtrl);
+        SetUniqObj(_playerObj);
+        SetUniqObj(_powerItemObj);
         UniqObjCount = 1;
         for (int Ecount = 0; Ecount < 5; Ecount++)
         {
-            SetUniqObj(EnemyObj);
+            SetUniqObj(_enemyObj);
             EnemyCount += 1;
             UniqObjCount +=1;
 
@@ -158,8 +175,7 @@ public class MapGenerator : MonoBehaviour {
 
         //コントローラの初期化関数呼び出し
 
-        GameObject Contollor = GameObject.Find("GameControllor");
-        Contollor.GetComponent<GameControllor>().AftorMakeMapStart();
+        _gameCtrl.AftorMakeMapStart();
     }
 
     // Update is called once per frame

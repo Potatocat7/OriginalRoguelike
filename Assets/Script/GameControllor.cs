@@ -26,19 +26,15 @@ public class GameControllor : MonoBehaviour {
     public bool SpAtkflg;
     private int iNext, jNext;
     private int iRandom, jRandom;
-    [SerializeField]
     private ActionControllor Player = null;
+    private StatusDataScript _playerState = null;
+    [SerializeField]
+    private SaveDataScript _saveData = null;
     [SerializeField]
     private MapGenerator MapGeneObj;
-    [SerializeField]
-    public List<ActionControllor> EnemyList = new List<ActionControllor>();
-    [SerializeField]
     private List<ActionControllor> AtkEnemyList = new List<ActionControllor>();
-    [SerializeField]
     private List<ActionControllor> AtkResetEnemyList = new List<ActionControllor>();
-    [SerializeField]
     private List<ActionControllor> MoveEnemyList = new List<ActionControllor>();
-    [SerializeField]
     private List<ActionControllor> MoveResetEnemyList = new List<ActionControllor>();
     [SerializeField]
     public int EnemyCount;
@@ -53,10 +49,36 @@ public class GameControllor : MonoBehaviour {
     private bool GoalFlg;
     [SerializeField]
     private bool GetPItemFlg;
-    
-    public  void SetPlayerActionCtrl(ActionControllor player)
+
+    private List<StatusDataScript> EnemyListState = new List<StatusDataScript>();
+    private List<ActionControllor> EnemyList = new List<ActionControllor>();
+
+    public void SetPlayerActionCtrl(ActionControllor player)
     {
         Player = player;
+    }
+    public void SetPlayerState(StatusDataScript pState)
+    {
+        _playerState = pState;
+    }
+    public void Hitcheck(int iAttack, int jAttack , int attack)
+    {
+        //複数or0だったときの処理が必要？
+        if (MapGenerator.EnemyCount >= 1)
+        {
+            for (int count = 0; count < EnemyCount; count++)
+            {
+                if (EnemyListState[count].CheckAttack(iAttack, jAttack) == true)
+                {
+                    EnemyListState[count].HitDamage(attack);
+                }
+                else
+                {
+
+                }
+            }
+
+        }
     }
     public void AftorMakeMapStart()
     {
@@ -65,6 +87,7 @@ public class GameControllor : MonoBehaviour {
             if (MapGeneObj.EnemyList[count] != null)
             {
                 EnemyList.Add(MapGeneObj.EnemyList[count]);
+                EnemyListState.Add(MapGeneObj.EnemyList[count].GetComponent<StatusDataScript>());
                 EnemyCount += 1;
             }
         }
@@ -380,7 +403,7 @@ public class GameControllor : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    public void GameCtrlStart () {
         Player.SetDirection(ActionControllor.Direction.DOWN);
         iNext = 0;
         jNext = 1;
@@ -394,12 +417,14 @@ public class GameControllor : MonoBehaviour {
     {
         //Listの初期化
         EnemyList.Clear();
+        EnemyListState.Clear();
         EnemyCount = 0;
         for (int count = 0; count < MapGenerator.EnemyCount; count++)
         {
-            if (MapGeneObj.GetComponent<MapGenerator>().EnemyList[count] != null)
+            if (MapGeneObj.EnemyList[count] != null)
             {
-                EnemyList.Add(MapGeneObj.GetComponent<MapGenerator>().EnemyList[count]);
+                EnemyList.Add(MapGeneObj.EnemyList[count]);
+                EnemyListState.Add(MapGeneObj.EnemyListStateData[count]);
                 EnemyCount += 1;
             }
         }
@@ -454,11 +479,9 @@ public class GameControllor : MonoBehaviour {
     }
     void SaveData()
     {
-        GameObject Save;
-        Save = GameObject.Find("SaveDataObject"); 
-        Save.GetComponent<SaveDataScript>().SaveFloorCount();
-        Save.GetComponent<SaveDataScript>().SavePlayerHpNowData(Player.GetComponent<StatusDataScript>().GetNowHP());
-        Save.GetComponent<SaveDataScript>().SetFlgOn();
+        _saveData.SaveFloorCount();
+        _saveData.SavePlayerHpNowData(_playerState.GetNowHP());
+        _saveData.SetFlgOn();
     }
     IEnumerator coActionFlgOnSub(int count)
     {
@@ -481,7 +504,7 @@ public class GameControllor : MonoBehaviour {
             if (SpAtkflg == true) //移動中は入力無効にする
             {
                 Player.SpActionStart();
-                Player.GetComponent<StatusDataScript>().SetSPcount(-1);
+                _playerState.SetSPcount(-1);
             }
             else
             {
@@ -504,7 +527,7 @@ public class GameControllor : MonoBehaviour {
             if (GetPItemFlg == true)
             {
                 yield return new WaitForSeconds(0.3f);
-                Player.GetComponent<StatusDataScript>().SetSPcount( 5 );
+                _playerState.SetSPcount( 5 );
                 itemCount -= 1;
                 GetPItemFlg = false;
                 //アイテムが複数なら修正が必要
@@ -674,7 +697,6 @@ public class GameControllor : MonoBehaviour {
     }
     public void Push_ATTCK()
     {
-        //Player = GameObject.Find("Player_2_Prefab(Clone)");
         if (AcitonFlg != true) //移動中は入力無効にする
         {
             iNext = 0;
@@ -700,7 +722,7 @@ public class GameControllor : MonoBehaviour {
             else
             {
                 LockFlg = true;
-                if (Player.GetComponent<StatusDataScript>().GetSpcount() >= 1)
+                if (_playerState.GetSpcount() >= 1)
                 {
                     SpAtkflg = true;
                 }

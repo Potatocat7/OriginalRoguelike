@@ -105,6 +105,8 @@ public class StatusDataScript : MonoBehaviour {
         {
             if (this.tag == "Player")
             {
+                //シーンに行く前にデータの一部をJSONファイルで保存しておく
+                //SaveDataScriptがEndSceneまで残っているのでそこからDataを保存させる
                 SceneManager.LoadScene("EndScene");
             }
             else

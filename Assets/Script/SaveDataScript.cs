@@ -13,7 +13,15 @@ public class SaveDataScript : MonoBehaviour {
     //public int FloorCount { get; private set; }
     [SerializeField]
     bool SaveFlg;
+    private static SaveDataScript mInstance;
 
+    public static SaveDataScript Instance
+    {
+        get
+        {
+            return mInstance;
+        }
+    }
     public void SaveFloorCount()
     {
         FloorCount += 1;
@@ -22,10 +30,10 @@ public class SaveDataScript : MonoBehaviour {
     {
         SaveFlg = true;
     }
-    //public void SetFlgOff()
-    //{
-    //    SaveFlg = false;
-    //}
+    public void SetFlgOff()
+    {
+        SaveFlg = false;
+    }
     public bool GetFlg()
     {
         return SaveFlg;
@@ -45,9 +53,15 @@ public class SaveDataScript : MonoBehaviour {
     // Use this for initialization
     void Awake()
     {
-        SaveFlg = false;
         PlayerHpNowData = 0;
         FloorCount = 1;
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        mInstance = this;
+        DontDestroyOnLoad(gameObject);
     }
     void Start () {
     }

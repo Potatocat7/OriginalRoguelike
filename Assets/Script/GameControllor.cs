@@ -28,8 +28,8 @@ public class GameControllor : MonoBehaviour {
     private int iRandom, jRandom;
     private ActionControllor Player = null;
     private StatusDataScript _playerState = null;
-    [SerializeField]
-    private SaveDataScript _saveData = null;
+    //[SerializeField]
+    //private SaveDataScript _saveData = null;
     [SerializeField]
     private MapGenerator MapGeneObj;
     private List<ActionControllor> AtkEnemyList = new List<ActionControllor>();
@@ -479,6 +479,7 @@ public class GameControllor : MonoBehaviour {
     }
     void SaveData()
     {
+        SaveDataScript _saveData = SaveDataScript.Instance;
         _saveData.SaveFloorCount();
         _saveData.SavePlayerHpNowData(_playerState.GetNowHP());
         _saveData.SetFlgOn();

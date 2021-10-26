@@ -419,7 +419,7 @@ GameObject:
   - component: {fileID: 768864199}
   - component: {fileID: 768864198}
   m_Layer: 0
-  m_Name: ReadResultData
+  m_Name: ScoreData
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -437,6 +437,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 760a489998519b24daa3cf03ef9efef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scoreJson:
+    scoreList: []
+  _thisData: {fileID: 768864198}
 --- !u!4 &768864199
 Transform:
   m_ObjectHideFlags: 0

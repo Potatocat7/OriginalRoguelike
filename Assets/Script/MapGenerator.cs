@@ -27,6 +27,8 @@ public class MapGenerator : MonoBehaviour {
     public List<StatusDataScript> EnemyListStateData = new List<StatusDataScript>();
     public List<int> iObjState = new List<int>();
     public List<int> jObjState = new List<int>();
+    private bool _saveDataFlg;
+
 
     bool CheckMapstate(int tate, int yoko)
     {
@@ -127,9 +129,6 @@ public class MapGenerator : MonoBehaviour {
         mapNum = Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
         UniqObjCount = 0;
-        //シーンまたぎ用オブジェクト
-        DontDestroyOnLoad(_saveData);
-
         //for文で配列に情報を入れていく(MapDataScript.mapDataだと引数が増えるため)
         for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++) //mapWidth
         {

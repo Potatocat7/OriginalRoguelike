@@ -1,14 +1,1 @@
-{
-	"scoreList": [
-		{"clearFloor": "50" }, 
-		{"clearFloor": "45" }, 
-		{"clearFloor": "30" }, 
-		{"clearFloor": "25" }, 
-		{"clearFloor": "20" }, 
-		{"clearFloor": "15" }, 
-		{"clearFloor": "14" }, 
-		{"clearFloor": "13" }, 
-		{"clearFloor": "12" }, 
-		{"clearFloor": "10" }
-	]
-}
+{"scoreList":[{"clearFloor":10},{"clearFloor":9},{"clearFloor":8},{"clearFloor":7},{"clearFloor":6},{"clearFloor":5},{"clearFloor":4},{"clearFloor":4},{"clearFloor":3},{"clearFloor":3}]}

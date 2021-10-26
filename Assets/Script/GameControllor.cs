@@ -482,7 +482,8 @@ public class GameControllor : MonoBehaviour {
         SaveDataScript _saveData = SaveDataScript.Instance;
         _saveData.SaveFloorCount();
         _saveData.SavePlayerHpNowData(_playerState.GetNowHP());
-        _saveData.SetFlgOn();
+        _saveData.SetFlgOn(); 
+        //_saveData.SetSaveData(); 
     }
     IEnumerator coActionFlgOnSub(int count)
     {

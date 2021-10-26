@@ -7,13 +7,14 @@ public class SaveDataScript : MonoBehaviour {
 
     [SerializeField]
     public int PlayerHpNowData;
-    [SerializeField]
-    public int FloorCount;
+    //[SerializeField]
+    //public int FloorCount;
     //public int PlayerHpNowData { get; private set; }
     //public int FloorCount { get; private set; }
     [SerializeField]
     bool SaveFlg;
     private static SaveDataScript mInstance;
+    private ScoreStatus _playerSaveData;
 
     public static SaveDataScript Instance
     {
@@ -22,9 +23,18 @@ public class SaveDataScript : MonoBehaviour {
             return mInstance;
         }
     }
+    public ScoreStatus GetSaveData()
+    {
+        return _playerSaveData;
+    }
+    //public void SetSaveData()
+    //{
+    //    _playerSaveData.clearFloor = FloorCount;
+    //}
+
     public void SaveFloorCount()
     {
-        FloorCount += 1;
+        _playerSaveData.clearFloor += 1;
     }
     public void SetFlgOn()
     {
@@ -42,7 +52,7 @@ public class SaveDataScript : MonoBehaviour {
     {
         SaveFlg = false;
         PlayerHpNowData = 0;
-        FloorCount = 1;
+        _playerSaveData.clearFloor = 1;
     }
 
     public void SavePlayerHpNowData(int NowHP)
@@ -54,7 +64,7 @@ public class SaveDataScript : MonoBehaviour {
     void Awake()
     {
         PlayerHpNowData = 0;
-        FloorCount = 1;
+        _playerSaveData.clearFloor = 1;
         if (Instance != null)
         {
             Destroy(gameObject);

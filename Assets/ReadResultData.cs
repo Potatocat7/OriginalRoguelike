@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+
 [Serializable]
 public class InputScoreJson
 {
@@ -23,8 +25,6 @@ public class ReadResultData : MonoBehaviour
 {
     [SerializeField]
     private InputScoreJson _scoreJson;
-    [SerializeField]
-    private ReadResultData _thisData;
     private string inputString;
     private static ReadResultData mInstance;
 
@@ -34,6 +34,14 @@ public class ReadResultData : MonoBehaviour
         {
             return mInstance;
         }
+    }
+    public ScoreStatus[] GetInputScoreJson()
+    {
+        return _scoreJson.scoreList;
+    }
+    public void SetInputScoreJson(ScoreStatus[] changeData)
+    {
+        _scoreJson.scoreList = changeData;
     }
     //リザルト結果のデータを読み込み
     //ランキング形式にして上位10位までを表示
@@ -51,7 +59,13 @@ public class ReadResultData : MonoBehaviour
         mInstance = this;
         DontDestroyOnLoad(gameObject);
     }
-
+    public void SaveWriteData()
+    {
+        // JSON形式にシリアライズ
+        var json = JsonUtility.ToJson(_scoreJson, false);
+        // JSONデータをファイルに保存
+        File.WriteAllText(Application.dataPath + "/Resources/Score.json", json);
+    }
     // Update is called once per frame
     void Update()
     {

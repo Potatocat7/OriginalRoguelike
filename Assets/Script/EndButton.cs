@@ -20,6 +20,7 @@ public class EndButton : MonoBehaviour {
         Save = GameObject.Find("SaveDataObject");
         Save.GetComponent<SaveDataScript>().ClearData();
 
-        SceneManager.LoadScene("StartScene");
+		Destroy(GameObject.Find("SaveCharaSelect"));
+		SceneManager.LoadScene("StartScene");
     }
 }

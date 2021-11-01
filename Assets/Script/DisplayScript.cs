@@ -27,7 +27,7 @@ public class DisplayScript : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        this.GetComponent<Text>().text = "HP:"+ Player.GetNowHP().ToString() + "/" + Player.GetMaxHP().ToString() + "\n"
+        this.GetComponent<Text>().text = "HP:"+ Player.GetNow().HP.ToString() + "/" + Player.GetNow().MHP.ToString() + "\n"
                                        + "特殊：" + Player.GetSpcount().ToString() + "\n"
                                        + "階層："+ FloorDisplay.ToString(); 
 	}

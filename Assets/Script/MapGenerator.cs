@@ -102,6 +102,7 @@ public class MapGenerator : MonoBehaviour {
                             _mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
                             _mapobj[randomiPix, randomjPix].GetComponent<EnemyAttack>().GetPlayerStatusData(_playerData);
                             _mapobj[randomiPix, randomjPix].GetComponent<EnemyAttack>().GetThisStatusData(_mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>());
+                            _mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>().GetPlayerState(_playerData);
                             EnemyList.Add(_mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
                             EnemyListStateData.Add(_mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>());
                             iObjState.Add(randomiPix); 

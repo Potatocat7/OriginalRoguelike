@@ -284,11 +284,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ee918dbd827ee4097d3b4912ddbda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Contollor: {fileID: 0}
   thisNowDirection: 0
   UserActFlg: 0
   UserAttackFlg: 0
-  ccc: 0
-  ddd: 0
   AtkEfFlg: 0
   SpAtkEfFlg: 0
   AnimatorState: {fileID: 0}
@@ -310,6 +309,7 @@ MonoBehaviour:
   jThisNow: 0
   dispDamege: 0
   SPcount: 0
+  expState: 1
   DamageDisplay: {fileID: 114944719718021362}
   Attack: 5
 --- !u!95 &95175281642835130

@@ -2,9 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+[System.Serializable]
+
+public struct Status
+{
+    public int HP;
+    public int MHP;
+    public int ATK;
+    public int LV;
+    public int EXP;
+    public int MEXP;
+
+}
 
 public class SaveDataScript : MonoBehaviour {
 
+    [SerializeField]
+    public Status playerNowData;
     [SerializeField]
     public int PlayerHpNowData;
     //[SerializeField]
@@ -51,19 +65,19 @@ public class SaveDataScript : MonoBehaviour {
     public void ClearData()
     {
         SaveFlg = false;
-        PlayerHpNowData = 0;
+        //PlayerHpNowData = 0;
         _playerSaveData.clearFloor = 1;
     }
 
-    public void SavePlayerHpNowData(int NowHP)
+    public void SavePlayerNowData(Status Data)
     {
-        PlayerHpNowData = NowHP;
+        playerNowData = Data;
     }
 
-    // Use this for initialization
-    void Awake()
+// Use this for initialization
+void Awake()
     {
-        PlayerHpNowData = 0;
+        //PlayerHpNowData = 0;
         _playerSaveData.clearFloor = 1;
         if (Instance != null)
         {

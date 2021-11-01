@@ -9,31 +9,72 @@ using UnityEngine.SceneManagement;
 public class StatusDataScript : MonoBehaviour {
 
     [SerializeField]
-    int MaxHP,NowHP,iThisNow,jThisNow,dispDamege,SPcount;
+    private Status _charaState;
+    [SerializeField]
+    int MaxHP,NowHP,iThisNow,jThisNow,dispDamege,SPcount,expState;
     [SerializeField]
     Text DamageDisplay;
     public int Attack;
+    private int _level = 1;
+    [SerializeField]
+    private int _experienceNow = 0;
+    [SerializeField]
+    private int _experienceMax = 5;
+    private StatusDataScript _playerState;
+
+    public void GetPlayerState(StatusDataScript player)
+    {
+        _playerState = player;
+    }
+    public void ExperienceUp(int exp)
+    {
+        _charaState.EXP += exp;
+        if (_charaState.EXP > _charaState.MEXP)
+        {
+            LevelUp();
+        }
+    }
+    void LevelUp()
+    {
+        _charaState.LV += 1;
+        _charaState.ATK += 1;
+        _charaState.MHP += 20;
+        _charaState.HP += 20;
+        _charaState.MEXP = 5 * _charaState.LV;
+        _charaState.EXP = 0;
+    }
     // Use this for initialization
     void Start () {
         if (this.tag == "Player")
         {
             SPcount = 0;
-            GameObject Save;
-            Save = GameObject.Find("SaveDataObject");
-            if (Save.GetComponent<SaveDataScript>().GetFlg() == true)
+            SaveDataScript Save;
+            StatusDataScript StatusData = this.GetComponent<StatusDataScript>();
+            Save = GameObject.Find("SaveDataObject").GetComponent<SaveDataScript>();
+            if (Save.GetFlg() == true)
             {
-                this.GetComponent<StatusDataScript>().SetNowHP(Save.GetComponent<SaveDataScript>().PlayerHpNowData);
+                StatusData.SetNow(Save.playerNowData);
                 //Mapobj[randomiPix, randomjPix].GetComponent<DisplayScript>().SetFloor(Save.GetComponent<SaveDataScript>().FloorCount);
 
             }
             else
             {
-                NowHP = MaxHP;  
+                _charaState.LV = 1;
+                _charaState.ATK = Attack;
+                _charaState.MHP = MaxHP;
+                _charaState.HP = MaxHP;
+                _charaState.MEXP = _experienceMax;
+                _charaState.EXP = 0;
             }
         }
         else
         {
-            NowHP = MaxHP;
+            _charaState.LV = 1;
+            _charaState.ATK = Attack;
+            _charaState.MHP = MaxHP;
+            _charaState.HP = MaxHP;
+            _charaState.MEXP = _experienceMax;
+            _charaState.EXP = 0;
         }
         DamageDisplay.text = "";
         //DamageDisply = this.transform.GetChild(0).GetComponent<Text>();
@@ -63,28 +104,30 @@ public class StatusDataScript : MonoBehaviour {
     }
     public void HitDamage(int Damge)
     {
-        NowHP -= Damge;
+        _charaState.HP -= Damge;
         dispDamege = Damge;
         StartCoroutine("coHitDameDisp");
     }
-    public int GetNowHP()
+    public Status GetNow()
     {
-        return NowHP;
+        return _charaState;
     }
-    public void SetNowHP(int HpData)
+
+    public void SetNow(Status Data)
     {
-        NowHP = HpData;
+        _charaState = Data;
     }
-    public int GetMaxHP()
+
+    public Status GetStateData()
     {
-        return MaxHP;
+        return _charaState;
     }
     public void HealItem(int Heal)
     {
-        NowHP += Heal;
-        if (NowHP >= MaxHP)
+        _charaState.HP += Heal;
+        if (_charaState.HP >= _charaState.MHP)
         {
-            NowHP = MaxHP;
+            _charaState.HP = _charaState.MHP;
         }
     }
     public void SetSPcount(int count)
@@ -95,13 +138,12 @@ public class StatusDataScript : MonoBehaviour {
     {
         return SPcount;
     }
-
     // Update is called once per frame
     void Update () {
 
         iThisNow = this.GetComponent<ActionControllor>().iThisNow;
         jThisNow = this.GetComponent<ActionControllor>().jThisNow;
-        if (NowHP <= 0)
+        if (_charaState.HP <= 0)
         {
             if (this.tag == "Player")
             {
@@ -111,6 +153,7 @@ public class StatusDataScript : MonoBehaviour {
             }
             else
             {
+                _playerState.ExperienceUp(expState);
                 Destroy(gameObject);
             }
         }

@@ -5,8 +5,10 @@ using UnityEngine;
 public class SaveScoreData : MonoBehaviour
 {
     private ReadResultData _scoreData;
-    private ScoreStatus[] _scoreDataList;
+    public ScoreStatus[] _scoreDataList;
     private SaveDataScript _stateData;
+    [SerializeField]
+    private ViewScoreRanking _ranking;
 
 
     // Start is called before the first frame update
@@ -41,6 +43,7 @@ public class SaveScoreData : MonoBehaviour
         _scoreData.SetInputScoreJson(_scoreStackList);
         //・ENDシーンでランキングを表示
         _scoreData.SaveWriteData();
+        _ranking.SetRanking();
     }
 
     // Update is called once per frame

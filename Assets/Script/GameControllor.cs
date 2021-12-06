@@ -710,6 +710,14 @@ public class GameControllor : MonoBehaviour {
             AcitonFlg = true;
             PatkFlg = true;
             StartCoroutine("coActionFlgOnMain");
+            if (_playerState.GetSpcount() >= 1)
+            {
+                SpAtkflg = true;
+            }
+            else
+            {
+                SpAtkflg = false;
+            }
         }
     }
     public void Push_LOCK()

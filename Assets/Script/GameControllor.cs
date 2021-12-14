@@ -24,6 +24,7 @@ public class GameControllor : MonoBehaviour {
     public bool LockFlg;
     public bool AtkCheckflg;//攻撃判定のフラグ
     public bool SpAtkflg;
+    public bool ItemWndowflg;
     private int iNext, jNext;
     private int iRandom, jRandom;
     private ActionControllor Player = null;
@@ -411,6 +412,7 @@ public class GameControllor : MonoBehaviour {
         PatkFlg = false; 
         AtkCheckflg = false;
         SpAtkflg = false;
+        ItemWndowflg = false;
     }
 
     void ResetEnemyList()
@@ -743,6 +745,20 @@ public class GameControllor : MonoBehaviour {
             }
         }
     }
-    
+    public void Push_WINDOW()
+    {
+        if (AcitonFlg != true) //移動中は入力無効にする
+        {
+            if (ItemWndowflg == false)
+            {
+                ItemWndowflg = true;
+            }
+            else
+            {
+                ItemWndowflg = false;
+            }
+        }
+    }
+
 
 }

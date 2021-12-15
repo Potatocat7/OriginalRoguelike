@@ -17,8 +17,8 @@ public class ActionControllor : MonoBehaviour {
         DOWN_LEFT,
         DOWN_RIGHT
     }
-    [SerializeField]
-    private GameControllor Contollor;
+    //[SerializeField]
+    //private GameControllor Contollor;
     [SerializeField]
     public Direction thisNowDirection;
     [SerializeField]
@@ -37,14 +37,14 @@ public class ActionControllor : MonoBehaviour {
     public bool SpAtkEfFlg;
     [SerializeField]
     private Animator AnimatorState;
-    public void SetGameCtrl(GameControllor ctrl)
-    {
-        Contollor = ctrl;
-    }
-    public GameControllor GetGameCtrl( )
-    {
-        return Contollor;
-    }
+    //public void SetGameCtrl(GameControllor ctrl)
+    //{
+    //    Contollor = ctrl;
+    //}
+    //public GameControllor GetGameCtrl( )
+    //{
+    //    return Contollor;
+    //}
 
     public void StartSetUp( )
     {

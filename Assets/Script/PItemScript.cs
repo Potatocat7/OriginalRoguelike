@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PItemScript : MonoBehaviour {
+public class PItemScript : ItemScript
+{
 
-    public void GetDestroy()
-    {
-        Destroy(gameObject);
-
-    }
 
     // Use this for initialization
     void Start () {
 		
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
+    public override void GetDestroy()
+    {
+        GameControllor.Instance.OnGetPItemFlg();
+        Destroy(gameObject);
+
+    }
+    // Update is called once per frame
+    void Update () {
 	}
 }

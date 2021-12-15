@@ -1905,6 +1905,10 @@ MonoBehaviour:
   _floorObj: {fileID: 1061476967306026, guid: 462bde33a7c54094b8deb21ea5f8c920, type: 3}
   _healItemObj: {fileID: 1901750714422164, guid: 5edfc5329a5f7324497cf98d88a87e80,
     type: 3}
+  _weaponItemObj: {fileID: 3652600815883254837, guid: 9c618a68f4f3a944ba798d8640c35927,
+    type: 3}
+  _consumptionItemObj: {fileID: 7510224250806087813, guid: 09d3603be39e51c42b9ba0169e8a2b13,
+    type: 3}
   _powerItemObj: {fileID: 1706571230454130, guid: 72a1b7205732ce84a968c9d56cfba029,
     type: 3}
   mapNum: 0

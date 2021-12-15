@@ -9,26 +9,26 @@ public class PlayerAttack_1 : MonoBehaviour {
     private int iThisNow, jThisNow;
     [SerializeField]
     private int iThisAtkArea1, jThisAtkArea1, iThisAtkArea2, jThisAtkArea2, iThisAtkArea3, jThisAtkArea3;
-    private GameControllor Contollor;
+    //private GameControllor Contollor;
     private ActionControllor _actCtrl;
     private StatusDataScript _thisState;
 
     void AttackHit()
     {
-        Contollor.Hitcheck(iThisAtkArea1, jThisAtkArea1, _thisState.Attack);
-        Contollor.Hitcheck(iThisAtkArea2, jThisAtkArea2, _thisState.Attack);
-        Contollor.Hitcheck(iThisAtkArea3, jThisAtkArea3, _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisAtkArea1, jThisAtkArea1, _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisAtkArea2, jThisAtkArea2, _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisAtkArea3, jThisAtkArea3, _thisState.Attack);
     }
     void SpAttackHit()
     {
-        Contollor.Hitcheck(iThisNow + 1, jThisNow + 1, _thisState.Attack);
-        Contollor.Hitcheck(iThisNow + 1, jThisNow - 1, _thisState.Attack);
-        Contollor.Hitcheck(iThisNow + 1, jThisNow    , _thisState.Attack);
-        Contollor.Hitcheck(iThisNow    , jThisNow + 1, _thisState.Attack);
-        Contollor.Hitcheck(iThisNow    , jThisNow - 1, _thisState.Attack);
-        Contollor.Hitcheck(iThisNow - 1, jThisNow + 1, _thisState.Attack);
-        Contollor.Hitcheck(iThisNow - 1, jThisNow - 1, _thisState.Attack);
-        Contollor.Hitcheck(iThisNow - 1, jThisNow    , _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisNow + 1, jThisNow + 1, _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisNow + 1, jThisNow - 1, _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisNow + 1, jThisNow    , _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisNow    , jThisNow + 1, _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisNow    , jThisNow - 1, _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisNow - 1, jThisNow + 1, _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisNow - 1, jThisNow - 1, _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisNow - 1, jThisNow    , _thisState.Attack);
     }
 
     void AttackAreaSet()
@@ -105,16 +105,16 @@ public class PlayerAttack_1 : MonoBehaviour {
     // Use this for initialization
     void Start () {
         _actCtrl = this.GetComponent<ActionControllor>();
-        Contollor = _actCtrl.GetGameCtrl();
+        //Contollor = _actCtrl.GetGameCtrl();
         _thisState = this.GetComponent<StatusDataScript>();
     }
 
     // Update is called once per frame
     void Update () {
 
-        if (Contollor.AtkCheckflg == true)
+        if (GameControllor.Instance.AtkCheckflg == true)
         { 
-            if (Contollor.SpAtkflg == true)
+            if (GameControllor.Instance.SpAtkflg == true)
             {
                 SpAttackHit();
             }
@@ -122,7 +122,7 @@ public class PlayerAttack_1 : MonoBehaviour {
             {
                 AttackHit();
             }
-            Contollor.AtkCheckflg = false;
+            GameControllor.Instance.AtkCheckflg = false;
         }
         iThisNow = _actCtrl.iThisNow;
         jThisNow = _actCtrl.jThisNow;

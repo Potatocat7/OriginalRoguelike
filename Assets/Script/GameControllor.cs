@@ -24,7 +24,7 @@ public class GameControllor : MonoBehaviour {
     public bool LockFlg;
     public bool AtkCheckflg;//攻撃判定のフラグ
     public bool SpAtkflg;
-    public bool ItemWndowflg;
+    public bool ItemWindowflg;
     private int iNext, jNext;
     private int iRandom, jRandom;
     private ActionControllor Player = null;
@@ -44,15 +44,50 @@ public class GameControllor : MonoBehaviour {
     //確認用に宣言
     private int iPmap, jPmap;
     private int iEmap, jEmap;
-    private int itemCount;
+    private int itemCount = 0;
     private bool PmoveFlg;
     [SerializeField]
     private bool GoalFlg;
     [SerializeField]
     private bool GetPItemFlg;
 
+    private GameObject _goalObj;
+    private List<GameObject> ItemList = new List<GameObject>();
     private List<StatusDataScript> EnemyListState = new List<StatusDataScript>();
     private List<ActionControllor> EnemyList = new List<ActionControllor>();
+
+    //シングルトン化
+    private static GameControllor mInstance;
+    public static GameControllor Instance
+    {
+        get
+        {
+            return mInstance;
+        }
+    }
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        mInstance = this;
+        //DontDestroyOnLoad(gameObject);
+    }
+    public void OnGetPItemFlg()
+    {
+        GetPItemFlg = true;
+    }
+    public void SetGoalObj(GameObject goal)
+    {
+        _goalObj = goal;
+    }
+    public void AddCountItemObj(GameObject itemObj)
+    {
+        itemCount += 1;
+        ItemList.Add(itemObj);
+    }
 
     public void SetPlayerActionCtrl(ActionControllor player)
     {
@@ -96,7 +131,7 @@ public class GameControllor : MonoBehaviour {
         EnemyMoveCount = 0;
         EnemyAtkResetCount = 0;
         EnemyMoveResetCount = 0;
-        itemCount = 1;          //アイテムの個数がある場合修正
+        //itemCount = 0;          //アイテムの個数がある場合修正
         PmoveFlg = false;
         GoalFlg = false;
         GetPItemFlg = false;
@@ -387,17 +422,21 @@ public class GameControllor : MonoBehaviour {
 
             }
         }
-        GameObject Goal = GameObject.Find("GoalPrefab(Clone)");
-        if (Player.SetiNextStepArea() == (int)Math.Round(Goal.transform.position.x) && Player.SetjNextStepArea() == (int)Math.Round(Goal.transform.position.y))
+        if (Player.SetiNextStepArea() == (int)Math.Round(_goalObj.transform.position.x) && Player.SetjNextStepArea() == (int)Math.Round(_goalObj.transform.position.y))
         {
             GoalFlg = true;
         }
-        GameObject PItem = GameObject.Find("PowerItemPrefab(Clone)");
+        //GameObject PItem = GameObject.Find("PowerItemPrefab(Clone)");
         if (itemCount >= 1)
         {
-            if (Player.SetiNextStepArea() == (int)Math.Round(PItem.transform.position.x) && Player.SetjNextStepArea() == (int)Math.Round(PItem.transform.position.y))
+            for (int i = 0; i < ItemList.Count; i++)
             {
-                GetPItemFlg = true;
+                if (Player.SetiNextStepArea() == (int)Math.Round(ItemList[i].transform.position.x) && Player.SetjNextStepArea() == (int)Math.Round(ItemList[i].transform.position.y))
+                {
+                    ItemList[i].GetComponent<ItemScript>().GetDestroy();
+                    ItemList.RemoveAt(i);
+                    break;
+                }
             }
         }
 
@@ -412,7 +451,7 @@ public class GameControllor : MonoBehaviour {
         PatkFlg = false; 
         AtkCheckflg = false;
         SpAtkflg = false;
-        ItemWndowflg = false;
+        ItemWindowflg = false;
     }
 
     void ResetEnemyList()
@@ -502,10 +541,10 @@ public class GameControllor : MonoBehaviour {
     {
         //プレイヤー
         AcitonFlg = true;
-        if (PatkFlg == true)
+        if (PatkFlg == true)//移動中は入力無効にする
         {
             Player.SetUserAttackFlagOn();
-            if (SpAtkflg == true) //移動中は入力無効にする
+            if (SpAtkflg == true) 
             {
                 Player.SpActionStart();
                 _playerState.SetSPcount(-1);
@@ -534,9 +573,9 @@ public class GameControllor : MonoBehaviour {
                 _playerState.SetSPcount( 5 );
                 itemCount -= 1;
                 GetPItemFlg = false;
-                //アイテムが複数なら修正が必要
-                GameObject PItem = GameObject.Find("PowerItemPrefab(Clone)");
-                PItem.GetComponent<PItemScript>().GetDestroy();
+                ////アイテムが複数なら修正が必要
+                //GameObject PItem = GameObject.Find("PowerItemPrefab(Clone)");
+                //PItem.GetComponent<PItemScript>().GetDestroy();
             }
 
         }
@@ -712,13 +751,16 @@ public class GameControllor : MonoBehaviour {
             AcitonFlg = true;
             PatkFlg = true;
             StartCoroutine("coActionFlgOnMain");
-            if (_playerState.GetSpcount() >= 1)
+            if (SpAtkflg == true)
             {
-                SpAtkflg = true;
-            }
-            else
-            {
-                SpAtkflg = false;
+                if (_playerState.GetSpcount() >= 1)
+                {
+                    SpAtkflg = true;
+                }
+                else
+                {
+                    SpAtkflg = false;
+                }
             }
         }
     }
@@ -749,13 +791,13 @@ public class GameControllor : MonoBehaviour {
     {
         if (AcitonFlg != true) //移動中は入力無効にする
         {
-            if (ItemWndowflg == false)
+            if (ItemWindowflg == false)
             {
-                ItemWndowflg = true;
+                ItemWindowflg = true;
             }
             else
             {
-                ItemWndowflg = false;
+                ItemWindowflg = false;
             }
         }
     }

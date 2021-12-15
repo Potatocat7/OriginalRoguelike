@@ -74,8 +74,8 @@ public class SaveDataScript : MonoBehaviour {
         playerNowData = Data;
     }
 
-// Use this for initialization
-void Awake()
+    // Use this for initialization
+    void Awake()
     {
         //PlayerHpNowData = 0;
         _playerSaveData.clearFloor = 1;

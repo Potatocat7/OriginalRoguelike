@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
 
-    [SerializeField] private GameControllor _gameCtrl;
+    //[SerializeField] private GameControllor _gameCtrl;
     [SerializeField] private GameObject _wallObj;
     [SerializeField] private GameObject _goalObj;
     [SerializeField] private GameObject _enemyObj;
     [SerializeField] private PlayerSelector _playerSelectObj;
     [SerializeField] private GameObject _floorObj;
     [SerializeField] private GameObject _healItemObj;
+    [SerializeField] private GameObject _weaponItemObj;
+    [SerializeField] private GameObject _consumptionItemObj;
     [SerializeField] private GameObject _powerItemObj;
     [SerializeField] private GameObject[,] _mapobj = new GameObject[20, 20];
     private GameObject _playerObj;
@@ -88,14 +90,14 @@ public class MapGenerator : MonoBehaviour {
                         if (PrefabObj.tag == "Player")
                         {
                             _mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
-                            _gameCtrl.SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
+                            GameControllor.Instance.SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
                             iNow = randomiPix;
                             jNow = randomjPix;
                             iObjState.Add(randomiPix);
                             jObjState.Add(randomjPix);
                             _playerData = _mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>();
                             _displayScript.SetDisplayScript(_playerData);
-                            _gameCtrl.SetPlayerState(_playerData);
+                            GameControllor.Instance.SetPlayerState(_playerData);
                         }
                         else if (PrefabObj.tag == "Enemy") 
                         {
@@ -108,6 +110,15 @@ public class MapGenerator : MonoBehaviour {
                             iObjState.Add(randomiPix); 
                             jObjState.Add(randomjPix);
                         }
+                        else if (PrefabObj.tag == "Item")
+                        {
+                            GameControllor.Instance.AddCountItemObj(_mapobj[randomiPix, randomjPix]);
+                        }
+                        else if (PrefabObj.tag == "Goal")
+                        {
+                            GameControllor.Instance.SetGoalObj(_mapobj[randomiPix, randomjPix]);
+                        }
+
                     }
                 }
             }
@@ -160,9 +171,11 @@ public class MapGenerator : MonoBehaviour {
         //※すでに追加オブジェクトがある場所には生成しないようにする処理が必要
         SetUniqObj(_goalObj);
         SetPlayerObject();
-        _playerObj.GetComponent<ActionControllor>().SetGameCtrl(_gameCtrl);
+        //_playerObj.GetComponent<ActionControllor>().SetGameCtrl(_gameCtrl);
         SetUniqObj(_playerObj);
         SetUniqObj(_powerItemObj);
+        SetUniqObj(_weaponItemObj);
+        SetUniqObj(_consumptionItemObj);
         UniqObjCount = 1;
         for (int Ecount = 0; Ecount < 5; Ecount++)
         {
@@ -175,7 +188,7 @@ public class MapGenerator : MonoBehaviour {
 
         //コントローラの初期化関数呼び出し
 
-        _gameCtrl.AftorMakeMapStart();
+        GameControllor.Instance.AftorMakeMapStart();
     }
 
     // Update is called once per frame

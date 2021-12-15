@@ -12,7 +12,7 @@ public class ItemWindowScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (_gameCtrl.ItemWndowflg==false)
+        if (_gameCtrl.ItemWindowflg==false)
         {
             //_thisWindowPanel.SetActive(false);
             _thisPanelRectTransform.localPosition = _offPosition;
@@ -22,7 +22,7 @@ public class ItemWindowScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_gameCtrl.ItemWndowflg == false)
+        if (_gameCtrl.ItemWindowflg == false)
         {
             //_thisWindowPanel.SetActive(false);
             _thisPanelRectTransform.localPosition = _offPosition;

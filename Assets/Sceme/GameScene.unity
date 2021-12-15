@@ -352,7 +352,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -712,7 +712,7 @@ MonoBehaviour:
   LockFlg: 0
   AtkCheckflg: 0
   SpAtkflg: 0
-  ItemWndowflg: 0
+  ItemWindowflg: 0
   MapGeneObj: {fileID: 1549300023}
   EnemyCount: 0
   EnemyAtkCount: 0
@@ -1896,7 +1896,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf1437ac752b4a34e88f93ee26fc3993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameCtrl: {fileID: 976567461}
   _wallObj: {fileID: 1204325984152940, guid: 60695017f9845b84daa1df0d26fd1ea6, type: 3}
   _goalObj: {fileID: 1653616096706262, guid: 2b819a5bd34fe2440a1f2d9a278fcce8, type: 3}
   _enemyObj: {fileID: 1455789266397692, guid: 0218c9001f0eda8448eab24e6897e37a, type: 3}
@@ -2489,8 +2488,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _thisWindowPanel: {fileID: 1662915367}
+  _itemPrefabObj: {fileID: 2834843162132689225, guid: 88399e78b739482498d16abedf45b75a,
+    type: 3}
+  _itemPrefabRectTransform: {fileID: 2834843162132689226, guid: 88399e78b739482498d16abedf45b75a,
+    type: 3}
   _thisPanelRectTransform: {fileID: 1662915368}
-  _gameCtrl: {fileID: 976567461}
 --- !u!1 &1875014965
 GameObject:
   m_ObjectHideFlags: 0

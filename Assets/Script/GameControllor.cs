@@ -433,6 +433,7 @@ public class GameControllor : MonoBehaviour {
             {
                 if (Player.SetiNextStepArea() == (int)Math.Round(ItemList[i].transform.position.x) && Player.SetjNextStepArea() == (int)Math.Round(ItemList[i].transform.position.y))
                 {
+                    ItemWindowScript.Instance.AddGotItemPrefab();
                     ItemList[i].GetComponent<ItemScript>().GetDestroy();
                     ItemList.RemoveAt(i);
                     break;

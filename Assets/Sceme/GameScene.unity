@@ -2488,9 +2488,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _thisWindowPanel: {fileID: 1662915367}
-  _itemPrefabObj: {fileID: 2834843162132689225, guid: 88399e78b739482498d16abedf45b75a,
+  _itemPrefabObj: {fileID: 2484708879496529142, guid: 88399e78b739482498d16abedf45b75a,
     type: 3}
-  _itemPrefabRectTransform: {fileID: 2834843162132689226, guid: 88399e78b739482498d16abedf45b75a,
+  _itemPrefabRectTransform: {fileID: 2484708879496529138, guid: 88399e78b739482498d16abedf45b75a,
     type: 3}
   _thisPanelRectTransform: {fileID: 1662915368}
 --- !u!1 &1875014965

@@ -39,7 +39,7 @@ public class ItemWindowScript : MonoBehaviour
             _thisPanelRectTransform.localPosition = _offPosition;
         }
     }
-    public void AddGotItemPrefab()
+    public void AddGotItemPrefab(ItemStatusData Data)
     {
         //prefabにセットするアイコンやら情報でSPATK用のアイテムなら呼ばないようにする
         //ウィンドウ表示中は窓ボタン以外使えないようにする必要あり
@@ -47,6 +47,7 @@ public class ItemWindowScript : MonoBehaviour
         Vector3 pos = new Vector3(0, 150f -50.0f * _gotItemList.Count, 0);
         prefab = (GameObject)Instantiate(_itemPrefabObj, _thisWindowPanel.transform.position, Quaternion.identity, _thisWindowPanel.transform);
         prefab.transform.localPosition += pos;
+        prefab.GetComponent<ItemPrefabScript>().GetThisState(Data);
         _gotItemList.Add(prefab);
     }
     // Update is called once per frame

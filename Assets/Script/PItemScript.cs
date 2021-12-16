@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PItemScript : ItemScript
 {
-
+    //構造体を用意しても良いが今回はタイプだけ準備
 
     // Use this for initialization
     void Start () {

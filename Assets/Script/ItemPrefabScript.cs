@@ -16,7 +16,14 @@ public class ItemPrefabScript : MonoBehaviour
     [SerializeField] private int _thisData_Attack;
     [SerializeField] private GameObject _thisEquipCheckObj;
     [SerializeField] private Text _thisEquipCheck;
+    private int _listNumber;
+    private ItemScript.ItemType _thisType;
+    [SerializeField] private Button _ItemButton;
 
+    public void GetListNum(int listnum)
+    {
+        _listNumber = listnum;
+    }
     public void GetThisState(ItemStatusData data)
     {
         _thisImage = _thisImageObj.GetComponent<Image>();
@@ -34,13 +41,36 @@ public class ItemPrefabScript : MonoBehaviour
                 Debug.Log("こないはず");
                 break;
         }
+        _thisType = data.Type;
         _thisName.text = data.Name;
         _thisData_HP = data.Hp;
         _thisData_Attack = data.Attack;
         _thisEquipCheckObj.SetActive(false);
-
+        _listNumber = data.ListNum;
 
     }
+    public void ActionItem()
+    {
+        switch (_thisType)
+        {
+            case ItemScript.ItemType.EQUIP:
+                _thisEquipCheckObj.SetActive(true);
+                break;
+            case ItemScript.ItemType.CONSUM:
+                ItemWindowScript.Instance.OrganizeList(_listNumber);
+                Destroy(gameObject);
+                break;
+            default:
+                Debug.Log("こないはず");
+                break;
+        }
+
+    }
+    public void OnClick()
+    {
+        ItemWindowScript.Instance.OnPopwindow(_listNumber);
+    }
+
     // Start is called before the first frame update
     void Start()
     {

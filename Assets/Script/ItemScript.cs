@@ -9,6 +9,7 @@ public struct ItemStatusData
     public int Attack;
     public int Hp;
     public string Name;
+    public int ListNum;
 }
 [System.Serializable]
 public class ItemScript : MonoBehaviour

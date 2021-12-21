@@ -97,5 +97,8 @@ MonoBehaviour:
   ThisData:
     Type: 1
     Attack: 5
-    Hp: 10
+    Mhp: 10
+    Hp: 0
     Name: "\u88C5\u5099"
+    ListNum: 0
+    EquipFlg: 0

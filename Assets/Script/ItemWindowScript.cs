@@ -9,9 +9,10 @@ public class ItemWindowScript : MonoBehaviour
     [SerializeField] private RectTransform _itemPopwindowRectTransform;
     [SerializeField] private RectTransform _thisPanelRectTransform;
 
-    private List<ItemPrefabScript> _gotItemList = new List<ItemPrefabScript>();
+    public List<ItemPrefabScript> _gotItemList;// = new List<ItemPrefabScript>();
+    public List<ItemStatusData> _saveItemList;// = new List<ItemPrefabScript>();
     private Vector3 _offPosition = new Vector3(0, 500, 0);
-    private Vector3 _offPositionPopwin = new Vector3(700, 700, 0);
+    private Vector3 _offPositionPopwin = new Vector3(700, 700, 0); 
     private Vector3 _onPositionPopwin = new Vector3(250, -125, 0);
     private int _listNum;
     //シングルトン化
@@ -32,6 +33,38 @@ public class ItemWindowScript : MonoBehaviour
         }
         mInstance = this;
         //DontDestroyOnLoad(gameObject);
+        _saveItemList = SaveDataScript.Instance._saveItemList;
+        for (int i = 0; i < _saveItemList.Count; i++)
+        {
+            AddGotItemPrefab(_saveItemList[i]);
+            ////装備していたアイテムは装備させる
+            //if (_saveItemList[i].EquipFlg == true)
+            //{
+            //    GameControllor.Instance.AddItemState(_saveItemList[i]);
+            //}
+        }
+        //セーブのリストをリセット
+        SaveDataScript.Instance._saveItemList= new List<ItemStatusData>();
+
+    }
+    public void SetupItemState()
+    {
+        for (int i = 0; i < _gotItemList.Count; i++)
+        {
+            //装備していたアイテムは装備させる
+            if (_gotItemList[i].itemSaveData.EquipFlg == true)
+            {
+                GameControllor.Instance.AddItemState(_gotItemList[i].itemSaveData);
+            }
+        }
+    }
+    //消費時の処理と装備時の処理を追加
+    public void CheckEquipItem()
+    {
+        for (int i = 0; i < _gotItemList.Count; i++)
+        {
+            _gotItemList[i].OffEquipItem();
+        }
     }
     public void OrganizeList(int deletenum)
     {
@@ -90,9 +123,8 @@ public class ItemWindowScript : MonoBehaviour
         Data.ListNum = _gotItemList.Count;
         prefab.GetComponent<ItemPrefabScript>().GetThisState(Data);
         _gotItemList.Add(prefab.GetComponent<ItemPrefabScript>());
+        //_saveItemList.Add(prefab.GetComponent<ItemPrefabScript>().itemSaveData);
     }
-    //消費時の処理と装備時の処理を追加
-
     // Update is called once per frame
     void Update()
     {

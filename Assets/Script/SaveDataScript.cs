@@ -22,6 +22,11 @@ public class SaveDataScript : MonoBehaviour {
     [SerializeField]
     public int PlayerHpNowData;
     //[SerializeField]
+    //public ItemWindowScript itemWindowData;
+    //public List<ItemPrefabScript> _saveItemList;// = new List<ItemPrefabScript>();
+    public List<ItemStatusData> _saveItemList;// = new List<ItemPrefabScript>();
+
+    //[SerializeField]
     //public int FloorCount;
     //public int PlayerHpNowData { get; private set; }
     //public int FloorCount { get; private set; }
@@ -72,6 +77,17 @@ public class SaveDataScript : MonoBehaviour {
     public void SavePlayerNowData(Status Data)
     {
         playerNowData = Data;
+
+        for (int i= 0;i< ItemWindowScript.Instance._gotItemList.Count;i++)
+        {
+            _saveItemList.Add(ItemWindowScript.Instance._gotItemList[i].itemSaveData);
+            //移動時に一度アイテムは外したステータスに
+            if (ItemWindowScript.Instance._gotItemList[i].itemSaveData.EquipFlg == true)
+            {
+                GameControllor.Instance.SubItemState(ItemWindowScript.Instance._gotItemList[i].itemSaveData);
+            }
+        }
+        //_saveItemList = ItemWindowScript.Instance._saveItemList;
     }
 
     // Use this for initialization

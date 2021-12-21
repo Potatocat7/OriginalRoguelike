@@ -17,6 +17,7 @@ public class ItemPrefabScript : MonoBehaviour
     [SerializeField] private GameObject _thisEquipCheckObj;
     [SerializeField] private Text _thisEquipCheck;
     private int _listNumber;
+    public ItemStatusData itemSaveData;
     private ItemScript.ItemType _thisType;
     [SerializeField] private Button _ItemButton;
 
@@ -45,19 +46,53 @@ public class ItemPrefabScript : MonoBehaviour
         _thisName.text = data.Name;
         _thisData_HP = data.Hp;
         _thisData_Attack = data.Attack;
-        _thisEquipCheckObj.SetActive(false);
+        if (data.EquipFlg == true)
+        {
+            _thisEquipCheckObj.SetActive(true);
+            itemSaveData.EquipFlg = true;
+        }
+        else
+        {
+            _thisEquipCheckObj.SetActive(false);
+            itemSaveData.EquipFlg = false;
+        }
         _listNumber = data.ListNum;
-
+        itemSaveData = data;
+    }
+    public void OffEquipItem()
+    {
+        switch (_thisType)
+        {
+            case ItemScript.ItemType.EQUIP:
+                if(itemSaveData.EquipFlg == true)
+                {
+                    _thisEquipCheckObj.SetActive(false);
+                    itemSaveData.EquipFlg = false;
+                    //ステータス変更
+                    GameControllor.Instance.SubItemState(itemSaveData);
+                }
+                break;
+            case ItemScript.ItemType.CONSUM:
+                break;
+            default:
+                Debug.Log("こないはず");
+                break;
+        }
     }
     public void ActionItem()
     {
         switch (_thisType)
         {
             case ItemScript.ItemType.EQUIP:
+                ItemWindowScript.Instance.CheckEquipItem();
                 _thisEquipCheckObj.SetActive(true);
+                itemSaveData.EquipFlg = true;
+                //ステータス反映
+                GameControllor.Instance.AddItemState(itemSaveData);
                 break;
             case ItemScript.ItemType.CONSUM:
                 ItemWindowScript.Instance.OrganizeList(_listNumber);
+                GameControllor.Instance.AddItemState(itemSaveData);
                 Destroy(gameObject);
                 break;
             default:

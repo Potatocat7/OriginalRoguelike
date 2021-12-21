@@ -22,6 +22,18 @@ public class StatusDataScript : MonoBehaviour {
     private int _experienceMax = 5;
     private StatusDataScript _playerState;
 
+    public void AddState(ItemStatusData data)
+    {
+        _charaState.ATK += data.Attack;
+        _charaState.MHP += data.Mhp;
+        _charaState.HP += data.Hp;
+    }
+    public void SubState(ItemStatusData data)
+    {
+        _charaState.ATK -= data.Attack;
+        _charaState.MHP -= data.Mhp;
+        _charaState.HP -= data.Hp;
+    }
     public void GetPlayerState(StatusDataScript player)
     {
         _playerState = player;

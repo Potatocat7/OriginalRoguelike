@@ -75,6 +75,14 @@ public class GameControllor : MonoBehaviour {
         mInstance = this;
         //DontDestroyOnLoad(gameObject);
     }
+    public void AddItemState(ItemStatusData data)
+    {
+        _playerState.AddState(data);
+    }
+    public void SubItemState(ItemStatusData data)
+    {
+        _playerState.SubState(data);
+    }
     public void OnGetPItemFlg()
     {
         GetPItemFlg = true;
@@ -96,6 +104,7 @@ public class GameControllor : MonoBehaviour {
     public void SetPlayerState(StatusDataScript pState)
     {
         _playerState = pState;
+        ItemWindowScript.Instance.SetupItemState();
     }
     public void Hitcheck(int iAttack, int jAttack , int attack)
     {

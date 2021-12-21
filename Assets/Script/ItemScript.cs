@@ -7,9 +7,11 @@ public struct ItemStatusData
 {
     public ItemScript.ItemType Type;
     public int Attack;
+    public int Mhp;
     public int Hp;
     public string Name;
     public int ListNum;
+    public bool EquipFlg;
 }
 [System.Serializable]
 public class ItemScript : MonoBehaviour

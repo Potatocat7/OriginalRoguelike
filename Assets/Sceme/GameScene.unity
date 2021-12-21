@@ -662,6 +662,7 @@ MonoBehaviour:
     EXP: 0
     MEXP: 0
   PlayerHpNowData: 0
+  itemWindowData: {fileID: 1662915371}
   SaveFlg: 0
 --- !u!1 &860686825
 GameObject:

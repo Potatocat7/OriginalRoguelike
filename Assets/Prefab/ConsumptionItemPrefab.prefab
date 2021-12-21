@@ -97,5 +97,8 @@ MonoBehaviour:
   ThisData:
     Type: 2
     Attack: 1
-    Hp: 5
+    Mhp: 0
+    Hp: 20
     Name: "\u30A2\u30A4\u30C6\u30E0"
+    ListNum: 0
+    EquipFlg: 0

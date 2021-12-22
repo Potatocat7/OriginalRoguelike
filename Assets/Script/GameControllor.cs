@@ -807,10 +807,12 @@ public class GameControllor : MonoBehaviour {
         {
             if (ItemWindowflg == false)
             {
+                ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.ITEMWINDOW);
                 ItemWindowflg = true;
             }
             else
             {
+                ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.GAME);
                 ItemWindowflg = false;
             }
         }

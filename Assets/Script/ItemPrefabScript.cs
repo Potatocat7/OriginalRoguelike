@@ -19,7 +19,7 @@ public class ItemPrefabScript : MonoBehaviour
     private int _listNumber;
     public ItemStatusData itemSaveData;
     private ItemScript.ItemType _thisType;
-    [SerializeField] private Button _ItemButton;
+    [SerializeField] public Button itemButton;
 
     public void GetListNum(int listnum)
     {

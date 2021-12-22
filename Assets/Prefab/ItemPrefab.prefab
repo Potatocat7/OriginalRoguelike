@@ -363,7 +363,15 @@ MonoBehaviour:
   _thisData_Attack: 0
   _thisEquipCheckObj: {fileID: 2029436410781076866}
   _thisEquipCheck: {fileID: 0}
-  _ItemButton: {fileID: 0}
+  itemSaveData:
+    Type: 0
+    Attack: 0
+    Mhp: 0
+    Hp: 0
+    Name: 
+    ListNum: 0
+    EquipFlg: 0
+  itemButton: {fileID: 5231728584116563200}
 --- !u!1 &4718799427689414868
 GameObject:
   m_ObjectHideFlags: 0

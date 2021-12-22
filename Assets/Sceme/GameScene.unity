@@ -662,7 +662,7 @@ MonoBehaviour:
     EXP: 0
     MEXP: 0
   PlayerHpNowData: 0
-  itemWindowData: {fileID: 1662915371}
+  _saveItemList: []
   SaveFlg: 0
 --- !u!1 &860686825
 GameObject:
@@ -1398,6 +1398,7 @@ GameObject:
   - component: {fileID: 1148619506}
   - component: {fileID: 1148619505}
   - component: {fileID: 1148619504}
+  - component: {fileID: 1148619507}
   m_Layer: 5
   m_Name: ItemWindow
   m_TagString: Untagged
@@ -1516,6 +1517,28 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148619502}
   m_CullTransparentMesh: 0
+--- !u!114 &1148619507
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148619502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9828073756b47d74eb0fb489c1846353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stop: {fileID: 1501435241}
+  _up: {fileID: 1875014967}
+  _upL: {fileID: 1251958847}
+  _upR: {fileID: 1534195995}
+  _attack: {fileID: 2028076624}
+  _left: {fileID: 1236836531}
+  _right: {fileID: 1622945307}
+  _down: {fileID: 1620981044}
+  _downL: {fileID: 860686827}
+  _downR: {fileID: 2103262093}
 --- !u!1 &1163411712
 GameObject:
   m_ObjectHideFlags: 0
@@ -2986,6 +3009,8 @@ MonoBehaviour:
     type: 3}
   _itemPopwindowRectTransform: {fileID: 1163411713}
   _thisPanelRectTransform: {fileID: 1662915368}
+  _gotItemList: []
+  _saveItemList: []
 --- !u!1 &1875014965
 GameObject:
   m_ObjectHideFlags: 0

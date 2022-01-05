@@ -27,6 +27,10 @@ public class StatusDataScript : MonoBehaviour {
         _charaState.ATK += data.Attack;
         _charaState.MHP += data.Mhp;
         _charaState.HP += data.Hp;
+        if (_charaState.HP >= _charaState.MHP)
+        {
+            _charaState.HP = _charaState.MHP;
+        }
     }
     public void SubState(ItemStatusData data)
     {
@@ -164,8 +168,15 @@ public class StatusDataScript : MonoBehaviour {
                 SceneManager.LoadScene("EndScene");
             }
             else
-            {
+            {   //敵オブジェクトの場合
+                //デリート前にランダムでアイテムを生成
+                //最初はランダムではなく確定で生成してみる
+                //MapGeneratorから関数をひっぱればいける？
                 _playerState.ExperienceUp(expState);
+                if (GameControllor.Instance.CheckItemPosition(iThisNow, jThisNow))
+                {
+                    MapGenerator.Instance.SetDropItemObj(iThisNow, jThisNow);
+                }
                 Destroy(gameObject);
             }
         }

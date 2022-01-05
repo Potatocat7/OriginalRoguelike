@@ -91,6 +91,18 @@ public class GameControllor : MonoBehaviour {
     {
         _goalObj = goal;
     }
+    public bool CheckItemPosition(int iPix,int jPix)
+    {
+        for (int i=0;i < ItemList.Count;i++)
+        {
+            ItemStatusData data = ItemList[i].GetComponent<ItemScript>().ThisData;
+            if (data.iPosition == iPix && data.jPosition == jPix)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
     public void AddCountItemObj(GameObject itemObj)
     {
         itemCount += 1;

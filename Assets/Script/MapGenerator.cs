@@ -31,6 +31,26 @@ public class MapGenerator : MonoBehaviour {
     public List<int> jObjState = new List<int>();
     private bool _saveDataFlg;
 
+    //シングルトン化
+    private static MapGenerator mInstance;
+    public static MapGenerator Instance
+    {
+        get
+        {
+            return mInstance;
+        }
+    }
+    // Use this for initialization
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        mInstance = this;
+        CharaNum = GameObject.Find("SaveCharaSelect").GetComponent<SaveCharaSelect>();
+    }
 
     bool CheckMapstate(int tate, int yoko)
     {
@@ -69,6 +89,26 @@ public class MapGenerator : MonoBehaviour {
         }
         return (flg);
     }
+    public void SetDropItemObj(int iPix,int jPix)//type itemType)
+    {
+        //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
+        var PrefabObj = _consumptionItemObj;
+
+        if (map[iPix, jPix] != 1)    //MAPが通路のなとき(壁でないとき)
+        {
+            // プレハブを元に、インスタンスを生成、
+            _mapobj[iPix, jPix] = (GameObject)Instantiate(PrefabObj, new Vector3(iPix, jPix, -1.0F), Quaternion.identity);
+            if (PrefabObj.tag == "Item")
+            {
+                _mapobj[iPix, jPix].GetComponent<ItemScript>().GetPosition(iPix, jPix);
+                GameControllor.Instance.AddCountItemObj(_mapobj[iPix, jPix]);
+            }
+        }
+        else
+        {
+        }
+    }
+
     void SetUniqObj(  GameObject PrefabObj)
     {
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
@@ -112,6 +152,7 @@ public class MapGenerator : MonoBehaviour {
                         }
                         else if (PrefabObj.tag == "Item")
                         {
+                            _mapobj[randomiPix, randomjPix].GetComponent<ItemScript>().GetPosition(randomiPix, randomjPix);
                             GameControllor.Instance.AddCountItemObj(_mapobj[randomiPix, randomjPix]);
                         }
                         else if (PrefabObj.tag == "Goal")
@@ -126,11 +167,6 @@ public class MapGenerator : MonoBehaviour {
             {
             }
         }
-    }
-    // Use this for initialization
-    void Awake()
-    {
-        CharaNum = GameObject.Find("SaveCharaSelect").GetComponent<SaveCharaSelect>();
     }
     private void SetPlayerObject()
     {

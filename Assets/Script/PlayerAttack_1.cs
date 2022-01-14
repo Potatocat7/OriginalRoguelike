@@ -15,20 +15,20 @@ public class PlayerAttack_1 : MonoBehaviour {
 
     void AttackHit()
     {
-        GameControllor.Instance.Hitcheck(iThisAtkArea1, jThisAtkArea1, _thisState.Attack);
-        GameControllor.Instance.Hitcheck(iThisAtkArea2, jThisAtkArea2, _thisState.Attack);
-        GameControllor.Instance.Hitcheck(iThisAtkArea3, jThisAtkArea3, _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisAtkArea1, jThisAtkArea1, _thisState.GetAttack());
+        GameControllor.Instance.Hitcheck(iThisAtkArea2, jThisAtkArea2, _thisState.GetAttack());
+        GameControllor.Instance.Hitcheck(iThisAtkArea3, jThisAtkArea3, _thisState.GetAttack());
     }
     void SpAttackHit()
     {
-        GameControllor.Instance.Hitcheck(iThisNow + 1, jThisNow + 1, _thisState.Attack);
-        GameControllor.Instance.Hitcheck(iThisNow + 1, jThisNow - 1, _thisState.Attack);
-        GameControllor.Instance.Hitcheck(iThisNow + 1, jThisNow    , _thisState.Attack);
-        GameControllor.Instance.Hitcheck(iThisNow    , jThisNow + 1, _thisState.Attack);
-        GameControllor.Instance.Hitcheck(iThisNow    , jThisNow - 1, _thisState.Attack);
-        GameControllor.Instance.Hitcheck(iThisNow - 1, jThisNow + 1, _thisState.Attack);
-        GameControllor.Instance.Hitcheck(iThisNow - 1, jThisNow - 1, _thisState.Attack);
-        GameControllor.Instance.Hitcheck(iThisNow - 1, jThisNow    , _thisState.Attack);
+        GameControllor.Instance.Hitcheck(iThisNow + 1, jThisNow + 1, _thisState.GetAttack());
+        GameControllor.Instance.Hitcheck(iThisNow + 1, jThisNow - 1, _thisState.GetAttack());
+        GameControllor.Instance.Hitcheck(iThisNow + 1, jThisNow    , _thisState.GetAttack());
+        GameControllor.Instance.Hitcheck(iThisNow    , jThisNow + 1, _thisState.GetAttack());
+        GameControllor.Instance.Hitcheck(iThisNow    , jThisNow - 1, _thisState.GetAttack());
+        GameControllor.Instance.Hitcheck(iThisNow - 1, jThisNow + 1, _thisState.GetAttack());
+        GameControllor.Instance.Hitcheck(iThisNow - 1, jThisNow - 1, _thisState.GetAttack());
+        GameControllor.Instance.Hitcheck(iThisNow - 1, jThisNow    , _thisState.GetAttack());
     }
 
     void AttackAreaSet()

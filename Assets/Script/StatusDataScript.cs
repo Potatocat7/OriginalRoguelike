@@ -22,6 +22,11 @@ public class StatusDataScript : MonoBehaviour {
     private int _experienceMax = 5;
     private StatusDataScript _playerState;
 
+    public int GetAttack()
+    {
+        return _charaState.ATK;
+    }
+
     public void AddState(ItemStatusData data)
     {
         _charaState.ATK += data.Attack;

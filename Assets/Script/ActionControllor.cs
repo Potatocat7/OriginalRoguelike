@@ -201,7 +201,7 @@ public class ActionControllor : MonoBehaviour {
     //        UserActFlg = false;
     //    }
     //
-    IEnumerator coActionMove()
+    IEnumerator coActionMove()//ここをUniTaskにAysncAwaitにできそう？
     {
         for (int count = 1; count < 11; count++)
         {
@@ -215,7 +215,7 @@ public class ActionControllor : MonoBehaviour {
         iThisNext = 0;
         jThisNext = 0;
     }
-    IEnumerator coActionAttack()
+    IEnumerator coActionAttack()//ここをUniTaskにAysncAwaitにできそう？
     {
         AtkEfFlg = true; 
         for (int count = 1; count < 6; count++)
@@ -233,7 +233,7 @@ public class ActionControllor : MonoBehaviour {
         UserActFlg = false;
         count = 0;
     }
-    IEnumerator coSpActionAttack()
+    IEnumerator coSpActionAttack()//ここをUniTaskにAysncAwaitにできそう？
     {
         SpAtkEfFlg = true;
         for (int count = 1; count < 11; count++)
@@ -245,7 +245,7 @@ public class ActionControllor : MonoBehaviour {
         UserActFlg = false;
         count = 0;
     }
-    public void ActionStart()
+    public void ActionStart()//コルーチンの呼び出しをAysncAwaitに切り替えできそう
     {
         if (UserAttackFlg == true)
         {

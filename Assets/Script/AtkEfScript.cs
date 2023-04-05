@@ -11,7 +11,7 @@ public class AtkEfScript : MonoBehaviour {
     GameObject Player = null;
     void SetEffecrDirection()
     {
-        switch (Player.GetComponent<ActionControllor>().thisNowDirection)
+        switch (Player.GetComponent<ActionControllor>().thisNowDirection)//ここのコンポーネントを外せるきがする
         {
             case ActionControllor.Direction.UP:
                 this.transform.localPosition = new Vector3(0.01f, 0.15f, 0);
@@ -53,7 +53,7 @@ public class AtkEfScript : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update () {//Update内の処理を外に出せる気がする
         SetEffecrDirection();
         if (Player.GetComponent<ActionControllor>().AtkEfFlg == true)
         {

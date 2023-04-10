@@ -25,7 +25,7 @@ public class ItemPrefabScript : MonoBehaviour
     {
         _listNumber = listnum;
     }
-    public void GetThisState(ItemStatusData data)
+    public void GetThisState(ItemStatusData data)//GetComponentどうにかしたい
     {
         _thisImage = _thisImageObj.GetComponent<Image>();
         _thisName = _thisNameObj.GetComponent<Text>();

@@ -18,6 +18,7 @@ public class SpAtkEF : MonoBehaviour {
 	void Update () {
         if (Player.SpAtkEfFlg == true)
         {
+            //GetComponentをなくしたい（とくにUpdate内だからなおのこと）
             this.GetComponent<SpriteRenderer>().enabled = true;
             this.GetComponent<Animator>().SetTrigger("StartEF");
         }

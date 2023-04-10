@@ -68,6 +68,7 @@ public class StatusDataScript : MonoBehaviour {
     void Start () {
         if (this.tag == "Player")
         {
+            //GetComponentをなくしていきたい
             SPcount = 0;
             SaveDataScript Save;
             StatusDataScript StatusData = this.GetComponent<StatusDataScript>();
@@ -161,7 +162,7 @@ public class StatusDataScript : MonoBehaviour {
     }
     // Update is called once per frame
     void Update () {
-
+        //UpdateでGetComponentをなくしていきたい
         iThisNow = this.GetComponent<ActionControllor>().iThisNow;
         jThisNow = this.GetComponent<ActionControllor>().jThisNow;
         if (_charaState.HP <= 0)

@@ -95,6 +95,7 @@ public class GameControllor : MonoBehaviour {
     {
         for (int i=0;i < ItemList.Count;i++)
         {
+            //ListについてるGetComponentもやり方で削除できそう
             ItemStatusData data = ItemList[i].GetComponent<ItemScript>().ThisData;
             if (data.iPosition == iPix && data.jPosition == jPix)
             {
@@ -143,6 +144,7 @@ public class GameControllor : MonoBehaviour {
         {
             if (MapGeneObj.EnemyList[count] != null)
             {
+                //GetComponentを対応できないか
                 EnemyList.Add(MapGeneObj.EnemyList[count]);
                 EnemyListState.Add(MapGeneObj.EnemyList[count].GetComponent<StatusDataScript>());
                 EnemyCount += 1;
@@ -351,6 +353,7 @@ public class GameControllor : MonoBehaviour {
                 jEmap = (int)Math.Round(EnemyList[count].transform.position.y);
                 jPmap = Player.SetjNextStepArea();
 
+                //GetComponentを対応できないか
                 if (EnemyList[count].GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
                 {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
                  //攻撃リストに登録 ※ここは攻撃前
@@ -558,6 +561,7 @@ public class GameControllor : MonoBehaviour {
 
         if (EnemyAtkCount > 0)
         {
+            //ここでもGetComponent。なんとかしたい
             AtkEnemyList[count].SetUserAttackFlagOn();
             AtkEnemyList[count].ActionStart();
             AtkEnemyList[count].GetComponent<EnemyAttack>().AttackHit();

@@ -109,6 +109,7 @@ public class PlayerAttack_2 : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        //初期化もGetComponentをなくしたい
         _actCtrl = this.GetComponent<ActionControllor>();
         //Contollor = _actCtrl.GetGameCtrl();
         _thisState = this.GetComponent<StatusDataScript>();

@@ -104,6 +104,7 @@ public class PlayerAttack_1 : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
+        //ここの初期化もGetComponentをなくせる気がする
         _actCtrl = this.GetComponent<ActionControllor>();
         //Contollor = _actCtrl.GetGameCtrl();
         _thisState = this.GetComponent<StatusDataScript>();

@@ -49,6 +49,7 @@ public class MapGenerator : MonoBehaviour {
             return;
         }
         mInstance = this;
+        //このFindもどうにかしたい
         CharaNum = GameObject.Find("SaveCharaSelect").GetComponent<SaveCharaSelect>();
     }
 
@@ -100,6 +101,7 @@ public class MapGenerator : MonoBehaviour {
             _mapobj[iPix, jPix] = (GameObject)Instantiate(PrefabObj, new Vector3(iPix, jPix, -1.0F), Quaternion.identity);
             if (PrefabObj.tag == "Item")
             {
+                //GetComponent。InstantiateがGameObject出しか作れないなんてことがなかったはずなのでなおせるならなおした
                 _mapobj[iPix, jPix].GetComponent<ItemScript>().GetPosition(iPix, jPix);
                 GameControllor.Instance.AddCountItemObj(_mapobj[iPix, jPix]);
             }
@@ -141,6 +143,7 @@ public class MapGenerator : MonoBehaviour {
                         }
                         else if (PrefabObj.tag == "Enemy") 
                         {
+                            //上がなおせればGetComponentが一気に解消できそう？
                             _mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
                             _mapobj[randomiPix, randomjPix].GetComponent<EnemyAttack>().GetPlayerStatusData(_playerData);
                             _mapobj[randomiPix, randomjPix].GetComponent<EnemyAttack>().GetThisStatusData(_mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>());

@@ -14,8 +14,8 @@ public class EndButton : MonoBehaviour {
 	void Update () {
 		
 	}
-    public void PushEndbutton()
-    {
+    public void PushEndbutton()//宣言でGetComponentとかを無くす
+	{
         GameObject Save;
         Save = GameObject.Find("SaveDataObject");
         Save.GetComponent<SaveDataScript>().ClearData();

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using Cysharp.Threading.Tasks;
 
 public class ActionControllor : MonoBehaviour {
 
@@ -201,12 +201,14 @@ public class ActionControllor : MonoBehaviour {
     //        UserActFlg = false;
     //    }
     //
-    IEnumerator coActionMove()//ここをUniTaskにAysncAwaitにできそう？
+    //IEnumerator coActionMove()
+    private async void coActionMove()
     {
         for (int count = 1; count < 11; count++)
         {
             this.transform.Translate(iThisNext * 0.1f, jThisNext *  0.1f, 0);
-            yield return new WaitForSeconds(0.01f);
+            //yield return new WaitForSeconds(0.01f);
+            await UniTask.Delay(10);
         }
         UserActFlg = false;
         count = 0;
@@ -214,51 +216,60 @@ public class ActionControllor : MonoBehaviour {
         jThisNow = jThisNow + jThisNext;
         iThisNext = 0;
         jThisNext = 0;
+        
     }
-    IEnumerator coActionAttack()//ここをUniTaskにAysncAwaitにできそう？
+    //IEnumerator coActionAttack()
+    private async void coActionAttack()
     {
         AtkEfFlg = true; 
         for (int count = 1; count < 6; count++)
         {
             this.transform.Translate(iAtkDir * 0.1f, jAtkDir *  0.1f, 0);
-            yield return new WaitForSeconds(0.025f);
+            //yield return new WaitForSeconds(0.025f);
+            await UniTask.Delay(25);
         }
         AtkEfFlg = false;
         for (int count = 1; count < 6; count++)
         {
             this.transform.Translate(iAtkDir * - 0.1f, jAtkDir * -0.1f, 0);
-            yield return new WaitForSeconds(0.025f);
+            //yield return new WaitForSeconds(0.025f);
+            await UniTask.Delay(25);
         }
         UserAttackFlg = false;
         UserActFlg = false;
         count = 0;
     }
-    IEnumerator coSpActionAttack()//ここをUniTaskにAysncAwaitにできそう？
+    //IEnumerator coSpActionAttack()
+    private async void coSpActionAttack()
     {
         SpAtkEfFlg = true;
         for (int count = 1; count < 11; count++)
         {
-            yield return new WaitForSeconds(0.15f);
+            //yield return new WaitForSeconds(0.15f);
+            await UniTask.Delay(150);
         }
         SpAtkEfFlg = false;
         UserAttackFlg = false;
         UserActFlg = false;
         count = 0;
     }
-    public void ActionStart()//コルーチンの呼び出しをAysncAwaitに切り替えできそう
+    public async UniTask ActionStart()
     {
         if (UserAttackFlg == true)
         {
-            StartCoroutine("coActionAttack");
+            coActionAttack();
+            //StartCoroutine("coActionAttack");
         }
         else
         {
-            StartCoroutine("coActionMove");
+            coActionMove();
+            //StartCoroutine("coActionMove");
         }
     }
-    public void SpActionStart()
+    public async UniTask SpActionStart()
     {
-        StartCoroutine("coSpActionAttack");
+        coSpActionAttack();
+        //StartCoroutine("coSpActionAttack");
     }
 
 

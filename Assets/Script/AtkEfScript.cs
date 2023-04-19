@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class AtkEfScript : MonoBehaviour {
 
-    int count;
+    private int count;
     [SerializeField]
-    bool AttackEffect;
+    private bool AttackEffect;
     [SerializeField]
-    GameObject Player = null;
-    void SetEffecrDirection()
+    private ActionControllor Player = null;
+    [SerializeField]
+    private Renderer thisRender = null;
+
+    public void SetEffecrDirection()
     {
-        switch (Player.GetComponent<ActionControllor>().thisNowDirection)//ここのコンポーネントを外せるきがする
+        switch (Player.thisNowDirection)
         {
             case ActionControllor.Direction.UP:
                 this.transform.localPosition = new Vector3(0.01f, 0.15f, 0);
@@ -47,22 +50,29 @@ public class AtkEfScript : MonoBehaviour {
                 break;
         }
     }
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {//Update内の処理を外に出せる気がする
-        SetEffecrDirection();
-        if (Player.GetComponent<ActionControllor>().AtkEfFlg == true)
+    public void EffectEnabled(bool flg)
+    {
+        if (flg == true)
         {
-            this.GetComponent<Renderer>().enabled = true;
+            thisRender.enabled = true;
         }
         else
         {
-            this.GetComponent<Renderer>().enabled = false;
+            thisRender.enabled = false;
         }
+    }
+
+    // Update is called once per frame
+    void Update () {//Update内の処理を外に出せる気がする
+        //SetEffecrDirection();
+        //if (Player.AtkEfFlg == true)
+        //{
+        //    thisRender.enabled = true;
+        //}
+        //else
+        //{
+        //    thisRender.enabled = false;
+        //}
 
     }
 }

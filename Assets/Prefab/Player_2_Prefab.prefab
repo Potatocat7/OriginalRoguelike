@@ -95,7 +95,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AttackEffect: 0
-  Player: {fileID: 1321754040716970}
+  Player: {fileID: 114295699721812306}
+  thisRender: {fileID: 212800895109326456}
 --- !u!1 &1321754040716970
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,8 +201,7 @@ MonoBehaviour:
   thisNowDirection: 5
   UserActFlg: 1
   UserAttackFlg: 1
-  ccc: 0
-  ddd: 0
+  atkEf: {fileID: 114251747193377120}
   AtkEfFlg: 0
   SpAtkEfFlg: 0
   AnimatorState: {fileID: 95957876354310624}
@@ -217,14 +217,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846a13591e86eff43b519b6eaf0f8a58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _charaState:
+    HP: 0
+    MHP: 0
+    ATK: 0
+    LV: 0
+    EXP: 0
+    MEXP: 0
   MaxHP: 60
   NowHP: 0
   iThisNow: 0
   jThisNow: 0
   dispDamege: 0
   SPcount: 0
+  expState: 0
   DamageDisplay: {fileID: 114721474967144684}
   Attack: 10
+  _experienceNow: 0
+  _experienceMax: 5
 --- !u!95 &95957876354310624
 Animator:
   serializedVersion: 3
@@ -264,7 +274,6 @@ MonoBehaviour:
   jThisAtkArea2: 0
   iThisAtkArea3: 0
   jThisAtkArea3: 0
-  Contollor: {fileID: 0}
 --- !u!1 &1326115485017334
 GameObject:
   m_ObjectHideFlags: 0

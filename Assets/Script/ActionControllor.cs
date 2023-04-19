@@ -25,6 +25,8 @@ public class ActionControllor : MonoBehaviour {
     private bool UserActFlg;
     [SerializeField]
     private bool UserAttackFlg;
+    [SerializeField]
+    private AtkEfScript atkEf = null;
     private int count;
     public int iThisNext { get; private set; }
     public int jThisNext { get; private set; }
@@ -58,10 +60,14 @@ public class ActionControllor : MonoBehaviour {
         UserAttackFlg = false;
         iThisNext = 0;
         jThisNext = 0;
-        AnimatorState = this.GetComponent<Animator>();
+        //AnimatorState = this.GetComponent<Animator>();
         thisNowDirection = Direction.DOWN;
         AtkEfFlg = false;
         SpAtkEfFlg = false;
+        if (this.tag == "Player")
+        {
+            atkEf.EffectEnabled(false);
+        }
     }
     public void SetDirection(Direction thisDirection)
     {
@@ -221,14 +227,17 @@ public class ActionControllor : MonoBehaviour {
     //IEnumerator coActionAttack()
     private async void coActionAttack()
     {
-        AtkEfFlg = true; 
+        //AtkEfFlg = true;
+        atkEf.SetEffecrDirection();
+        atkEf.EffectEnabled(true);
         for (int count = 1; count < 6; count++)
         {
             this.transform.Translate(iAtkDir * 0.1f, jAtkDir *  0.1f, 0);
             //yield return new WaitForSeconds(0.025f);
             await UniTask.Delay(25);
         }
-        AtkEfFlg = false;
+        //AtkEfFlg = false;
+        atkEf.EffectEnabled(false);
         for (int count = 1; count < 6; count++)
         {
             this.transform.Translate(iAtkDir * - 0.1f, jAtkDir * -0.1f, 0);

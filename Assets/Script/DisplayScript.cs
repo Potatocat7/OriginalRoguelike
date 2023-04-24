@@ -8,7 +8,8 @@ public class DisplayScript : MonoBehaviour {
 
     [SerializeField]
     StatusDataScript Player;
-    GameObject Save;
+    [SerializeField]
+    SaveDataScript Save;
     [SerializeField]
     int FloorDisplay;
     public void SetFloor(int Floor)
@@ -19,8 +20,9 @@ public class DisplayScript : MonoBehaviour {
     public void SetDisplayScript(StatusDataScript playState)//Saveの宣言方法を変えればFindやGetComponentを削除できそう
     {
         Player = playState;
-        Save = GameObject.Find("SaveDataObject");
-        FloorDisplay = Save.GetComponent<SaveDataScript>().GetSaveData().clearFloor;
+        //Save = GameObject.Find("SaveDataObject");
+        //FloorDisplay = Save.GetComponent<SaveDataScript>().GetSaveData().clearFloor;
+        FloorDisplay = Save.GetSaveData().clearFloor;
 
     }
 

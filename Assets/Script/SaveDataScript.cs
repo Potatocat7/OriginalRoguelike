@@ -50,6 +50,10 @@ public class SaveDataScript : MonoBehaviour {
     //{
     //    _playerSaveData.clearFloor = FloorCount;
     //}
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
 
     public void SaveFloorCount()
     {

@@ -22,6 +22,10 @@ public class StatusDataScript : MonoBehaviour {
     private int _experienceMax = 5;
     private StatusDataScript _playerState;
 
+    public int GetHPnow()
+    {
+        return _charaState.HP;
+    }
     public int GetAttack()
     {
         return _charaState.ATK;

@@ -384,6 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ee918dbd827ee4097d3b4912ddbda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActContollor: {fileID: 316836400354960968}
   thisNowDirection: 5
   UserActFlg: 1
   UserAttackFlg: 1

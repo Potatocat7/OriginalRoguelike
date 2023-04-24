@@ -75,6 +75,11 @@ public class GameControllor : MonoBehaviour {
         mInstance = this;
         //DontDestroyOnLoad(gameObject);
     }
+    public int GetPlayerHpNow()
+    {
+        return _playerState.GetHPnow();
+    }
+
     public void AddItemState(ItemStatusData data)
     {
         _playerState.AddState(data);

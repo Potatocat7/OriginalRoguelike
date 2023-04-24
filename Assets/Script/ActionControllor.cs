@@ -18,7 +18,7 @@ public class ActionControllor : MonoBehaviour {
         DOWN_RIGHT
     }
     //[SerializeField]
-    //private GameControllor Contollor;
+    //private ActionControllor ActContollor;
     [SerializeField]
     public Direction thisNowDirection;
     [SerializeField]
@@ -47,7 +47,6 @@ public class ActionControllor : MonoBehaviour {
     //{
     //    return Contollor;
     //}
-
     public void StartSetUp( )
     {
         //Debug.Log(this);
@@ -228,19 +227,38 @@ public class ActionControllor : MonoBehaviour {
     private async void coActionAttack()
     {
         //AtkEfFlg = true;
-        atkEf.SetEffecrDirection();
-        atkEf.EffectEnabled(true);
+        if (this.tag == "Player")
+        {
+            atkEf.SetEffecrDirection();
+            atkEf.EffectEnabled(true);
+        }
         for (int count = 1; count < 6; count++)
         {
-            this.transform.Translate(iAtkDir * 0.1f, jAtkDir *  0.1f, 0);
+            if (GameControllor.Instance.GetPlayerHpNow() <= 0)
+            {
+                break;
+            }
+            this.transform.Translate(iAtkDir * 0.1f, jAtkDir * 0.1f, 0);
             //yield return new WaitForSeconds(0.025f);
             await UniTask.Delay(25);
         }
+        ///エラーがでるのでここでもチェック
+        if (GameControllor.Instance.GetPlayerHpNow() <= 0)
+        {
+            return;
+        }
         //AtkEfFlg = false;
-        atkEf.EffectEnabled(false);
+        if (this.tag == "Player")
+        {
+            atkEf.EffectEnabled(false);
+        }
         for (int count = 1; count < 6; count++)
         {
-            this.transform.Translate(iAtkDir * - 0.1f, jAtkDir * -0.1f, 0);
+            if (GameControllor.Instance.GetPlayerHpNow() <= 0)
+            {
+                break;
+            }
+            this.transform.Translate(iAtkDir * -0.1f, jAtkDir * -0.1f, 0);
             //yield return new WaitForSeconds(0.025f);
             await UniTask.Delay(25);
         }

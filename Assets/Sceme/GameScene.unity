@@ -610,6 +610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
+  Save: {fileID: 721245077}
   FloorDisplay: 0
 --- !u!1 &721245075
 GameObject:

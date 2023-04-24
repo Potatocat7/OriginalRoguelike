@@ -14,13 +14,16 @@ public class EndButton : MonoBehaviour {
 	void Update () {
 		
 	}
-    public void PushEndbutton()//宣言でGetComponentとかを無くす
+    public void PushEndbutton()
 	{
-        GameObject Save;
-        Save = GameObject.Find("SaveDataObject");
-        Save.GetComponent<SaveDataScript>().ClearData();
+		SaveDataScript.Instance.ClearData();
+		//GameObject Save;
+		//Save = GameObject.Find("SaveDataObject");
+		//Save.GetComponent<SaveDataScript>().ClearData();
 
-		Destroy(GameObject.Find("SaveCharaSelect"));
+		SaveDataScript.Instance.Destroy();
+		//Destroy(GameObject.Find("SaveCharaSelect"));
+
 		SceneManager.LoadScene("StartScene");
     }
 }

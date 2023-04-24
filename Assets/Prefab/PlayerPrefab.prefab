@@ -325,6 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ee918dbd827ee4097d3b4912ddbda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActContollor: {fileID: 114702123805358766}
   thisNowDirection: 0
   UserActFlg: 0
   UserAttackFlg: 0

@@ -7,17 +7,20 @@ using UnityEngine.UI;
 public class DisplayScript : MonoBehaviour {
 
     [SerializeField]
-    StatusDataScript Player;
+    private StatusDataScript Player;
     [SerializeField]
-    SaveDataScript Save;
+    private SaveDataScript Save;
     [SerializeField]
-    int FloorDisplay;
+    private int FloorDisplay;
+    [SerializeField]
+    private Text statusText;
+
     public void SetFloor(int Floor)
     {
         FloorDisplay = Floor;
     }
 
-    public void SetDisplayScript(StatusDataScript playState)//Saveの宣言方法を変えればFindやGetComponentを削除できそう
+    public void SetDisplayScript(StatusDataScript playState)
     {
         Player = playState;
         //Save = GameObject.Find("SaveDataObject");
@@ -29,7 +32,7 @@ public class DisplayScript : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         //宣言すればGetComponentが不要になりそう（あとUpdateでやらないことを考えてみる）
-        this.GetComponent<Text>().text = "HP:"+ Player.GetNow().HP.ToString() + "/" + Player.GetNow().MHP.ToString() + "\n"
+        statusText.text = "HP:"+ Player.GetNow().HP.ToString() + "/" + Player.GetNow().MHP.ToString() + "\n"
                                        + "特殊：" + Player.GetSpcount().ToString() + "\n"
                                        + "階層："+ FloorDisplay.ToString(); 
 	}

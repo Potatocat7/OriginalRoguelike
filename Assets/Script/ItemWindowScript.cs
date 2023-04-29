@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemWindowScript : MonoBehaviour
 {
     [SerializeField] private GameObject _thisWindowPanel;
-    [SerializeField] private GameObject _itemPrefabObj;
+    [SerializeField] private ItemPrefabScript _itemPrefabObj;
     [SerializeField] private RectTransform _itemPopwindowRectTransform;
     [SerializeField] private RectTransform _thisPanelRectTransform;
 
@@ -93,7 +93,7 @@ public class ItemWindowScript : MonoBehaviour
         //・消費ならデストロイ後リスト順の詰め
 
         ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.ITEMWINDOW);
-        _gotItemList[_listNum].GetComponent<ItemPrefabScript>().ActionItem();
+        _gotItemList[_listNum].ActionItem();
         _itemPopwindowRectTransform.localPosition = _offPositionPopwin;
     }
     public void OffPopwindow()
@@ -121,14 +121,14 @@ public class ItemWindowScript : MonoBehaviour
     {
         //prefabにセットするアイコンやら情報でSPATK用のアイテムなら呼ばないようにする
         //ウィンドウ表示中は窓ボタン以外使えないようにする必要あり
-        GameObject prefab = new GameObject();
+        //GameObject prefab = new GameObject();
         Vector3 pos = new Vector3(0, 150f -50.0f * _gotItemList.Count, 0);
-        prefab = (GameObject)Instantiate(_itemPrefabObj, _thisWindowPanel.transform.position, Quaternion.identity, _thisWindowPanel.transform);
-        prefab.transform.localPosition += pos;
+        ItemPrefabScript prefab = (ItemPrefabScript)Instantiate(_itemPrefabObj, _thisWindowPanel.transform.position, Quaternion.identity, _thisWindowPanel.transform);
+        prefab.gameObject.transform.localPosition += pos;
         Data.ListNum = _gotItemList.Count;
-        prefab.GetComponent<ItemPrefabScript>().GetThisState(Data);
-        _gotItemList.Add(prefab.GetComponent<ItemPrefabScript>());
-        ButtonActionManagerScript.Instance.AddItemButtonList(prefab.GetComponent<ItemPrefabScript>().itemButton);
+        prefab.GetThisState(Data);
+        _gotItemList.Add(prefab);
+        ButtonActionManagerScript.Instance.AddItemButtonList(prefab.itemButton);
        //_saveItemList.Add(prefab.GetComponent<ItemPrefabScript>().itemSaveData);
     }
     // Update is called once per frame

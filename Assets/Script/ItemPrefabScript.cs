@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,14 +9,14 @@ public class ItemPrefabScript : MonoBehaviour
     [SerializeField] private Sprite _imageEquip;
     [SerializeField] private Sprite _imageConsum;
 
-    [SerializeField] private GameObject _thisImageObj;
+    //[SerializeField] private GameObject _thisImageObj;
     [SerializeField] private Image _thisImage;
-    [SerializeField] private GameObject _thisNameObj;
+    //[SerializeField] private GameObject _thisNameObj;
     [SerializeField] private Text _thisName;
     [SerializeField] private int _thisData_HP;
     [SerializeField] private int _thisData_Attack;
-    [SerializeField] private GameObject _thisEquipCheckObj;
-    [SerializeField] private Text _thisEquipCheck;
+    //[SerializeField] private GameObject _thisEquipCheckObj;
+    [SerializeField] private TextMeshProUGUI _thisEquipCheck;
     private int _listNumber;
     public ItemStatusData itemSaveData;
     private ItemScript.ItemType _thisType;
@@ -27,8 +28,8 @@ public class ItemPrefabScript : MonoBehaviour
     }
     public void GetThisState(ItemStatusData data)//GetComponentどうにかしたい
     {
-        _thisImage = _thisImageObj.GetComponent<Image>();
-        _thisName = _thisNameObj.GetComponent<Text>();
+        //_thisImage = _thisImageObj.GetComponent<Image>();
+        //_thisName = _thisNameObj.GetComponent<Text>();
         //_thisEquipCheck = _thisEquipCheckObj.GetComponent<Text>();
         switch (data.Type)
         {
@@ -48,12 +49,14 @@ public class ItemPrefabScript : MonoBehaviour
         _thisData_Attack = data.Attack;
         if (data.EquipFlg == true)
         {
-            _thisEquipCheckObj.SetActive(true);
-            itemSaveData.EquipFlg = true;
+            //_thisEquipCheckObj.SetActive(true);
+            _thisEquipCheck.gameObject.SetActive(true);
+            itemSaveData.EquipFlg = true; 
         }
         else
         {
-            _thisEquipCheckObj.SetActive(false);
+            //_thisEquipCheckObj.SetActive(false);
+            _thisEquipCheck.gameObject.SetActive(false);
             itemSaveData.EquipFlg = false;
         }
         _listNumber = data.ListNum;
@@ -66,7 +69,8 @@ public class ItemPrefabScript : MonoBehaviour
             case ItemScript.ItemType.EQUIP:
                 if(itemSaveData.EquipFlg == true)
                 {
-                    _thisEquipCheckObj.SetActive(false);
+                    //_thisEquipCheckObj.SetActive(false);
+                    _thisEquipCheck.gameObject.SetActive(false);
                     itemSaveData.EquipFlg = false;
                     //ステータス変更
                     GameControllor.Instance.SubItemState(itemSaveData);
@@ -85,7 +89,8 @@ public class ItemPrefabScript : MonoBehaviour
         {
             case ItemScript.ItemType.EQUIP:
                 ItemWindowScript.Instance.CheckEquipItem();
-                _thisEquipCheckObj.SetActive(true);
+                //_thisEquipCheckObj.SetActive(true);
+                _thisEquipCheck.gameObject.SetActive(true);
                 itemSaveData.EquipFlg = true;
                 //ステータス反映
                 GameControllor.Instance.AddItemState(itemSaveData);

@@ -284,11 +284,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ee918dbd827ee4097d3b4912ddbda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActContollor: {fileID: 114582392451356274}
   thisNowDirection: 0
   UserActFlg: 0
   UserAttackFlg: 0
   atkEf: {fileID: 0}
+  stateData: {fileID: 114983118786054256}
   AtkEfFlg: 0
   SpAtkEfFlg: 0
   AnimatorState: {fileID: 95175281642835130}

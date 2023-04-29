@@ -5,16 +5,17 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour {
 
     //[SerializeField] private GameControllor _gameCtrl;
+    [SerializeField] private MapStatus _mapPrefab;
     [SerializeField] private GameObject _wallObj;
     [SerializeField] private GameObject _goalObj;
     [SerializeField] private GameObject _enemyObj;
     [SerializeField] private PlayerSelector _playerSelectObj;
     [SerializeField] private GameObject _floorObj;
     [SerializeField] private GameObject _healItemObj;
-    [SerializeField] private GameObject _weaponItemObj;
-    [SerializeField] private GameObject _consumptionItemObj;
-    [SerializeField] private GameObject _powerItemObj;
-    [SerializeField] private GameObject[,] _mapobj = new GameObject[20, 20];
+    [SerializeField] private ItemScript _weaponItemObj;
+    [SerializeField] private ItemScript _consumptionItemObj;
+    [SerializeField] private ItemScript _powerItemObj;
+    [SerializeField] private MapStatus[,] _mapobj = new MapStatus[20, 20];
     private GameObject _playerObj;
     private SaveCharaSelect CharaNum;
     public static int[,] map = new int[20, 20];       //選択後の
@@ -93,17 +94,18 @@ public class MapGenerator : MonoBehaviour {
     public void SetDropItemObj(int iPix,int jPix)//type itemType)
     {
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
-        var PrefabObj = _consumptionItemObj;
+        ItemScript PrefabObj = _consumptionItemObj;
 
         if (map[iPix, jPix] != 1)    //MAPが通路のなとき(壁でないとき)
         {
-            // プレハブを元に、インスタンスを生成、
-            _mapobj[iPix, jPix] = (GameObject)Instantiate(PrefabObj, new Vector3(iPix, jPix, -1.0F), Quaternion.identity);
+            // プレハブを元に、インスタンスを生成
+            ItemScript setItem = (ItemScript)Instantiate(PrefabObj, new Vector3(iPix, jPix, -1.0F), Quaternion.identity);
+            _mapobj[iPix, jPix].SetItem(setItem);
             if (PrefabObj.tag == "Item")
             {
                 //GetComponent。InstantiateがGameObject出しか作れないなんてことがなかったはずなのでなおせるならなおした
-                _mapobj[iPix, jPix].GetComponent<ItemScript>().GetPosition(iPix, jPix);
-                GameControllor.Instance.AddCountItemObj(_mapobj[iPix, jPix]);
+                _mapobj[iPix, jPix]._Item.GetPosition(iPix, jPix);
+                GameControllor.Instance.AddCountItemObj(setItem);
             }
         }
         else
@@ -111,7 +113,7 @@ public class MapGenerator : MonoBehaviour {
         }
     }
 
-    void SetUniqObj(  GameObject PrefabObj)
+    void SetUniqObj(GameObject PrefabObj)
     {
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
         bool iLoopflg = false;
@@ -126,43 +128,69 @@ public class MapGenerator : MonoBehaviour {
                 {
                     if (CheckMapstateUobj(randomiPix, randomjPix) == true) //条件が達成されていたら
                     {
-                        // プレハブを元に、インスタンスを生成、
-                        _mapobj[randomiPix, randomjPix] = (GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity);
+                        // プレハブを元に、インスタンスを生成
+                        _mapobj[randomiPix, randomjPix].SetMapObject((GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity));
                         iLoopflg = true;
                         if (PrefabObj.tag == "Player")
                         {
-                            _mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
-                            GameControllor.Instance.SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
+                            _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<ActionControllor>().StartSetUp();
+                            GameControllor.Instance.SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix]._mapObject.GetComponent<ActionControllor>());
                             iNow = randomiPix;
                             jNow = randomjPix;
                             iObjState.Add(randomiPix);
                             jObjState.Add(randomjPix);
-                            _playerData = _mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>();
+                            _playerData = _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<StatusDataScript>();
                             _displayScript.SetDisplayScript(_playerData);
                             GameControllor.Instance.SetPlayerState(_playerData);
                         }
                         else if (PrefabObj.tag == "Enemy") 
                         {
                             //上がなおせればGetComponentが一気に解消できそう？
-                            _mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>().StartSetUp();
-                            _mapobj[randomiPix, randomjPix].GetComponent<EnemyAttack>().GetPlayerStatusData(_playerData);
-                            _mapobj[randomiPix, randomjPix].GetComponent<EnemyAttack>().GetThisStatusData(_mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>());
-                            _mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>().GetPlayerState(_playerData);
-                            EnemyList.Add(_mapobj[randomiPix, randomjPix].GetComponent<ActionControllor>());
-                            EnemyListStateData.Add(_mapobj[randomiPix, randomjPix].GetComponent<StatusDataScript>());
+                            _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<ActionControllor>().StartSetUp();
+                            _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<EnemyAttack>().GetPlayerStatusData(_playerData);
+                            _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<EnemyAttack>().GetThisStatusData(_mapobj[randomiPix, randomjPix]._mapObject.GetComponent<StatusDataScript>());
+                            _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<StatusDataScript>().GetPlayerState(_playerData);
+                            EnemyList.Add(_mapobj[randomiPix, randomjPix]._mapObject.GetComponent<ActionControllor>());
+                            EnemyListStateData.Add(_mapobj[randomiPix, randomjPix]._mapObject.GetComponent<StatusDataScript>());
                             iObjState.Add(randomiPix); 
                             jObjState.Add(randomjPix);
                         }
-                        else if (PrefabObj.tag == "Item")
-                        {
-                            _mapobj[randomiPix, randomjPix].GetComponent<ItemScript>().GetPosition(randomiPix, randomjPix);
-                            GameControllor.Instance.AddCountItemObj(_mapobj[randomiPix, randomjPix]);
-                        }
                         else if (PrefabObj.tag == "Goal")
                         {
-                            GameControllor.Instance.SetGoalObj(_mapobj[randomiPix, randomjPix]);
+                            GameControllor.Instance.SetGoalObj(_mapobj[randomiPix, randomjPix]._mapObject);
                         }
 
+                    }
+                }
+            }
+            else
+            {
+            }
+        }
+    }
+    void SetUniqObj(ItemScript PrefabObj)
+    {
+        //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
+        bool iLoopflg = false;
+        while (iLoopflg == false)　//出口指定
+        {
+            int randomiPix = Random.Range(1, 19);        // 1～19の乱数を取得
+            int randomjPix = Random.Range(1, 19);        // 1～19の乱数を取得
+
+            if (map[randomiPix, randomjPix] != 1)    //MAPが通路のなとき(壁でないとき)
+            {
+                if (CheckMapstate(randomiPix, randomjPix) == true) //条件が達成されていたら
+                {
+                    if (CheckMapstateUobj(randomiPix, randomjPix) == true) //条件が達成されていたら
+                    {
+                        // プレハブを元に、インスタンスを生成
+                        _mapobj[randomiPix, randomjPix].SetItem((ItemScript)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity));
+                        iLoopflg = true;
+                        if (PrefabObj.tag == "Item")
+                        {
+                            _mapobj[randomiPix, randomjPix]._Item.GetPosition(randomiPix, randomjPix);
+                            GameControllor.Instance.AddCountItemObj(_mapobj[randomiPix, randomjPix]._Item);
+                        }
                     }
                 }
             }
@@ -185,6 +213,9 @@ public class MapGenerator : MonoBehaviour {
         {
             for (int jPix = 0; jPix < MapDataScript.mapData.GetLength(2); jPix++) //mapHeight
             {
+                MapStatus mapstatus;
+                mapstatus = (MapStatus)Instantiate(_mapPrefab, new Vector3(iPix, jPix, 0.0F), Quaternion.identity);
+                _mapobj[iPix, jPix] = mapstatus;
                 map[iPix, jPix] = MapDataScript.mapData[2, iPix, jPix];// mapNum
             }
         }
@@ -197,12 +228,12 @@ public class MapGenerator : MonoBehaviour {
                 if (map[ iPix, jPix] == 1)        //壁
                 {
                     // プレハブを元に、インスタンスを生成、
-                    _mapobj[iPix, jPix] = (GameObject)Instantiate(_wallObj, new Vector3(iPix , jPix , 0.0F), Quaternion.identity);
+                    _mapobj[iPix, jPix].SetMapObject((GameObject)Instantiate(_wallObj, new Vector3(iPix, jPix, 0.0F), Quaternion.identity));
                 }
                 else                            //床  
                 {
                     // プレハブを元に、インスタンスを生成、
-                    _mapobj[iPix, jPix] = (GameObject)Instantiate(_floorObj, new Vector3(iPix, jPix , 0.0F), Quaternion.identity);
+                    _mapobj[iPix, jPix].SetMapObject((GameObject)Instantiate(_floorObj, new Vector3(iPix, jPix, 0.0F), Quaternion.identity));
 
                 }
             }

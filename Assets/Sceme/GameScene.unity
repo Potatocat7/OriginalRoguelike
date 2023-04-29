@@ -612,6 +612,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   Save: {fileID: 721245077}
   FloorDisplay: 0
+  statusText: {fileID: 371473968}
 --- !u!1 &721245075
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,6 +2414,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf1437ac752b4a34e88f93ee26fc3993, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mapPrefab: {fileID: 184596463395403566, guid: f828d0e3c629ad14e986aaed552fc31b,
+    type: 3}
   _wallObj: {fileID: 1204325984152940, guid: 60695017f9845b84daa1df0d26fd1ea6, type: 3}
   _goalObj: {fileID: 1653616096706262, guid: 2b819a5bd34fe2440a1f2d9a278fcce8, type: 3}
   _enemyObj: {fileID: 1455789266397692, guid: 0218c9001f0eda8448eab24e6897e37a, type: 3}
@@ -2421,11 +2424,11 @@ MonoBehaviour:
   _floorObj: {fileID: 1061476967306026, guid: 462bde33a7c54094b8deb21ea5f8c920, type: 3}
   _healItemObj: {fileID: 1901750714422164, guid: 5edfc5329a5f7324497cf98d88a87e80,
     type: 3}
-  _weaponItemObj: {fileID: 3652600815883254837, guid: 9c618a68f4f3a944ba798d8640c35927,
+  _weaponItemObj: {fileID: 5327775473725069851, guid: 9c618a68f4f3a944ba798d8640c35927,
     type: 3}
-  _consumptionItemObj: {fileID: 7510224250806087813, guid: 09d3603be39e51c42b9ba0169e8a2b13,
+  _consumptionItemObj: {fileID: 9104967153078392466, guid: 09d3603be39e51c42b9ba0169e8a2b13,
     type: 3}
-  _powerItemObj: {fileID: 1706571230454130, guid: 72a1b7205732ce84a968c9d56cfba029,
+  _powerItemObj: {fileID: 114454371931759436, guid: 72a1b7205732ce84a968c9d56cfba029,
     type: 3}
   mapNum: 0
   _saveData: {fileID: 721245077}
@@ -3006,7 +3009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _thisWindowPanel: {fileID: 1662915367}
-  _itemPrefabObj: {fileID: 2921518893409115398, guid: 88399e78b739482498d16abedf45b75a,
+  _itemPrefabObj: {fileID: 6096952024286710937, guid: 88399e78b739482498d16abedf45b75a,
     type: 3}
   _itemPopwindowRectTransform: {fileID: 1163411713}
   _thisPanelRectTransform: {fileID: 1662915368}

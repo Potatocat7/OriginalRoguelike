@@ -52,7 +52,7 @@ public class GameControllor : MonoBehaviour {
     private bool GetPItemFlg;
 
     private GameObject _goalObj;
-    private List<GameObject> ItemList = new List<GameObject>();
+    private List<ItemScript> ItemList = new List<ItemScript>();
     private List<StatusDataScript> EnemyListState = new List<StatusDataScript>();
     private List<ActionControllor> EnemyList = new List<ActionControllor>();
 
@@ -109,7 +109,7 @@ public class GameControllor : MonoBehaviour {
         }
         return true;
     }
-    public void AddCountItemObj(GameObject itemObj)
+    public void AddCountItemObj(ItemScript itemObj)
     {
         itemCount += 1;
         ItemList.Add(itemObj);
@@ -149,9 +149,8 @@ public class GameControllor : MonoBehaviour {
         {
             if (MapGeneObj.EnemyList[count] != null)
             {
-                //GetComponentを対応できないか
                 EnemyList.Add(MapGeneObj.EnemyList[count]);
-                EnemyListState.Add(MapGeneObj.EnemyList[count].GetComponent<StatusDataScript>());
+                EnemyListState.Add(MapGeneObj.EnemyList[count].stateData);
                 EnemyCount += 1;
             }
         }
@@ -365,7 +364,7 @@ public class GameControllor : MonoBehaviour {
                  //※攻撃方向が指定できていないことがある
                  //SetEnemyDirection(iEnemyNext, jEnemyNext, EnemyList[count]);
                     //攻撃時のリスト追加と同時に攻撃フラグをture
-                    EnemyList[count].GetComponent<ActionControllor>().SetUserAttackFlg();
+                    EnemyList[count].SetUserAttackFlg();
                     AtkEnemyList.Add(EnemyList[count]);
                     EnemyAtkCount += 1;
                 }
@@ -382,15 +381,18 @@ public class GameControllor : MonoBehaviour {
             if (EnemyCount >= 1)
             {
                 //MoveEnemyListだと移動チェック時に他の敵の位置を見るときに攻撃時の敵を見ることが現状できないため
-                if (EnemyList[count].GetComponent<ActionControllor>().GetUserAttackFlg() == false)
+                if (EnemyList[count].GetUserAttackFlg() == false)
                 {
-                    if (MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)] == 0)
+                    if (MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x),
+                        (int)Math.Round(EnemyList[count].transform.position.y)] == 0)
                     {//通路だった場合は
                         EnemyMoveRandom(EnemyList[count], count); //現状はランダム移動（後で通路は直進するようにしたい）
                     }
                     else
                     {
-                        if (MapGenerator.map[(int)Math.Round(Player.transform.position.x), (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x), (int)Math.Round(EnemyList[count].transform.position.y)])
+                        if (MapGenerator.map[(int)Math.Round(Player.transform.position.x),
+                            (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x),
+                            (int)Math.Round(EnemyList[count].transform.position.y)])
                         {
                             EnemyMoveTargetPlayer(EnemyList[count], count);
                         }
@@ -451,7 +453,8 @@ public class GameControllor : MonoBehaviour {
 
             }
         }
-        if (Player.SetiNextStepArea() == (int)Math.Round(_goalObj.transform.position.x) && Player.SetjNextStepArea() == (int)Math.Round(_goalObj.transform.position.y))
+        if (Player.SetiNextStepArea() == (int)Math.Round(_goalObj.transform.position.x) 
+            && Player.SetjNextStepArea() == (int)Math.Round(_goalObj.transform.position.y))
         {
             GoalFlg = true;
         }

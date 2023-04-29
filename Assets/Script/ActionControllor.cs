@@ -27,6 +27,9 @@ public class ActionControllor : MonoBehaviour {
     private bool UserAttackFlg;
     [SerializeField]
     private AtkEfScript atkEf = null;
+    [SerializeField]
+    public StatusDataScript stateData = null;
+    
     private int count;
     public int iThisNext { get; private set; }
     public int jThisNext { get; private set; }

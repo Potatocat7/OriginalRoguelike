@@ -355,14 +355,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _imageEquip: {fileID: 21300052, guid: d1f40359f339da2408ac1c2511786fdf, type: 3}
   _imageConsum: {fileID: 21300044, guid: d1f40359f339da2408ac1c2511786fdf, type: 3}
-  _thisImageObj: {fileID: 7754809764318607351}
-  _thisImage: {fileID: 0}
-  _thisNameObj: {fileID: 4718799427689414868}
-  _thisName: {fileID: 0}
+  _thisImage: {fileID: 1376649939398453608}
+  _thisName: {fileID: 5101159275173445964}
   _thisData_HP: 0
   _thisData_Attack: 0
-  _thisEquipCheckObj: {fileID: 2029436410781076866}
-  _thisEquipCheck: {fileID: 0}
+  _thisEquipCheck: {fileID: 1106860844291159300}
   itemSaveData:
     Type: 0
     Attack: 0
@@ -371,6 +368,8 @@ MonoBehaviour:
     Name: 
     ListNum: 0
     EquipFlg: 0
+    iPosition: 0
+    jPosition: 0
   itemButton: {fileID: 5231728584116563200}
 --- !u!1 &4718799427689414868
 GameObject:

@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerSelector : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _player_1_Object;
+    private ActionControllor _player_1_Object;
     [SerializeField]
-    private GameObject _player_2_Object;
+    private ActionControllor _player_2_Object;
     //[SerializeField]
     //private GameObject _player_3_Object;
-    private GameObject _ansTypeBulletObject;
+    private ActionControllor _ansTypeBulletObject;
 
     public enum PlayerKind
     {
@@ -18,7 +18,7 @@ public class PlayerSelector : MonoBehaviour
         //Player_1,
         Player_2
     }
-    public GameObject SelectTypeBullet(PlayerKind ID)
+    public ActionControllor SelectTypeBullet(PlayerKind ID)
     {
         switch (ID)
         {

@@ -101,7 +101,7 @@ public class GameControllor : MonoBehaviour {
         for (int i=0;i < ItemList.Count;i++)
         {
             //ListについてるGetComponentもやり方で削除できそう
-            ItemStatusData data = ItemList[i].GetComponent<ItemScript>().ThisData;
+            ItemStatusData data = ItemList[i].ThisData;
             if (data.iPosition == iPix && data.jPosition == jPix)
             {
                 return false;
@@ -358,11 +358,11 @@ public class GameControllor : MonoBehaviour {
                 jPmap = Player.SetjNextStepArea();
 
                 //GetComponentを対応できないか
-                if (EnemyList[count].GetComponent<EnemyAttack>().CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
+                if (EnemyList[count].enemyAtk.CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
                 {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
-                 //攻撃リストに登録 ※ここは攻撃前
-                 //※攻撃方向が指定できていないことがある
-                 //SetEnemyDirection(iEnemyNext, jEnemyNext, EnemyList[count]);
+                    //攻撃リストに登録 ※ここは攻撃前
+                    //※攻撃方向が指定できていないことがある
+                    //SetEnemyDirection(iEnemyNext, jEnemyNext, EnemyList[count]);
                     //攻撃時のリスト追加と同時に攻撃フラグをture
                     EnemyList[count].SetUserAttackFlg();
                     AtkEnemyList.Add(EnemyList[count]);
@@ -374,6 +374,7 @@ public class GameControllor : MonoBehaviour {
                     MoveEnemyList.Add(EnemyList[count]);
                     EnemyMoveCount += 1;
                 }
+
             }
         }
         for (int count = 0; count < EnemyCount; count++)
@@ -413,7 +414,7 @@ public class GameControllor : MonoBehaviour {
                 iPmap = Player.SetiNextStepArea();
                 jEmap = (int)Math.Round(AtkEnemyList[count].transform.position.y);
                 jPmap = Player.SetjNextStepArea();
-                AtkEnemyList[count].GetComponent<EnemyAttack>().SetDirectionPlayerThisAround(iPmap, jPmap, iEmap, jEmap);
+                AtkEnemyList[count].enemyAtk.SetDirectionPlayerThisAround(iPmap, jPmap, iEmap, jEmap);
             }
         }
     }
@@ -465,12 +466,11 @@ public class GameControllor : MonoBehaviour {
             {
                 if (Player.SetiNextStepArea() == (int)Math.Round(ItemList[i].transform.position.x) && Player.SetjNextStepArea() == (int)Math.Round(ItemList[i].transform.position.y))
                 {
-                    ItemScript checkScript = ItemList[i].GetComponent<ItemScript>();
-                    if (checkScript.ThisData.Type != ItemScript.ItemType.SPECIAL)
+                    if (ItemList[i].ThisData.Type != ItemScript.ItemType.SPECIAL)
                     {
-                        ItemWindowScript.Instance.AddGotItemPrefab(checkScript.ThisData);
+                        ItemWindowScript.Instance.AddGotItemPrefab(ItemList[i].ThisData);
                     }
-                    checkScript.GetDestroy();
+                    ItemList[i].GetDestroy();
                     ItemList.RemoveAt(i);
                     break;
                 }
@@ -572,7 +572,7 @@ public class GameControllor : MonoBehaviour {
             //ここでもGetComponent。なんとかしたい
             AtkEnemyList[count].SetUserAttackFlagOn();
             AtkEnemyList[count].ActionStart();
-            AtkEnemyList[count].GetComponent<EnemyAttack>().AttackHit();
+            AtkEnemyList[count].enemyAtk.AttackHit();
         }
     }
     IEnumerator coActionFlgOnMain()
@@ -602,6 +602,10 @@ public class GameControllor : MonoBehaviour {
             if (GoalFlg == true)
             {
                 yield return new WaitForSeconds(0.3f);
+                ///TODO:ゴールに入った瞬間にゲームを読み直すため
+                ///アクションでキャラが動いているとエラーがでるので
+                ///キャラを動かした後に飛ぶようにするwhile等で
+                ///また切り替える前にウィンドウをだす
                 SaveData();
                 SceneManager.LoadScene("GameScene");
             }

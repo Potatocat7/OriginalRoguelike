@@ -29,7 +29,9 @@ public class ActionControllor : MonoBehaviour {
     private AtkEfScript atkEf = null;
     [SerializeField]
     public StatusDataScript stateData = null;
-    
+    [SerializeField]
+    public EnemyAttack enemyAtk;
+
     private int count;
     public int iThisNext { get; private set; }
     public int jThisNext { get; private set; }

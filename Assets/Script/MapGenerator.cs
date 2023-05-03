@@ -8,7 +8,7 @@ public class MapGenerator : MonoBehaviour {
     [SerializeField] private MapStatus _mapPrefab;
     [SerializeField] private GameObject _wallObj;
     [SerializeField] private GameObject _goalObj;
-    [SerializeField] private GameObject _enemyObj;
+    [SerializeField] private ActionControllor _enemyObj;
     [SerializeField] private PlayerSelector _playerSelectObj;
     [SerializeField] private GameObject _floorObj;
     [SerializeField] private GameObject _healItemObj;
@@ -16,7 +16,7 @@ public class MapGenerator : MonoBehaviour {
     [SerializeField] private ItemScript _consumptionItemObj;
     [SerializeField] private ItemScript _powerItemObj;
     [SerializeField] private MapStatus[,] _mapobj = new MapStatus[20, 20];
-    private GameObject _playerObj;
+    private ActionControllor _playerObj;
     private SaveCharaSelect CharaNum;
     public static int[,] map = new int[20, 20];       //選択後の
     public static int iNow, jNow, EnemyCount,UniqObjCount;
@@ -131,35 +131,61 @@ public class MapGenerator : MonoBehaviour {
                         // プレハブを元に、インスタンスを生成
                         _mapobj[randomiPix, randomjPix].SetMapObject((GameObject)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity));
                         iLoopflg = true;
-                        if (PrefabObj.tag == "Player")
-                        {
-                            _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<ActionControllor>().StartSetUp();
-                            GameControllor.Instance.SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix]._mapObject.GetComponent<ActionControllor>());
-                            iNow = randomiPix;
-                            jNow = randomjPix;
-                            iObjState.Add(randomiPix);
-                            jObjState.Add(randomjPix);
-                            _playerData = _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<StatusDataScript>();
-                            _displayScript.SetDisplayScript(_playerData);
-                            GameControllor.Instance.SetPlayerState(_playerData);
-                        }
-                        else if (PrefabObj.tag == "Enemy") 
-                        {
-                            //上がなおせればGetComponentが一気に解消できそう？
-                            _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<ActionControllor>().StartSetUp();
-                            _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<EnemyAttack>().GetPlayerStatusData(_playerData);
-                            _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<EnemyAttack>().GetThisStatusData(_mapobj[randomiPix, randomjPix]._mapObject.GetComponent<StatusDataScript>());
-                            _mapobj[randomiPix, randomjPix]._mapObject.GetComponent<StatusDataScript>().GetPlayerState(_playerData);
-                            EnemyList.Add(_mapobj[randomiPix, randomjPix]._mapObject.GetComponent<ActionControllor>());
-                            EnemyListStateData.Add(_mapobj[randomiPix, randomjPix]._mapObject.GetComponent<StatusDataScript>());
-                            iObjState.Add(randomiPix); 
-                            jObjState.Add(randomjPix);
-                        }
-                        else if (PrefabObj.tag == "Goal")
+                        if (PrefabObj.tag == "Goal")
                         {
                             GameControllor.Instance.SetGoalObj(_mapobj[randomiPix, randomjPix]._mapObject);
                         }
 
+                    }
+                }
+            }
+            else
+            {
+            }
+        }
+    }
+    void SetUniqObj(ActionControllor PrefabObj)
+    {
+        //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
+        bool iLoopflg = false;
+        while (iLoopflg == false)　//出口指定
+        {
+            int randomiPix = Random.Range(1, 19);        // 1～19の乱数を取得
+            int randomjPix = Random.Range(1, 19);        // 1～19の乱数を取得
+
+            if (map[randomiPix, randomjPix] != 1)    //MAPが通路のなとき(壁でないとき)
+            {
+                if (CheckMapstate(randomiPix, randomjPix) == true) //条件が達成されていたら
+                {
+                    if (CheckMapstateUobj(randomiPix, randomjPix) == true) //条件が達成されていたら
+                    {
+                        // プレハブを元に、インスタンスを生成
+                        _mapobj[randomiPix, randomjPix].SetActCtrl((ActionControllor)Instantiate(PrefabObj, new Vector3(randomiPix, randomjPix, -1.0F), Quaternion.identity));
+                        iLoopflg = true;
+                        if (PrefabObj.tag == "Player")
+                        {
+                            _mapobj[randomiPix, randomjPix]._actCtrl.StartSetUp();
+                            GameControllor.Instance.SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix]._actCtrl);
+                            iNow = randomiPix;
+                            jNow = randomjPix;
+                            iObjState.Add(randomiPix);
+                            jObjState.Add(randomjPix);
+                            _playerData = _mapobj[randomiPix, randomjPix]._actCtrl.stateData;
+                            _displayScript.SetDisplayScript(_playerData);
+                            GameControllor.Instance.SetPlayerState(_playerData);
+                        }
+                        else if (PrefabObj.tag == "Enemy")
+                        {
+                            //上がなおせればGetComponentが一気に解消できそう？
+                            _mapobj[randomiPix, randomjPix]._actCtrl.StartSetUp();
+                            _mapobj[randomiPix, randomjPix]._actCtrl.enemyAtk.GetPlayerStatusData(_playerData);
+                            _mapobj[randomiPix, randomjPix]._actCtrl.enemyAtk.GetThisStatusData(_mapobj[randomiPix, randomjPix]._actCtrl.stateData);
+                            _mapobj[randomiPix, randomjPix]._actCtrl.stateData.GetPlayerState(_playerData);
+                            EnemyList.Add(_mapobj[randomiPix, randomjPix]._actCtrl);
+                            EnemyListStateData.Add(_mapobj[randomiPix, randomjPix]._actCtrl.stateData);
+                            iObjState.Add(randomiPix);
+                            jObjState.Add(randomjPix);
+                        }
                     }
                 }
             }

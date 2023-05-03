@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d08c0074a3b079c4cb40fac8868d940b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _player_1_Object: {fileID: 7277428086546084138, guid: c6b7fd3dddd67fd4bad2219e7952c523,
+  _player_1_Object: {fileID: 316836400354960968, guid: c6b7fd3dddd67fd4bad2219e7952c523,
     type: 3}
-  _player_2_Object: {fileID: 1321754040716970, guid: 886f4d6e342803641b33e6341ad2ab0d,
+  _player_2_Object: {fileID: 114295699721812306, guid: 886f4d6e342803641b33e6341ad2ab0d,
     type: 3}

@@ -57,6 +57,8 @@ public class SaveDataScript : MonoBehaviour {
 
     public void SaveFloorCount()
     {
+        Debug.Log("aa");
+
         _playerSaveData.clearFloor += 1;
     }
     public void SetFlgOn()
@@ -73,6 +75,8 @@ public class SaveDataScript : MonoBehaviour {
     }
     public void ClearData()
     {
+        Debug.Log("aaa");
+
         SaveFlg = false;
         //PlayerHpNowData = 0;
         _playerSaveData.clearFloor = 1;
@@ -98,6 +102,8 @@ public class SaveDataScript : MonoBehaviour {
     void Awake()
     {
         //PlayerHpNowData = 0;
+        Debug.Log("aab");
+
         _playerSaveData.clearFloor = 1;
         if (Instance != null)
         {

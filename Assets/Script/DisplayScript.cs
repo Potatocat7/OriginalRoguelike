@@ -25,6 +25,7 @@ public class DisplayScript : MonoBehaviour {
         Player = playState;
         //Save = GameObject.Find("SaveDataObject");
         //FloorDisplay = Save.GetComponent<SaveDataScript>().GetSaveData().clearFloor;
+        Debug.Log("a");
         FloorDisplay = Save.GetSaveData().clearFloor;
 
     }

@@ -10,7 +10,9 @@ public class PlayerAttack_1 : MonoBehaviour {
     [SerializeField]
     private int iThisAtkArea1, jThisAtkArea1, iThisAtkArea2, jThisAtkArea2, iThisAtkArea3, jThisAtkArea3;
     //private GameControllor Contollor;
+    [SerializeField]
     private ActionControllor _actCtrl;
+    [SerializeField]
     private StatusDataScript _thisState;
 
     void AttackHit()
@@ -104,10 +106,10 @@ public class PlayerAttack_1 : MonoBehaviour {
     }
     // Use this for initialization
     void Start () {
-        //ここの初期化もGetComponentをなくせる気がする
-        _actCtrl = this.GetComponent<ActionControllor>();
-        //Contollor = _actCtrl.GetGameCtrl();
-        _thisState = this.GetComponent<StatusDataScript>();
+        ////ここの初期化もGetComponentをなくせる気がする
+        //_actCtrl = this.GetComponent<ActionControllor>();
+        ////Contollor = _actCtrl.GetGameCtrl();
+        //_thisState = this.GetComponent<StatusDataScript>();
     }
 
     // Update is called once per frame

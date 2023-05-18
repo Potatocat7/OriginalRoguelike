@@ -203,6 +203,7 @@ MonoBehaviour:
   UserAttackFlg: 1
   atkEf: {fileID: 114251747193377120}
   stateData: {fileID: 114404054609693906}
+  enemyAtk: {fileID: 0}
   AtkEfFlg: 0
   SpAtkEfFlg: 0
   AnimatorState: {fileID: 95957876354310624}
@@ -275,6 +276,8 @@ MonoBehaviour:
   jThisAtkArea2: 0
   iThisAtkArea3: 0
   jThisAtkArea3: 0
+  _actCtrl: {fileID: 114295699721812306}
+  _thisState: {fileID: 114404054609693906}
 --- !u!1 &1326115485017334
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +502,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackEffect: 0
   Player: {fileID: 114295699721812306}
+  spriteRenderer: {fileID: 212497047261382806}
+  animator: {fileID: 95177745705518578}
 --- !u!1 &1702191766888144
 GameObject:
   m_ObjectHideFlags: 0

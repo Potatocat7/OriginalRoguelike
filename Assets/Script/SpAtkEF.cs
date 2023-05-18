@@ -8,6 +8,11 @@ public class SpAtkEF : MonoBehaviour {
     bool AttackEffect;
     [SerializeField]
     ActionControllor Player = null;
+    [SerializeField]
+    SpriteRenderer spriteRenderer;
+    [SerializeField]
+    Animator animator;
+
 
     // Use this for initialization
     void Start () {
@@ -19,12 +24,12 @@ public class SpAtkEF : MonoBehaviour {
         if (Player.SpAtkEfFlg == true)
         {
             //GetComponentをなくしたい（とくにUpdate内だからなおのこと）
-            this.GetComponent<SpriteRenderer>().enabled = true;
-            this.GetComponent<Animator>().SetTrigger("StartEF");
+            spriteRenderer.enabled = true;
+            animator.SetTrigger("StartEF");
         }
         else
         {
-            this.GetComponent<SpriteRenderer>().enabled = false;
+            spriteRenderer.enabled = false;
         }
 
     }

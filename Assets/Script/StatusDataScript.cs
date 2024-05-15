@@ -6,7 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
-public class StatusDataScript : MonoBehaviour {
+public class StatusDataScript : MonoBehaviour 
+{
 
     [SerializeField]
     private Status _charaState;
@@ -21,6 +22,8 @@ public class StatusDataScript : MonoBehaviour {
     [SerializeField]
     private int _experienceMax = 5;
     private StatusDataScript _playerState;
+
+    public EnemyModel enemyModel;
 
     public int GetHPnow()
     {
@@ -95,12 +98,20 @@ public class StatusDataScript : MonoBehaviour {
         }
         else
         {
-            _charaState.LV = 1;
-            _charaState.ATK = Attack;
-            _charaState.MHP = MaxHP;
-            _charaState.HP = MaxHP;
-            _charaState.MEXP = _experienceMax;
+            enemyModel = new EnemyModel();
+            _charaState.LV = enemyModel.LV;
+            _charaState.ATK = enemyModel.ATK;
+            _charaState.MHP = enemyModel.MHP;
+            _charaState.HP = enemyModel.MHP;
+            _charaState.MEXP = enemyModel.MEXP;
             _charaState.EXP = 0;
+
+            //_charaState.LV = 1;
+            //_charaState.ATK = Attack;
+            //_charaState.MHP = MaxHP;
+            //_charaState.HP = MaxHP;
+            //_charaState.MEXP = _experienceMax;
+            //_charaState.EXP = 0;
         }
         DamageDisplay.text = "";
         //DamageDisply = this.transform.GetChild(0).GetComponent<Text>();

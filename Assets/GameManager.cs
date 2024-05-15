@@ -12,6 +12,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager = null;
     /// <summary>エネミーマネージャー</summary>
     [SerializeField] private EnemyManager enemyManager = null;
+    //シングルトン化
+    private static GameManager mInstance;
+    public static GameManager Instance
+    {
+        get
+        {
+            return mInstance;
+        }
+    }
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        mInstance = this;
+    }
     void Start()
     {
         mapGeneObj.MapGeneStart(finish:()=> {

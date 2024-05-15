@@ -21,7 +21,7 @@ public class EnemyModel
     ///// <summary>スケール変更の倍率 </summary>
     //private const float ScaleMagnification = 0.5f;
 
-    public EnemyModel(int cardId)
+    public EnemyModel()
     {
         EnemyEntity enemyEntity = Resources.Load<EnemyEntity>("Enemy/Enemy_1");
         MHP = enemyEntity.MHP;

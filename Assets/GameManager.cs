@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    //[SerializeField]
-    //private ActionControllor _actionCtrl = null;
-    [SerializeField]
-    private MapGenerator _mapGeneObj = null;
-    [SerializeField]
-    private GameControllor _gameCtrl = null;
-    // Start is called before the first frame update 
+    /// <summary>マップ生成</summary>
+    [SerializeField]private MapGenerator mapGeneObj = null;
+    /// <summary>ゲーム操作</summary>
+    [SerializeField] private GameControllor gameCtrl = null;
+    /// <summary>プレイヤーマネージャー</summary>
+    [SerializeField] private PlayerManager playerManager = null;
+    /// <summary>エネミーマネージャー</summary>
+    [SerializeField] private EnemyManager enemyManager = null;
     void Start()
     {
-        _mapGeneObj.MapGeneStart();
-        _gameCtrl.GameCtrlStart();
+        mapGeneObj.MapGeneStart(finish:()=> {
+            gameCtrl.GameCtrlStart();
+            playerManager.Init();
+            enemyManager.Init();
+        });
     }
+    ///TODO:GameControllorの一部処理をここで行う
+    ///主に操作以外の処理
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

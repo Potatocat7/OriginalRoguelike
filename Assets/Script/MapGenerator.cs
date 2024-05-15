@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -119,8 +120,8 @@ public class MapGenerator : MonoBehaviour {
         bool iLoopflg = false;
         while (iLoopflg == false)　//出口指定
         {
-            int randomiPix = Random.Range(1, 19);        // 1～19の乱数を取得
-            int randomjPix = Random.Range(1, 19);        // 1～19の乱数を取得
+            int randomiPix = UnityEngine.Random.Range(1, 19);        // 1～19の乱数を取得
+            int randomjPix = UnityEngine.Random.Range(1, 19);        // 1～19の乱数を取得
 
             if (map[randomiPix, randomjPix] != 1)    //MAPが通路のなとき(壁でないとき)
             {
@@ -150,8 +151,8 @@ public class MapGenerator : MonoBehaviour {
         bool iLoopflg = false;
         while (iLoopflg == false)　//出口指定
         {
-            int randomiPix = Random.Range(1, 19);        // 1～19の乱数を取得
-            int randomjPix = Random.Range(1, 19);        // 1～19の乱数を取得
+            int randomiPix = UnityEngine.Random.Range(1, 19);        // 1～19の乱数を取得
+            int randomjPix = UnityEngine.Random.Range(1, 19);        // 1～19の乱数を取得
 
             if (map[randomiPix, randomjPix] != 1)    //MAPが通路のなとき(壁でないとき)
             {
@@ -200,8 +201,8 @@ public class MapGenerator : MonoBehaviour {
         bool iLoopflg = false;
         while (iLoopflg == false)　//出口指定
         {
-            int randomiPix = Random.Range(1, 19);        // 1～19の乱数を取得
-            int randomjPix = Random.Range(1, 19);        // 1～19の乱数を取得
+            int randomiPix = UnityEngine.Random.Range(1, 19);        // 1～19の乱数を取得
+            int randomjPix = UnityEngine.Random.Range(1, 19);        // 1～19の乱数を取得
 
             if (map[randomiPix, randomjPix] != 1)    //MAPが通路のなとき(壁でないとき)
             {
@@ -229,9 +230,9 @@ public class MapGenerator : MonoBehaviour {
     {
         _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
     }
-    public void MapGeneStart()
+    public void MapGeneStart(Action finish)
     {
-        mapNum = Random.Range(0, 3);        // 0～3の乱数を取得
+        mapNum = UnityEngine.Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
         UniqObjCount = 0;
         //for文で配列に情報を入れていく(MapDataScript.mapDataだと引数が増えるため)
@@ -283,8 +284,8 @@ public class MapGenerator : MonoBehaviour {
         //アイテム等はここで同じ用に生成
 
         //コントローラの初期化関数呼び出し
-
-        GameControllor.Instance.AftorMakeMapStart();
+        finish.Invoke();
+        //GameControllor.Instance.AftorMakeMapStart();
     }
 
     // Update is called once per frame

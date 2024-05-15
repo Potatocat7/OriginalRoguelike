@@ -489,6 +489,8 @@ public class GameControllor : MonoBehaviour {
         AtkCheckflg = false;
         SpAtkflg = false;
         ItemWindowflg = false;
+        
+        AftorMakeMapStart();
     }
 
     void ResetEnemyList()

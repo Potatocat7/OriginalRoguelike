@@ -326,7 +326,7 @@ public class GameControllor : MonoBehaviour {
         {
             iEnemyNext = 1;
         }
-        else if (GameManager.Instance.GetPlayerManager().GetNextStepArea().Item2 - (int)Math.Round(Enemy.transform.position.x) < 0)
+        else if (GameManager.Instance.GetPlayerManager().GetNextStepArea().Item1 - (int)Math.Round(Enemy.transform.position.x) < 0)
         {
             iEnemyNext = -1;
         }
@@ -335,7 +335,7 @@ public class GameControllor : MonoBehaviour {
             iEnemyNext = 0;
         }
 
-        if (GameManager.Instance.GetPlayerManager().GetNextStepArea().Item1 - (int)Math.Round(Enemy.transform.position.y) > 0)
+        if (GameManager.Instance.GetPlayerManager().GetNextStepArea().Item2 - (int)Math.Round(Enemy.transform.position.y) > 0)
         {
             jEnemyNext = 1;
         }

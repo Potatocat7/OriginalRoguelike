@@ -171,7 +171,7 @@ public class StatusDataScript : MonoBehaviour
     {
         SPcount += count;
     }
-    public int GetSpcount()
+    public int GetSPcount()
     {
         return SPcount;
     }

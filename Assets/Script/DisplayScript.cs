@@ -34,7 +34,7 @@ public class DisplayScript : MonoBehaviour {
     void Update () {
         //宣言すればGetComponentが不要になりそう（あとUpdateでやらないことを考えてみる）
         statusText.text = "HP:"+ Player.GetNow().HP.ToString() + "/" + Player.GetNow().MHP.ToString() + "\n"
-                                       + "特殊：" + Player.GetSpcount().ToString() + "\n"
+                                       + "特殊：" + Player.GetSPcount().ToString() + "\n"
                                        + "階層："+ FloorDisplay.ToString(); 
 	}
 }

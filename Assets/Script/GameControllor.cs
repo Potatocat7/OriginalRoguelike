@@ -27,8 +27,8 @@ public class GameControllor : MonoBehaviour {
     public bool ItemWindowflg;
     private int iNext, jNext;
     private int iRandom, jRandom;
-    private ActionControllor Player = null;
-    private StatusDataScript _playerState = null;
+    //private ActionControllor Player = null;
+    //private StatusDataScript _playerState = null;
     //[SerializeField]
     //private SaveDataScript _saveData = null;
     [SerializeField]
@@ -75,19 +75,19 @@ public class GameControllor : MonoBehaviour {
         mInstance = this;
         //DontDestroyOnLoad(gameObject);
     }
-    public int GetPlayerHpNow()
-    {
-        return _playerState.GetHPnow();
-    }
+    //public int GetPlayerHpNow()
+    //{
+    //    return _playerState.GetHPnow();
+    //}
 
-    public void AddItemState(ItemStatusData data)
-    {
-        _playerState.AddState(data);
-    }
-    public void SubItemState(ItemStatusData data)
-    {
-        _playerState.SubState(data);
-    }
+    //public void AddItemState(ItemStatusData data)
+    //{
+    //    _playerState.AddState(data);
+    //}
+    //public void SubItemState(ItemStatusData data)
+    //{
+    //    _playerState.SubState(data);
+    //}
     public void OnGetPItemFlg()
     {
         GetPItemFlg = true;
@@ -115,15 +115,15 @@ public class GameControllor : MonoBehaviour {
         ItemList.Add(itemObj);
     }
 
-    public void SetPlayerActionCtrl(ActionControllor player)
-    {
-        Player = player;
-    }
-    public void SetPlayerState(StatusDataScript pState)
-    {
-        _playerState = pState;
-        ItemWindowScript.Instance.SetupItemState();
-    }
+    //public void SetPlayerActionCtrl(ActionControllor player)
+    //{
+    //    Player = player;
+    //}
+    //public void SetPlayerState(StatusDataScript pState)
+    //{
+    //    _playerState = pState;
+    //    ItemWindowScript.Instance.SetupItemState();
+    //}
     public void Hitcheck(int iAttack, int jAttack , int attack)
     {
         //複数or0だったときの処理が必要？
@@ -281,11 +281,11 @@ public class GameControllor : MonoBehaviour {
         int iEnemyNext, jEnemyNext;
         bool otherEmoveFlg = false;
 
-        if (Player.SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) > 0)
+        if (GameManager.Instance.GetPlayerManager().Player.SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) > 0)
         {
             iEnemyNext = 1;
         }
-        else if (Player.SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) < 0)
+        else if (GameManager.Instance.GetPlayerManager().Player.SetiNextStepArea() - (int)Math.Round(Enemy.transform.position.x) < 0)
         {
             iEnemyNext = -1;
         }
@@ -294,11 +294,11 @@ public class GameControllor : MonoBehaviour {
             iEnemyNext = 0;
         }
 
-        if (Player.SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) > 0)
+        if (GameManager.Instance.GetPlayerManager().Player.SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) > 0)
         {
             jEnemyNext = 1;
         }
-        else if (Player.SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) < 0)
+        else if (GameManager.Instance.GetPlayerManager().Player.SetjNextStepArea() - (int)Math.Round(Enemy.transform.position.y) < 0)
         {
             jEnemyNext = -1;
         }
@@ -352,10 +352,10 @@ public class GameControllor : MonoBehaviour {
                 //確認用に宣言中　現在Playerの位置情報が移動前の位置情報を所得している※positionが少数点で0.999になると切り捨てになってしまう
                 //iEmap = (int)Math.Round(Enemy.transform.position.x);
                 iEmap = (int)Math.Round(EnemyList[count].transform.position.x);
-                iPmap = Player.SetiNextStepArea();
+                iPmap = GameManager.Instance.GetPlayerManager().Player.SetiNextStepArea();
                 //jEmap = (int)Math.Round(Enemy.transform.position.y);
                 jEmap = (int)Math.Round(EnemyList[count].transform.position.y);
-                jPmap = Player.SetjNextStepArea();
+                jPmap = GameManager.Instance.GetPlayerManager().Player.SetjNextStepArea();
 
                 //GetComponentを対応できないか
                 if (EnemyList[count].enemyAtk.CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
@@ -391,8 +391,8 @@ public class GameControllor : MonoBehaviour {
                     }
                     else
                     {
-                        if (MapGenerator.map[(int)Math.Round(Player.transform.position.x),
-                            (int)Math.Round(Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x),
+                        if (MapGenerator.map[(int)Math.Round(GameManager.Instance.GetPlayerManager().Player.transform.position.x),
+                            (int)Math.Round(GameManager.Instance.GetPlayerManager().Player.transform.position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x),
                             (int)Math.Round(EnemyList[count].transform.position.y)])
                         {
                             EnemyMoveTargetPlayer(EnemyList[count], count);
@@ -411,9 +411,9 @@ public class GameControllor : MonoBehaviour {
             if (EnemyAtkCount >= 1)
             {
                 iEmap = (int)Math.Round(AtkEnemyList[count].transform.position.x);
-                iPmap = Player.SetiNextStepArea();
+                iPmap = GameManager.Instance.GetPlayerManager().Player.SetiNextStepArea();
                 jEmap = (int)Math.Round(AtkEnemyList[count].transform.position.y);
-                jPmap = Player.SetjNextStepArea();
+                jPmap = GameManager.Instance.GetPlayerManager().Player.SetjNextStepArea();
                 AtkEnemyList[count].enemyAtk.SetDirectionPlayerThisAround(iPmap, jPmap, iEmap, jEmap);
             }
         }
@@ -421,17 +421,17 @@ public class GameControllor : MonoBehaviour {
     void CheckBlockState()
     {
         //次に移動予定のマスが壁でないかのチェック
-        if (Player.CheckNextStepWall() == false)
+        if (GameManager.Instance.GetPlayerManager().Player.CheckNextStepWall() == false)
         {
             iNext = 0;
             jNext = 0;
-            Player.SetNextStep(iNext, jNext); 
+            GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext); 
         }
         else
         {
             for (int count = 0; count < EnemyCount; count++)
             {
-                if (EnemyList[count].CheckNowStep(Player.SetiNextStepArea(), Player.SetjNextStepArea()) == true)
+                if (EnemyList[count].CheckNowStep(GameManager.Instance.GetPlayerManager().Player.SetiNextStepArea(), GameManager.Instance.GetPlayerManager().Player.SetjNextStepArea()) == true)
                 {
                     PmoveFlg = true;
                 }
@@ -443,7 +443,7 @@ public class GameControllor : MonoBehaviour {
             {
                 iNext = 0;
                 jNext = 0;
-                Player.SetNextStep(iNext, jNext);
+                GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext);
                 PmoveFlg = false;
             }
             else
@@ -454,8 +454,8 @@ public class GameControllor : MonoBehaviour {
 
             }
         }
-        if (Player.SetiNextStepArea() == (int)Math.Round(_goalObj.transform.position.x) 
-            && Player.SetjNextStepArea() == (int)Math.Round(_goalObj.transform.position.y))
+        if (GameManager.Instance.GetPlayerManager().Player.SetiNextStepArea() == (int)Math.Round(_goalObj.transform.position.x) 
+            && GameManager.Instance.GetPlayerManager().Player.SetjNextStepArea() == (int)Math.Round(_goalObj.transform.position.y))
         {
             GoalFlg = true;
         }
@@ -464,7 +464,7 @@ public class GameControllor : MonoBehaviour {
         {
             for (int i = 0; i < ItemList.Count; i++)
             {
-                if (Player.SetiNextStepArea() == (int)Math.Round(ItemList[i].transform.position.x) && Player.SetjNextStepArea() == (int)Math.Round(ItemList[i].transform.position.y))
+                if (GameManager.Instance.GetPlayerManager().Player.SetiNextStepArea() == (int)Math.Round(ItemList[i].transform.position.x) && GameManager.Instance.GetPlayerManager().Player.SetjNextStepArea() == (int)Math.Round(ItemList[i].transform.position.y))
                 {
                     if (ItemList[i].ThisData.Type != ItemScript.ItemType.SPECIAL)
                     {
@@ -481,7 +481,7 @@ public class GameControllor : MonoBehaviour {
 
     // Use this for initialization
     public void GameCtrlStart () {
-        Player.SetDirection(ActionControllor.Direction.DOWN);
+        GameManager.Instance.GetPlayerManager().Player.SetDirection(ActionControllor.Direction.DOWN);
         iNext = 0;
         jNext = 1;
         AcitonFlg = false;
@@ -561,7 +561,7 @@ public class GameControllor : MonoBehaviour {
     {
         SaveDataScript _saveData = SaveDataScript.Instance;
         _saveData.SaveFloorCount();
-        _saveData.SavePlayerNowData(_playerState.GetStateData());
+        _saveData.SavePlayerNowData(GameManager.Instance.GetPlayerManager()._playerState.GetStateData());
         _saveData.SetFlgOn(); 
         //_saveData.SetSaveData(); 
     }
@@ -583,15 +583,15 @@ public class GameControllor : MonoBehaviour {
         AcitonFlg = true;
         if (PatkFlg == true)//移動中は入力無効にする
         {
-            Player.SetUserAttackFlagOn();
+            GameManager.Instance.GetPlayerManager().Player.SetUserAttackFlagOn();
             if (SpAtkflg == true) 
             {
-                Player.SpActionStart();
-                _playerState.SetSPcount(-1);
+                GameManager.Instance.GetPlayerManager().Player.SpActionStart();
+                GameManager.Instance.GetPlayerManager()._playerState.SetSPcount(-1);
             }
             else
             {
-                Player.ActionStart();
+                GameManager.Instance.GetPlayerManager().Player.ActionStart();
             }
             yield return new WaitForSeconds(0.3f);
             ResetAttkEnemyList();//攻撃で敵が消えた時のため
@@ -599,8 +599,8 @@ public class GameControllor : MonoBehaviour {
         }
         else
         {
-            Player.SetUserActFlagOn();
-            Player.ActionStart();
+            GameManager.Instance.GetPlayerManager().Player.SetUserActFlagOn();
+            GameManager.Instance.GetPlayerManager().Player.ActionStart();
             if (GoalFlg == true)
             {
                 yield return new WaitForSeconds(0.3f);
@@ -614,7 +614,7 @@ public class GameControllor : MonoBehaviour {
             if (GetPItemFlg == true)
             {
                 yield return new WaitForSeconds(0.3f);
-                _playerState.SetSPcount( 5 );
+                GameManager.Instance.GetPlayerManager()._playerState.SetSPcount( 5 );
                 itemCount -= 1;
                 GetPItemFlg = false;
                 ////アイテムが複数なら修正が必要
@@ -662,8 +662,8 @@ public class GameControllor : MonoBehaviour {
             iNext = 0;
             jNext = 1;
             //Pの動作セット
-            Player.SetNextStep(iNext, jNext);
-            Player.SetDirection(ActionControllor.Direction.UP);
+            GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext);
+            GameManager.Instance.GetPlayerManager().Player.SetDirection(ActionControllor.Direction.UP);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 //Eを攻撃/移動でリストにセット
@@ -683,8 +683,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = -1;
             jNext = 1;
-            Player.SetNextStep(iNext, jNext);
-            Player.SetDirection(ActionControllor.Direction.UP_LEFT);
+            GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext);
+            GameManager.Instance.GetPlayerManager().Player.SetDirection(ActionControllor.Direction.UP_LEFT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -698,8 +698,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 1;
             jNext = 1;
-            Player.SetNextStep(iNext, jNext);
-            Player.SetDirection(ActionControllor.Direction.UP_RIGHT);
+            GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext);
+            GameManager.Instance.GetPlayerManager().Player.SetDirection(ActionControllor.Direction.UP_RIGHT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -713,8 +713,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 0;
             jNext = -1;
-            Player.SetNextStep(iNext, jNext);
-            Player.SetDirection(ActionControllor.Direction.DOWN);
+            GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext);
+            GameManager.Instance.GetPlayerManager().Player.SetDirection(ActionControllor.Direction.DOWN);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -728,8 +728,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = -1;
             jNext = -1;
-            Player.SetNextStep(iNext, jNext);
-            Player.SetDirection(ActionControllor.Direction.DOWN_LEFT);
+            GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext);
+            GameManager.Instance.GetPlayerManager().Player.SetDirection(ActionControllor.Direction.DOWN_LEFT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -743,8 +743,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 1;
             jNext = -1;
-            Player.SetNextStep(iNext, jNext);
-            Player.SetDirection(ActionControllor.Direction.DOWN_RIGHT);
+            GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext);
+            GameManager.Instance.GetPlayerManager().Player.SetDirection(ActionControllor.Direction.DOWN_RIGHT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -758,8 +758,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = -1;
             jNext = 0;
-            Player.SetNextStep(iNext, jNext);
-            Player.SetDirection(ActionControllor.Direction.LEFT);
+            GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext);
+            GameManager.Instance.GetPlayerManager().Player.SetDirection(ActionControllor.Direction.LEFT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -773,8 +773,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 1;
             jNext = 0;
-            Player.SetNextStep(iNext, jNext);
-            Player.SetDirection(ActionControllor.Direction.RIGHT);
+            GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext);
+            GameManager.Instance.GetPlayerManager().Player.SetDirection(ActionControllor.Direction.RIGHT);
             if (LockFlg != true) //移動中は入力無効にする
             {
                 CheckBlockState();
@@ -788,8 +788,8 @@ public class GameControllor : MonoBehaviour {
         {
             iNext = 0;
             jNext = 0;
-            Player.SetThisNowStep();
-            Player.SetNextStep(iNext, jNext);
+            GameManager.Instance.GetPlayerManager().Player.SetThisNowStep();
+            GameManager.Instance.GetPlayerManager().Player.SetNextStep(iNext, jNext);
             SetEnemyMove();
             AtkCheckflg = true;
             AcitonFlg = true;
@@ -797,7 +797,7 @@ public class GameControllor : MonoBehaviour {
             StartCoroutine("coActionFlgOnMain");
             if (SpAtkflg == true)
             {
-                if (_playerState.GetSpcount() >= 1)
+                if (GameManager.Instance.GetPlayerManager()._playerState.GetSpcount() >= 1)
                 {
                     SpAtkflg = true;
                 }
@@ -820,7 +820,7 @@ public class GameControllor : MonoBehaviour {
             else
             {
                 LockFlg = true;
-                if (_playerState.GetSpcount() >= 1)
+                if (GameManager.Instance.GetPlayerManager()._playerState.GetSpcount() >= 1)
                 {
                     SpAtkflg = true;
                 }

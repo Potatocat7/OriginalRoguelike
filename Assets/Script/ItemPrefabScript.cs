@@ -73,7 +73,7 @@ public class ItemPrefabScript : MonoBehaviour
                     _thisEquipCheck.gameObject.SetActive(false);
                     itemSaveData.EquipFlg = false;
                     //ステータス変更
-                    GameControllor.Instance.SubItemState(itemSaveData);
+                    GameManager.Instance.GetPlayerManager().SubItemState(itemSaveData);
                 }
                 break;
             case ItemScript.ItemType.CONSUM:
@@ -93,11 +93,11 @@ public class ItemPrefabScript : MonoBehaviour
                 _thisEquipCheck.gameObject.SetActive(true);
                 itemSaveData.EquipFlg = true;
                 //ステータス反映
-                GameControllor.Instance.AddItemState(itemSaveData);
+                GameManager.Instance.GetPlayerManager().AddItemState(itemSaveData);
                 break;
             case ItemScript.ItemType.CONSUM:
                 ItemWindowScript.Instance.OrganizeList(_listNumber);
-                GameControllor.Instance.AddItemState(itemSaveData);
+                GameManager.Instance.GetPlayerManager().AddItemState(itemSaveData);
                 Destroy(gameObject);
                 break;
             default:

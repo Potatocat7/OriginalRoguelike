@@ -79,6 +79,12 @@ public class MapGenerator : MonoBehaviour {
             return (false);
         }
     }
+    /// <summary>
+    /// Uniqオブジェクト既にあるかチェック
+    /// </summary>
+    /// <param name="tate"></param>
+    /// <param name="yoko"></param>
+    /// <returns></returns>
     bool CheckMapstateUobj(int tate, int yoko)
     {
         bool flg = true;
@@ -145,6 +151,10 @@ public class MapGenerator : MonoBehaviour {
             }
         }
     }
+    /// <summary>
+    /// 通路以外にオブジェクトを設置
+    /// </summary>
+    /// <param name="PrefabObj"></param>
     void SetUniqObj(ActionControllor PrefabObj)
     {
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
@@ -166,14 +176,14 @@ public class MapGenerator : MonoBehaviour {
                         if (PrefabObj.tag == "Player")
                         {
                             _mapobj[randomiPix, randomjPix]._actCtrl.StartSetUp();
-                            GameControllor.Instance.SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix]._actCtrl);
+                            GameManager.Instance.GetPlayerManager().SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix]._actCtrl);
                             iNow = randomiPix;
                             jNow = randomjPix;
                             iObjState.Add(randomiPix);
                             jObjState.Add(randomjPix);
                             _playerData = _mapobj[randomiPix, randomjPix]._actCtrl.stateData;
                             _displayScript.SetDisplayScript(_playerData);
-                            GameControllor.Instance.SetPlayerState(_playerData);
+                            GameManager.Instance.GetPlayerManager().SetPlayerState(_playerData);
                         }
                         else if (PrefabObj.tag == "Enemy")
                         {
@@ -243,7 +253,7 @@ public class MapGenerator : MonoBehaviour {
                 MapStatus mapstatus;
                 mapstatus = (MapStatus)Instantiate(_mapPrefab, new Vector3(iPix, jPix, 0.0F), Quaternion.identity);
                 _mapobj[iPix, jPix] = mapstatus;
-                map[iPix, jPix] = MapDataScript.mapData[2, iPix, jPix];// mapNum
+                map[iPix, jPix] = MapDataScript.mapData[2, iPix, jPix];// mapNum　//テストで2固定
             }
         }
 

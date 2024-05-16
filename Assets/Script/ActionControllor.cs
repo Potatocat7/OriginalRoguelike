@@ -239,7 +239,7 @@ public class ActionControllor : MonoBehaviour {
         }
         for (int count = 1; count < 6; count++)
         {
-            if (GameControllor.Instance.GetPlayerHpNow() <= 0)
+            if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
             {
                 break;
             }
@@ -248,7 +248,7 @@ public class ActionControllor : MonoBehaviour {
             await UniTask.Delay(25);
         }
         ///エラーがでるのでここでもチェック
-        if (GameControllor.Instance.GetPlayerHpNow() <= 0)
+        if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
         {
             return;
         }
@@ -259,7 +259,7 @@ public class ActionControllor : MonoBehaviour {
         }
         for (int count = 1; count < 6; count++)
         {
-            if (GameControllor.Instance.GetPlayerHpNow() <= 0)
+            if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
             {
                 break;
             }

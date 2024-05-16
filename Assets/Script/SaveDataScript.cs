@@ -92,7 +92,7 @@ public class SaveDataScript : MonoBehaviour {
             //移動時に一度アイテムは外したステータスに
             if (ItemWindowScript.Instance._gotItemList[i].itemSaveData.EquipFlg == true)
             {
-                GameControllor.Instance.SubItemState(ItemWindowScript.Instance._gotItemList[i].itemSaveData);
+                GameManager.Instance.GetPlayerManager().SubItemState(ItemWindowScript.Instance._gotItemList[i].itemSaveData);
             }
         }
         //_saveItemList = ItemWindowScript.Instance._saveItemList;

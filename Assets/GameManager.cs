@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     /// <summary>マップ生成</summary>
-    [SerializeField]private MapGenerator mapGeneObj = null;
+    [SerializeField] private MapGenerator mapGeneObj = null;
     /// <summary>ゲーム操作</summary>
     [SerializeField] private GameControllor gameCtrl = null;
     /// <summary>プレイヤーマネージャー</summary>
@@ -38,6 +38,16 @@ public class GameManager : MonoBehaviour
             enemyManager.Init();
         });
     }
+
+    public PlayerManager GetPlayerManager()
+    {
+        return playerManager;
+    }
+    public EnemyManager GetEnemyManager()
+    {
+        return enemyManager;
+    }
+
     ///TODO:GameControllorの一部処理をここで行う
     ///主に操作以外の処理
 

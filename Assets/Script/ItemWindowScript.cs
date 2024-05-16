@@ -54,7 +54,7 @@ public class ItemWindowScript : MonoBehaviour
             //装備していたアイテムは装備させる
             if (_gotItemList[i].itemSaveData.EquipFlg == true)
             {
-                GameControllor.Instance.AddItemState(_gotItemList[i].itemSaveData);
+                GameManager.Instance.GetPlayerManager().AddItemState(_gotItemList[i].itemSaveData);
             }
         }
     }

@@ -155,7 +155,7 @@ public class MapGenerator : MonoBehaviour {
     /// 通路以外にオブジェクトを設置
     /// </summary>
     /// <param name="PrefabObj"></param>
-    void SetUniqObj(ActionControllor PrefabObj)
+    void SetUniqObj(ActionControllor PrefabObj,Action<ActionControllor,StatusDataScript> playerData = null)
     {
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
         bool iLoopflg = false;
@@ -176,14 +176,15 @@ public class MapGenerator : MonoBehaviour {
                         if (PrefabObj.tag == "Player")
                         {
                             _mapobj[randomiPix, randomjPix]._actCtrl.StartSetUp();
-                            GameManager.Instance.GetPlayerManager().SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix]._actCtrl);
+                            //GameManager.Instance.GetPlayerManager().SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix]._actCtrl);
                             iNow = randomiPix;
                             jNow = randomjPix;
                             iObjState.Add(randomiPix);
                             jObjState.Add(randomjPix);
                             _playerData = _mapobj[randomiPix, randomjPix]._actCtrl.stateData;
                             _displayScript.SetDisplayScript(_playerData);
-                            GameManager.Instance.GetPlayerManager().SetPlayerState(_playerData);
+                            //GameManager.Instance.GetPlayerManager().SetPlayerState(_playerData);
+                            playerData.Invoke(_mapobj[randomiPix, randomjPix]._actCtrl, _playerData);
                         }
                         else if (PrefabObj.tag == "Enemy")
                         {
@@ -240,7 +241,7 @@ public class MapGenerator : MonoBehaviour {
     {
         _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
     }
-    public void MapGeneStart(Action finish)
+    public void MapGeneStart(Action<ActionControllor,StatusDataScript> finish)
     {
         mapNum = UnityEngine.Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
@@ -279,7 +280,12 @@ public class MapGenerator : MonoBehaviour {
         SetUniqObj(_goalObj);
         SetPlayerObject();
         //_playerObj.GetComponent<ActionControllor>().SetGameCtrl(_gameCtrl);
-        SetUniqObj(_playerObj);
+        ActionControllor playerAction = null;
+        StatusDataScript playerState = null;
+        SetUniqObj(_playerObj, playerData:(player,status)=>{
+            playerAction = player;
+            playerState = status;
+        }) ;
         SetUniqObj(_powerItemObj);
         SetUniqObj(_weaponItemObj);
         SetUniqObj(_consumptionItemObj);
@@ -294,8 +300,8 @@ public class MapGenerator : MonoBehaviour {
         //アイテム等はここで同じ用に生成
 
         //コントローラの初期化関数呼び出し
-        finish.Invoke();
-        //GameControllor.Instance.AftorMakeMapStart();
+        finish.Invoke(playerAction, playerState);
+        //GameControllplayerState or.Instance.AftorMakeMapStart();
     }
 
     // Update is called once per frame

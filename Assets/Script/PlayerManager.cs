@@ -9,17 +9,13 @@ public class PlayerManager : MonoBehaviour
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Init()
-    {
-        ///TODO:プレイヤーの情報設定を行う
-    }
-    //*Player *//
-    public void SetPlayerActionCtrl(ActionControllor player)
+    public void Init(ActionControllor player, StatusDataScript status)
     {
         Player = player;
+        _playerState = status;
+        ItemWindowScript.Instance.SetupItemState();
+
     }
-
-
     //*_playerState *//
     public int GetPlayerHpNow()
     {
@@ -33,10 +29,5 @@ public class PlayerManager : MonoBehaviour
     public void SubItemState(ItemStatusData data)
     {
         _playerState.SubState(data);
-    }
-    public void SetPlayerState(StatusDataScript pState)
-    {
-        _playerState = pState;
-        ItemWindowScript.Instance.SetupItemState();
     }
 }

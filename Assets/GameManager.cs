@@ -32,10 +32,10 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        mapGeneObj.MapGeneStart(finish:()=> {
-            gameCtrl.GameCtrlStart();
-            playerManager.Init();
+        mapGeneObj.MapGeneStart(finish:(player,playerState)=> {
+            playerManager.Init(player, playerState);
             enemyManager.Init();
+            gameCtrl.GameCtrlStart();
         });
     }
 

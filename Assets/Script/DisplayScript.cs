@@ -25,12 +25,11 @@ public class DisplayScript : MonoBehaviour {
         Player = playState;
         //Save = GameObject.Find("SaveDataObject");
         //FloorDisplay = Save.GetComponent<SaveDataScript>().GetSaveData().clearFloor;
-        Debug.Log("a");
-        FloorDisplay = Save.GetSaveData().clearFloor;
+        FloorDisplay = SaveDataScript.Instance.GetSaveData().clearFloor;
 
     }
 
-    // Update is called once per frame
+    ///TODO：これもアップデートではなく攻撃処理やアイテム取得。フロアカウントで呼べばよい
     void Update () {
         //宣言すればGetComponentが不要になりそう（あとUpdateでやらないことを考えてみる）
         statusText.text = "HP:"+ Player.GetNow().HP.ToString() + "/" + Player.GetNow().MHP.ToString() + "\n"

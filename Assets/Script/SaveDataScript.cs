@@ -57,8 +57,6 @@ public class SaveDataScript : MonoBehaviour {
 
     public void SaveFloorCount()
     {
-        Debug.Log("aa");
-
         _playerSaveData.clearFloor += 1;
     }
     public void SetFlgOn()
@@ -104,11 +102,14 @@ public class SaveDataScript : MonoBehaviour {
         //PlayerHpNowData = 0;
         Debug.Log("aab");
 
-        _playerSaveData.clearFloor = 1;
         if (Instance != null)
         {
             Destroy(gameObject);
             return;
+        }
+        else
+        {
+            ClearData();
         }
         mInstance = this;
         DontDestroyOnLoad(gameObject);

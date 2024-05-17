@@ -156,12 +156,13 @@ public class GameControllor : MonoBehaviour {
         AftorMakeMapStart();
     }
 
-    void SaveData()
+    void SaveData(Action saveFinish)
     {
         SaveDataScript _saveData = SaveDataScript.Instance;
         _saveData.SaveFloorCount();
         _saveData.SavePlayerNowData(GameManager.Instance.GetPlayerManager().GetStateData());
-        _saveData.SetFlgOn(); 
+        _saveData.SetFlgOn();
+        saveFinish.Invoke();
         //_saveData.SetSaveData(); 
     }
 
@@ -202,8 +203,9 @@ public class GameControllor : MonoBehaviour {
                 ///アクションでキャラが動いているとエラーがでるので
                 ///キャラを動かした後に飛ぶようにするwhile等で
                 ///また切り替える前にウィンドウをだす
-                SaveData();
-                SceneManager.LoadScene("GameScene");
+                SaveData(saveFinish:()=> {
+                    SceneManager.LoadScene("GameScene");
+                });
             }
             if (GetPItemFlg == true)
             {

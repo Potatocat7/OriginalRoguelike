@@ -175,7 +175,9 @@ public class StatusDataScript : MonoBehaviour
     {
         return SPcount;
     }
-    // Update is called once per frame
+    ///TODO:Updateである必要がない。
+    ///コールバック等を使って攻撃ヒット時にチェックを行うようにすればいける
+    ///毎度リセット処理しないとエラーになるのは個々のデリートによる敵Listとの差異が原因
     void Update () {
         //UpdateでGetComponentをなくしていきたい
         iThisNow = this.GetComponent<ActionControllor>().iThisNow;

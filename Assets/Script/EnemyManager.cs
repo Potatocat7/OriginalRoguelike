@@ -5,7 +5,7 @@ using System;
 
 public class EnemyManager : MonoBehaviour
 {
-    private List<StatusDataScript> EnemyListState = new List<StatusDataScript>();
+    private List<ActionControllor> saveEnemyList = new List<ActionControllor>();
     private List<ActionControllor> EnemyList = new List<ActionControllor>();
     private int EnemyCount;
     private int iRandom, jRandom;
@@ -21,14 +21,11 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Init(List<ActionControllor> enemyList, List<StatusDataScript> statusList)
+    public void Init(List<ActionControllor> enemyList, List<ActionControllor> saveList)
     {
-        ///TODO:エネミーの情報設定を行う
-        saveEnemyList = enemyList;
-        saveEnemyListState = statusList;
-        EnemyList = enemyList;
-        EnemyListState = statusList;
-        //EnemyListSetUp(saveEnemyList);
+        saveEnemyList = saveList;
+        //EnemyList = enemyList;
+        EnemyListSetUp(saveEnemyList);
     }
     /// <summary>
     /// 攻撃ヒット判定処理
@@ -43,9 +40,9 @@ public class EnemyManager : MonoBehaviour
         {
             for (int count = 0; count < EnemyCount; count++)
             {
-                if (EnemyListState[count].CheckAttack(iAttack, jAttack) == true)
+                if (EnemyList[count].stateData.CheckAttack(iAttack, jAttack) == true)
                 {
-                    EnemyListState[count].HitDamage(attack);
+                    EnemyList[count].stateData.HitDamage(attack);
                 }
                 else
                 {
@@ -65,7 +62,6 @@ public class EnemyManager : MonoBehaviour
             if (enemylist[count] != null)
             {
                 EnemyList.Add(enemylist[count]);
-                EnemyListState.Add(enemylist[count].stateData);
                 EnemyCount += 1;
             }
         }
@@ -84,7 +80,6 @@ public class EnemyManager : MonoBehaviour
     {
         if (iStep == 0 && jStep == 1)
         {//UP
-            //Enemy.GetComponent<ActionControllor>().SetDirection(ActionControllor.Direction.UP);
             Enemy.SetDirection(ActionControllor.Direction.UP);
         }
         else if (iStep == -1 && jStep == 1)
@@ -295,7 +290,6 @@ public class EnemyManager : MonoBehaviour
                 jEmap = (int)Math.Round(EnemyList[count].transform.position.y);
                 jPmap = GameManager.Instance.GetPlayerManager().GetNextStepArea().Item2;
 
-                //GetComponentを対応できないか
                 if (EnemyList[count].enemyAtk.CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
                 {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
                     //攻撃リストに登録 ※ここは攻撃前
@@ -308,7 +302,6 @@ public class EnemyManager : MonoBehaviour
                 }
                 else
                 {   //※リストへの割り当てと移動方法への関数呼び出しは別にする
-                    //EnemyList[count].GetComponent<EnemyAttack>().SetDirectionPlayerThisAround(iPmap, jPmap, iEmap, jEmap);
                     MoveEnemyList.Add(EnemyList[count]);
                     EnemyMoveCount += 1;
                 }
@@ -356,18 +349,16 @@ public class EnemyManager : MonoBehaviour
             }
         }
     }
-    public void ResetEnemyList(List<ActionControllor> enemylist)
+    public void ResetEnemyList()
     {
         //Listの初期化
         EnemyList.Clear();
-        EnemyListState.Clear();
         EnemyCount = 0;
         for (int count = 0; count < MapGenerator.EnemyCount; count++)
         {
-            if (enemylist[count] != null)
+            if (saveEnemyList[count] != null)
             {
-                EnemyList.Add(enemylist[count]);
-                EnemyListState.Add(enemylist[count].stateData);
+                EnemyList.Add(saveEnemyList[count]);
                 EnemyCount += 1;
             }
         }
@@ -447,9 +438,9 @@ public class EnemyManager : MonoBehaviour
     {
         return EnemyAtkCount;
     }
-    public void ResetAllEnemyList(List<ActionControllor> enemylist)
+    public void ResetAllEnemyList()
     {
-        ResetEnemyList(enemylist);
+        ResetEnemyList();
         AtkEnemyList.Clear();
         EnemyAtkCount = 0;
         MoveEnemyList.Clear();

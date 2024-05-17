@@ -31,8 +31,8 @@ public class GameControllor : MonoBehaviour {
     //private StatusDataScript _playerState = null;
     //[SerializeField]
     //private SaveDataScript _saveData = null;
-    [SerializeField]
-    private MapGenerator MapGeneObj;
+    //[SerializeField]
+    //private MapGenerator MapGeneObj;
     //private List<ActionControllor> AtkEnemyList = new List<ActionControllor>();
     //private List<ActionControllor> AtkResetEnemyList = new List<ActionControllor>();
     //private List<ActionControllor> MoveEnemyList = new List<ActionControllor>();
@@ -163,7 +163,7 @@ public class GameControllor : MonoBehaviour {
         //        EnemyCount += 1;
         //    }
         //}
-        GameManager.Instance.GetEnemyManager().EnemyListSetUp(MapGeneObj.EnemyList);
+        //GameManager.Instance.GetEnemyManager().EnemyListSetUp(MapGeneObj.EnemyList);
         //EnemyAtkCount = 0;
         //EnemyMoveCount = 0;
         //EnemyAtkResetCount = 0;
@@ -683,7 +683,7 @@ public class GameControllor : MonoBehaviour {
         yield return new WaitForSeconds(0.3f);
 
         //攻撃・移動・敵全体各リストを一度リセット
-        GameManager.Instance.GetEnemyManager().ResetAllEnemyList(MapGeneObj.EnemyList);
+        GameManager.Instance.GetEnemyManager().ResetAllEnemyList();
         //ResetEnemyList();
         //AtkEnemyList.Clear();
         //EnemyAtkCount = 0;

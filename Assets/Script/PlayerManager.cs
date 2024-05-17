@@ -6,14 +6,12 @@ using Cysharp.Threading.Tasks;
 public class PlayerManager : MonoBehaviour
 {
     private ActionControllor Player = null;
-    private StatusDataScript _playerState = null;
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Init(ActionControllor player, StatusDataScript status)
+    public void Init(ActionControllor player)
     {
         Player = player;
-        _playerState = status;
         ItemWindowScript.Instance.SetupItemState();
     }
     //*Player *//
@@ -66,30 +64,29 @@ public class PlayerManager : MonoBehaviour
         await Player.ActionStart();
     }
 
-    //*_playerState *//
     public int GetPlayerHpNow()
     {
-        return _playerState.GetHPnow();
+        return Player.stateData.GetHPnow();
     }
     public Status GetStateData()
     {
-        return _playerState.GetStateData();
+        return Player.stateData.GetStateData();
     }
     public int GetSPcount()
     {
-        return _playerState.GetSPcount();
+        return Player.stateData.GetSPcount();
     }
     public void SetSPcount(int cnt)
     {
-        _playerState.SetSPcount(cnt);
+        Player.stateData.SetSPcount(cnt);
     }
 
     public void AddItemState(ItemStatusData data)
     {
-        _playerState.AddState(data);
+        Player.stateData.AddState(data);
     }
     public void SubItemState(ItemStatusData data)
     {
-        _playerState.SubState(data);
+        Player.stateData.SubState(data);
     }
 }

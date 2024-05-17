@@ -28,7 +28,7 @@ public class MapGenerator : MonoBehaviour {
     private DisplayScript _displayScript;
     private StatusDataScript _playerData;
     public List<ActionControllor> EnemyList = new List<ActionControllor>();
-    public List<StatusDataScript> EnemyListStateData = new List<StatusDataScript>();
+    //public List<StatusDataScript> EnemyListStateData = new List<StatusDataScript>();
     public List<int> iObjState = new List<int>();
     public List<int> jObjState = new List<int>();
     private bool _saveDataFlg;
@@ -240,7 +240,7 @@ public class MapGenerator : MonoBehaviour {
     {
         _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
     }
-    public void MapGeneStart(Action<ActionControllor,StatusDataScript, List<ActionControllor>, List<StatusDataScript>> finish)
+    public void MapGeneStart(Action<ActionControllor,List<ActionControllor>, List<ActionControllor>> finish)
     {
         mapNum = UnityEngine.Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
@@ -295,7 +295,7 @@ public class MapGenerator : MonoBehaviour {
             SetUniqObj(_enemyObj, charaData: (enemy, status) => {
                 enemyActionList.Add(enemy);
                 EnemyList.Add(enemy);
-                EnemyListStateData.Add(status);
+                //EnemyListStateData.Add(status);
             });
             EnemyCount += 1;
             UniqObjCount +=1;
@@ -303,7 +303,7 @@ public class MapGenerator : MonoBehaviour {
         //アイテム等はここで同じ用に生成
 
         //コントローラの初期化関数呼び出し
-        finish.Invoke(playerAction, playerState, enemyActionList, EnemyListStateData);
+        finish.Invoke(playerAction,enemyActionList, EnemyList);
         //GameControllplayerState or.Instance.AftorMakeMapStart();
     }
 

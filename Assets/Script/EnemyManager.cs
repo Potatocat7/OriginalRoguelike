@@ -21,12 +21,15 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Init()
+    public void Init(List<ActionControllor> enemyList, List<StatusDataScript> statusList)
     {
         ///TODO:エネミーの情報設定を行う
-        ///TODO:リスト管理をする
+        saveEnemyList = enemyList;
+        saveEnemyListState = statusList;
+        EnemyList = enemyList;
+        EnemyListState = statusList;
+        //EnemyListSetUp(saveEnemyList);
     }
-
     /// <summary>
     /// 攻撃ヒット判定処理
     /// </summary>

@@ -155,7 +155,7 @@ public class MapGenerator : MonoBehaviour {
     /// 通路以外にオブジェクトを設置
     /// </summary>
     /// <param name="PrefabObj"></param>
-    void SetUniqObj(ActionControllor PrefabObj,Action<ActionControllor,StatusDataScript> playerData = null)
+    void SetUniqObj(ActionControllor PrefabObj,Action<ActionControllor,StatusDataScript> charaData = null)
     {
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
         bool iLoopflg = false;
@@ -184,7 +184,7 @@ public class MapGenerator : MonoBehaviour {
                             _playerData = _mapobj[randomiPix, randomjPix]._actCtrl.stateData;
                             _displayScript.SetDisplayScript(_playerData);
                             //GameManager.Instance.GetPlayerManager().SetPlayerState(_playerData);
-                            playerData.Invoke(_mapobj[randomiPix, randomjPix]._actCtrl, _playerData);
+                            charaData.Invoke(_mapobj[randomiPix, randomjPix]._actCtrl, _playerData);
                         }
                         else if (PrefabObj.tag == "Enemy")
                         {
@@ -193,10 +193,9 @@ public class MapGenerator : MonoBehaviour {
                             _mapobj[randomiPix, randomjPix]._actCtrl.enemyAtk.GetPlayerStatusData(_playerData);
                             _mapobj[randomiPix, randomjPix]._actCtrl.enemyAtk.GetThisStatusData(_mapobj[randomiPix, randomjPix]._actCtrl.stateData);
                             _mapobj[randomiPix, randomjPix]._actCtrl.stateData.GetPlayerState(_playerData);
-                            EnemyList.Add(_mapobj[randomiPix, randomjPix]._actCtrl);
-                            EnemyListStateData.Add(_mapobj[randomiPix, randomjPix]._actCtrl.stateData);
                             iObjState.Add(randomiPix);
                             jObjState.Add(randomjPix);
+                            charaData.Invoke(_mapobj[randomiPix, randomjPix]._actCtrl, _mapobj[randomiPix, randomjPix]._actCtrl.stateData);
                         }
                     }
                 }
@@ -241,7 +240,7 @@ public class MapGenerator : MonoBehaviour {
     {
         _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
     }
-    public void MapGeneStart(Action<ActionControllor,StatusDataScript> finish)
+    public void MapGeneStart(Action<ActionControllor,StatusDataScript, List<ActionControllor>, List<StatusDataScript>> finish)
     {
         mapNum = UnityEngine.Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
@@ -282,7 +281,7 @@ public class MapGenerator : MonoBehaviour {
         //_playerObj.GetComponent<ActionControllor>().SetGameCtrl(_gameCtrl);
         ActionControllor playerAction = null;
         StatusDataScript playerState = null;
-        SetUniqObj(_playerObj, playerData:(player,status)=>{
+        SetUniqObj(_playerObj, charaData:(player,status)=>{
             playerAction = player;
             playerState = status;
         }) ;
@@ -290,17 +289,21 @@ public class MapGenerator : MonoBehaviour {
         SetUniqObj(_weaponItemObj);
         SetUniqObj(_consumptionItemObj);
         UniqObjCount = 1;
+        List<ActionControllor> enemyActionList = new List<ActionControllor>();
         for (int Ecount = 0; Ecount < 5; Ecount++)
         {
-            SetUniqObj(_enemyObj);
+            SetUniqObj(_enemyObj, charaData: (enemy, status) => {
+                enemyActionList.Add(enemy);
+                EnemyList.Add(enemy);
+                EnemyListStateData.Add(status);
+            });
             EnemyCount += 1;
             UniqObjCount +=1;
-
         }
         //アイテム等はここで同じ用に生成
 
         //コントローラの初期化関数呼び出し
-        finish.Invoke(playerAction, playerState);
+        finish.Invoke(playerAction, playerState, enemyActionList, EnemyListStateData);
         //GameControllplayerState or.Instance.AftorMakeMapStart();
     }
 

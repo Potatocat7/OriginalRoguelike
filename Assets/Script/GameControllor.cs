@@ -196,17 +196,6 @@ public class GameControllor : MonoBehaviour {
         {
             GameManager.Instance.GetPlayerManager().SetUserActFlagOn();
             GameManager.Instance.GetPlayerManager().ActionStart();
-            if (GoalFlg == true)
-            {
-                yield return new WaitForSeconds(0.3f);
-                ///TODO:ゴールに入った瞬間にゲームを読み直すため
-                ///アクションでキャラが動いているとエラーがでるので
-                ///キャラを動かした後に飛ぶようにするwhile等で
-                ///また切り替える前にウィンドウをだす
-                SaveData(saveFinish:()=> {
-                    SceneManager.LoadScene("GameScene");
-                });
-            }
             if (GetPItemFlg == true)
             {
                 yield return new WaitForSeconds(0.3f);
@@ -227,6 +216,18 @@ public class GameControllor : MonoBehaviour {
             yield return coActionFlgOnSub(count);
         }
         yield return new WaitForSeconds(0.3f);
+
+        if (GoalFlg == true)
+        {
+            yield return new WaitForSeconds(0.3f);
+            ///TODO:ゴールに入った瞬間にゲームを読み直すため
+            ///アクションでキャラが動いているとエラーがでるので
+            ///キャラを動かした後に飛ぶようにするwhile等で
+            ///また切り替える前にウィンドウをだす
+            SaveData(saveFinish: () => {
+                SceneManager.LoadScene("GameScene");
+            });
+        }
 
         //攻撃・移動・敵全体各リストを一度リセット
         GameManager.Instance.GetEnemyManager().ResetAllEnemyList();

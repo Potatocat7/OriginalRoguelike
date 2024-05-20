@@ -21,9 +21,9 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Init(List<ActionControllor> enemyList, List<ActionControllor> saveList)
+    public void Init(List<ActionControllor> enemyList)
     {
-        saveEnemyList = saveList;
+        saveEnemyList = enemyList;
         //EnemyList = enemyList;
         EnemyListSetUp(saveEnemyList);
     }
@@ -208,16 +208,16 @@ public class EnemyManager : MonoBehaviour
     /// </summary>
     /// <param name="Enemy"></param>
     /// <param name="thisCount"></param>
-    void EnemyMoveTargetPlayer(ActionControllor Enemy, int thisCount)
+    void EnemyMoveTargetPlayer(ActionControllor Enemy, int thisCount,(int,int) plaerPos)
     {
         //ここはいずれA*アルゴリズムで動かしたい
         int iEnemyNext, jEnemyNext;
         bool otherEmoveFlg = false;
-        if (GameManager.Instance.GetPlayerManager().GetNextStepArea().Item1 - (int)Math.Round(Enemy.transform.position.x) > 0)
+        if (plaerPos.Item1 - (int)Math.Round(Enemy.transform.position.x) > 0)
         {
             iEnemyNext = 1;
         }
-        else if (GameManager.Instance.GetPlayerManager().GetNextStepArea().Item1 - (int)Math.Round(Enemy.transform.position.x) < 0)
+        else if (plaerPos.Item1 - (int)Math.Round(Enemy.transform.position.x) < 0)
         {
             iEnemyNext = -1;
         }
@@ -226,11 +226,11 @@ public class EnemyManager : MonoBehaviour
             iEnemyNext = 0;
         }
 
-        if (GameManager.Instance.GetPlayerManager().GetNextStepArea().Item2 - (int)Math.Round(Enemy.transform.position.y) > 0)
+        if (plaerPos.Item2 - (int)Math.Round(Enemy.transform.position.y) > 0)
         {
             jEnemyNext = 1;
         }
-        else if (GameManager.Instance.GetPlayerManager().GetNextStepArea().Item2 - (int)Math.Round(Enemy.transform.position.y) < 0)
+        else if (plaerPos.Item2 - (int)Math.Round(Enemy.transform.position.y) < 0)
         {
             jEnemyNext = -1;
         }
@@ -322,11 +322,12 @@ public class EnemyManager : MonoBehaviour
                     }
                     else
                     {
-                        if (MapGenerator.map[(int)Math.Round(GameManager.Instance.GetPlayerManager().GetTransform().position.x),
-                            (int)Math.Round(GameManager.Instance.GetPlayerManager().GetTransform().position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x),
+                        PlayerManager player = GameManager.Instance.GetPlayerManager();
+                        if (MapGenerator.map[(int)Math.Round(player.GetTransform().position.x),
+                            (int)Math.Round(player.GetTransform().position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x),
                             (int)Math.Round(EnemyList[count].transform.position.y)])
                         {
-                            EnemyMoveTargetPlayer(EnemyList[count], count);
+                            EnemyMoveTargetPlayer(EnemyList[count], count, player.GetNextStepArea());
                         }
                         else
                         {

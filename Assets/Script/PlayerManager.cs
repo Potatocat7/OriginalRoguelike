@@ -13,6 +13,7 @@ public class PlayerManager : MonoBehaviour
     {
         Player = player;
         ItemWindowScript.Instance.SetupItemState();
+        SetDirection(ActionControllor.Direction.DOWN);
     }
     //*Player *//
     public void SetPlayerAction(int inext,int jnext, ActionControllor.Direction direction)

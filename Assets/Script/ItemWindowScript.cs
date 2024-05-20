@@ -110,7 +110,7 @@ public class ItemWindowScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameControllor.Instance.ItemWindowflg==false)
+        if (GameManager.Instance.GetItemWindowflg()==false)
         {
             //_thisWindowPanel.SetActive(false);
             ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.GAME);
@@ -134,7 +134,7 @@ public class ItemWindowScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameControllor.Instance.ItemWindowflg == false)
+        if (GameManager.Instance.GetItemWindowflg() == false)
         {
             //_thisWindowPanel.SetActive(false);
             _thisPanelRectTransform.localPosition = _offPosition;

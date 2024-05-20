@@ -12,6 +12,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager = null;
     /// <summary>エネミーマネージャー</summary>
     [SerializeField] private EnemyManager enemyManager = null;
+
+    private bool ItemWindowflg;
+
+
     //シングルトン化
     private static GameManager mInstance;
     public static GameManager Instance
@@ -32,10 +36,12 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        mapGeneObj.MapGeneStart(finish:(player,enemyList, saveEnemyList) => {
+        mapGeneObj.MapGeneStart(finish:(player,enemyList) => {
             playerManager.Init(player);
-            enemyManager.Init(enemyList,saveEnemyList);
-            gameCtrl.GameCtrlStart();
+            enemyManager.Init(enemyList);
+            gameCtrl.GameCtrlStart(playerManager,enemyManager);
+            ItemWindowflg = false;
+
         });
     }
 
@@ -46,6 +52,24 @@ public class GameManager : MonoBehaviour
     public EnemyManager GetEnemyManager()
     {
         return enemyManager;
+    }
+
+    public void ChangeItemWindow()
+    {
+        if (ItemWindowflg == false)
+        {
+            ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.ITEMWINDOW);
+            ItemWindowflg = true;
+        }
+        else
+        {
+            ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.GAME);
+            ItemWindowflg = false;
+        }
+    }
+    public bool GetItemWindowflg()
+    {
+        return ItemWindowflg;
     }
 
     ///TODO:GameControllorの一部処理をここで行う

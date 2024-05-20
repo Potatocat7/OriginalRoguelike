@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 public class PlayerManager : MonoBehaviour
 {
     private ActionControllor Player = null;
+    private bool GetPItemFlg;
     /// <summary>
     /// 初期化
     /// </summary>
@@ -14,6 +15,7 @@ public class PlayerManager : MonoBehaviour
         Player = player;
         ItemWindowScript.Instance.SetupItemState();
         SetDirection(ActionControllor.Direction.DOWN);
+        GetPItemFlg = false;
     }
     //*Player *//
     public void SetPlayerAction(int inext,int jnext, ActionControllor.Direction direction)
@@ -90,4 +92,14 @@ public class PlayerManager : MonoBehaviour
     {
         Player.stateData.SubState(data);
     }
+    public void SetPItemFlg(bool flg)
+    {
+        GetPItemFlg = flg;
+    }
+    public bool GetPowerItemFlg()
+    {
+        return GetPItemFlg;
+    }
+
+
 }

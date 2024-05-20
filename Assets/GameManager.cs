@@ -71,6 +71,10 @@ public class GameManager : MonoBehaviour
     {
         return ItemWindowflg;
     }
+    public void SetPItemFlg(bool flg)
+    {
+        playerManager.SetPItemFlg(flg);
+    }
 
     ///TODO:GameControllorの一部処理をここで行う
     ///主に操作以外の処理

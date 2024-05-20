@@ -18,8 +18,8 @@ public class GameControllor : MonoBehaviour {
     private bool PmoveFlg;
     [SerializeField]
     private bool GoalFlg;
-    [SerializeField]
-    private bool GetPItemFlg;
+    //[SerializeField]
+    //private bool GetPItemFlg;
 
     private GameObject _goalObj;
     private List<ItemScript> ItemList = new List<ItemScript>();
@@ -45,10 +45,6 @@ public class GameControllor : MonoBehaviour {
             return;
         }
         mInstance = this;
-    }
-    public void OnGetPItemFlg()
-    {
-        GetPItemFlg = true;
     }
     public void SetGoalObj(GameObject goal)
     {
@@ -80,7 +76,6 @@ public class GameControllor : MonoBehaviour {
         //itemCount = 0;          //アイテムの個数がある場合修正
         PmoveFlg = false;
         GoalFlg = false;
-        GetPItemFlg = false;
         LockFlg = false;
     }
 
@@ -202,12 +197,12 @@ public class GameControllor : MonoBehaviour {
         {
             player.SetUserActFlagOn();
             player.ActionStart();
-            if (GetPItemFlg == true)
+            if (player.GetPowerItemFlg() == true)
             {
                 yield return new WaitForSeconds(0.3f);
                 player.SetSPcount( 5 );
                 itemCount -= 1;
-                GetPItemFlg = false;
+                player.SetPItemFlg(false);
                 ////アイテムが複数なら修正が必要
                 //GameObject PItem = GameObject.Find("PowerItemPrefab(Clone)");
                 //PItem.GetComponent<PItemScript>().GetDestroy();

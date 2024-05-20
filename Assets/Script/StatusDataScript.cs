@@ -196,8 +196,10 @@ public class StatusDataScript : MonoBehaviour
                 //最初はランダムではなく確定で生成してみる
                 //MapGeneratorから関数をひっぱればいける？
                 _playerState.ExperienceUp(expState);
+                //TODO:このままorGameManager経由にする
                 if (GameControllor.Instance.CheckItemPosition(iThisNow, jThisNow))
                 {
+                    //TODO:このままorGameManager経由にする
                     MapGenerator.Instance.SetDropItemObj(iThisNow, jThisNow);
                 }
                 Destroy(gameObject);

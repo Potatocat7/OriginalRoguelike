@@ -13,7 +13,7 @@ public class PItemScript : ItemScript
 	
     public override void GetDestroy()
     {
-        GameControllor.Instance.OnGetPItemFlg();
+        GameManager.Instance.SetPItemFlg(true);
         Destroy(gameObject);
 
     }

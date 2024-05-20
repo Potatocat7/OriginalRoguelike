@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager playerManager = null;
     /// <summary>エネミーマネージャー</summary>
     [SerializeField] private EnemyManager enemyManager = null;
+    /// <summary>アイテムウィンドウ</summary>
+    [SerializeField] private ItemWindowScript itemWindow = null;
 
     private bool ItemWindowflg;
 
@@ -40,9 +42,14 @@ public class GameManager : MonoBehaviour
             playerManager.Init(player);
             enemyManager.Init(enemyList);
             gameCtrl.GameCtrlStart(playerManager,enemyManager);
+            itemWindow.Init();
             ItemWindowflg = false;
 
         });
+    }
+    public ItemWindowScript GetItemWindow()
+    {
+        return itemWindow;
     }
 
     public PlayerManager GetPlayerManager()

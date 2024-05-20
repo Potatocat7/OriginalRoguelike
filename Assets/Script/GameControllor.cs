@@ -130,7 +130,7 @@ public class GameControllor : MonoBehaviour {
                 {
                     if (ItemList[i].ThisData.Type != ItemScript.ItemType.SPECIAL)
                     {
-                        ItemWindowScript.Instance.AddGotItemPrefab(ItemList[i].ThisData);
+                        GameManager.Instance.GetItemWindow().AddGotItemPrefab(ItemList[i].ThisData);
                     }
                     ItemList[i].GetDestroy();
                     ItemList.RemoveAt(i);

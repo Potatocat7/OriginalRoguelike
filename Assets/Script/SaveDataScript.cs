@@ -84,13 +84,13 @@ public class SaveDataScript : MonoBehaviour {
     {
         playerNowData = Data;
 
-        for (int i= 0;i< ItemWindowScript.Instance._gotItemList.Count;i++)
+        for (int i= 0;i< GameManager.Instance.GetItemWindow()._gotItemList.Count;i++)
         {
-            _saveItemList.Add(ItemWindowScript.Instance._gotItemList[i].itemSaveData);
+            _saveItemList.Add(GameManager.Instance.GetItemWindow()._gotItemList[i].itemSaveData);
             //移動時に一度アイテムは外したステータスに
-            if (ItemWindowScript.Instance._gotItemList[i].itemSaveData.EquipFlg == true)
+            if (GameManager.Instance.GetItemWindow()._gotItemList[i].itemSaveData.EquipFlg == true)
             {
-                GameManager.Instance.GetPlayerManager().SubItemState(ItemWindowScript.Instance._gotItemList[i].itemSaveData);
+                GameManager.Instance.GetPlayerManager().SubItemState(GameManager.Instance.GetItemWindow()._gotItemList[i].itemSaveData);
             }
         }
         //_saveItemList = ItemWindowScript.Instance._saveItemList;

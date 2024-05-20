@@ -88,7 +88,7 @@ public class ItemPrefabScript : MonoBehaviour
         switch (_thisType)
         {
             case ItemScript.ItemType.EQUIP:
-                ItemWindowScript.Instance.CheckEquipItem();
+                GameManager.Instance.GetItemWindow().CheckEquipItem();
                 //_thisEquipCheckObj.SetActive(true);
                 _thisEquipCheck.gameObject.SetActive(true);
                 itemSaveData.EquipFlg = true;
@@ -96,7 +96,7 @@ public class ItemPrefabScript : MonoBehaviour
                 GameManager.Instance.GetPlayerManager().AddItemState(itemSaveData);
                 break;
             case ItemScript.ItemType.CONSUM:
-                ItemWindowScript.Instance.OrganizeList(_listNumber);
+                GameManager.Instance.GetItemWindow().OrganizeList(_listNumber);
                 GameManager.Instance.GetPlayerManager().AddItemState(itemSaveData);
                 Destroy(gameObject);
                 break;
@@ -108,7 +108,7 @@ public class ItemPrefabScript : MonoBehaviour
     }
     public void OnClick()
     {
-        ItemWindowScript.Instance.OnPopwindow(_listNumber);
+        GameManager.Instance.GetItemWindow().OnPopwindow(_listNumber);
     }
 
     // Start is called before the first frame update

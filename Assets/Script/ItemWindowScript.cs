@@ -15,24 +15,40 @@ public class ItemWindowScript : MonoBehaviour
     private Vector3 _offPositionPopwin = new Vector3(700, 700, 0); 
     private Vector3 _onPositionPopwin = new Vector3(250, -125, 0);
     private int _listNum;
-    //シングルトン化
-    private static ItemWindowScript mInstance;
-    public static ItemWindowScript Instance
+    ////シングルトン化
+    //private static ItemWindowScript mInstance;
+    //public static ItemWindowScript Instance
+    //{
+    //    get
+    //    {
+    //        return mInstance;
+    //    }
+    //}
+    //void Awake()
+    //{
+    //    if (Instance != null)
+    //    {
+    //        Destroy(gameObject);
+    //        return;
+    //    }
+    //    mInstance = this;
+    //    //DontDestroyOnLoad(gameObject);
+    //    _saveItemList = SaveDataScript.Instance._saveItemList;
+    //    for (int i = 0; i < _saveItemList.Count; i++)
+    //    {
+    //        AddGotItemPrefab(_saveItemList[i]);
+    //        ////装備していたアイテムは装備させる
+    //        //if (_saveItemList[i].EquipFlg == true)
+    //        //{
+    //        //    GameControllor.Instance.AddItemState(_saveItemList[i]);
+    //        //}
+    //    }
+    //    //セーブのリストをリセット
+    //    SaveDataScript.Instance._saveItemList= new List<ItemStatusData>();
+
+    //}
+    public void Init()
     {
-        get
-        {
-            return mInstance;
-        }
-    }
-    void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        mInstance = this;
-        //DontDestroyOnLoad(gameObject);
         _saveItemList = SaveDataScript.Instance._saveItemList;
         for (int i = 0; i < _saveItemList.Count; i++)
         {
@@ -44,8 +60,8 @@ public class ItemWindowScript : MonoBehaviour
             //}
         }
         //セーブのリストをリセット
-        SaveDataScript.Instance._saveItemList= new List<ItemStatusData>();
-
+        SaveDataScript.Instance._saveItemList = new List<ItemStatusData>();
+        SetupItemState();
     }
     public void SetupItemState()
     {

@@ -34,6 +34,7 @@ public class MapGenerator : MonoBehaviour {
     private bool _saveDataFlg;
 
     private Action<ItemScript> makeItem;
+    private Action<GameObject> goal;
 
     //シングルトン化
     private static MapGenerator mInstance;
@@ -143,7 +144,8 @@ public class MapGenerator : MonoBehaviour {
                         iLoopflg = true;
                         if (PrefabObj.tag == "Goal")
                         {
-                            GameControllor.Instance.SetGoalObj(_mapobj[randomiPix, randomjPix]._mapObject);
+                            goal.Invoke(_mapobj[randomiPix, randomjPix]._mapObject);
+                            //GameControllor.Instance.SetGoalObj(_mapobj[randomiPix, randomjPix]._mapObject);
                         }
 
                     }
@@ -244,12 +246,13 @@ public class MapGenerator : MonoBehaviour {
     {
         _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
     }
-    public void MapGeneStart(Action<ActionControllor,List<ActionControllor>> finish, Action<ItemScript> setItem)
+    public void MapGeneStart(Action<ActionControllor, List<ActionControllor>> finish, Action<ItemScript> setItem, Action<GameObject> setGoal)
     {
         mapNum = UnityEngine.Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
         UniqObjCount = 0;
         makeItem = setItem;
+        goal = setGoal;
         //for文で配列に情報を入れていく(MapDataScript.mapDataだと引数が増えるため)
         for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++) //mapWidth
         {

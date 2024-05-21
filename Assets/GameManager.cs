@@ -55,8 +55,13 @@ public class GameManager : MonoBehaviour
         setItem: (makeitem) => 
         {
             gameCtrl.AddCountItemObj(makeitem);
+        },
+        setGoal: (goal) =>
+        {
+            gameCtrl.SetGoalObj(goal);
         });
     }
+    
     public ItemWindowScript GetItemWindow()
     {
         return itemWindow;

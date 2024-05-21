@@ -38,18 +38,23 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        mapGeneObj.MapGeneStart(finish:(player,enemyList) => {
+        mapGeneObj.MapGeneStart(finish:(player,enemyList) =>
+        {
             playerManager.Init(player);
             enemyManager.Init(enemyList);
             gameCtrl.GameCtrlStart(playerManager, enemyManager, () =>
             {
                 ChangeItemWindow();
             });
-            itemWindow.Init((equipitem)=> {
+            itemWindow.Init((equipitem) =>
+            {
                 playerManager.AddItemState(equipitem);
             });
             //ItemWindowflg = false;
-
+        },
+        setItem: (makeitem) => 
+        {
+            gameCtrl.AddCountItemObj(makeitem);
         });
     }
     public ItemWindowScript GetItemWindow()

@@ -33,6 +33,8 @@ public class MapGenerator : MonoBehaviour {
     public List<int> jObjState = new List<int>();
     private bool _saveDataFlg;
 
+    private Action<ItemScript> makeItem;
+
     //シングルトン化
     private static MapGenerator mInstance;
     public static MapGenerator Instance
@@ -112,7 +114,8 @@ public class MapGenerator : MonoBehaviour {
             {
                 //GetComponent。InstantiateがGameObject出しか作れないなんてことがなかったはずなのでなおせるならなおした
                 _mapobj[iPix, jPix]._Item.GetPosition(iPix, jPix);
-                GameControllor.Instance.AddCountItemObj(setItem);
+                makeItem.Invoke(_mapobj[iPix, jPix]._Item);
+                //GameControllor.Instance.AddCountItemObj(setItem);
             }
         }
         else
@@ -226,7 +229,8 @@ public class MapGenerator : MonoBehaviour {
                         if (PrefabObj.tag == "Item")
                         {
                             _mapobj[randomiPix, randomjPix]._Item.GetPosition(randomiPix, randomjPix);
-                            GameControllor.Instance.AddCountItemObj(_mapobj[randomiPix, randomjPix]._Item);
+                            makeItem.Invoke(_mapobj[randomiPix, randomjPix]._Item);
+                            //GameControllor.Instance.AddCountItemObj(_mapobj[randomiPix, randomjPix]._Item);
                         }
                     }
                 }
@@ -240,11 +244,12 @@ public class MapGenerator : MonoBehaviour {
     {
         _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
     }
-    public void MapGeneStart(Action<ActionControllor,List<ActionControllor>> finish)
+    public void MapGeneStart(Action<ActionControllor,List<ActionControllor>> finish, Action<ItemScript> setItem)
     {
         mapNum = UnityEngine.Random.Range(0, 3);        // 0～3の乱数を取得
         EnemyCount = 0;
         UniqObjCount = 0;
+        makeItem = setItem;
         //for文で配列に情報を入れていく(MapDataScript.mapDataだと引数が増えるため)
         for (int iPix = 0; iPix < MapDataScript.mapData.GetLength(1); iPix++) //mapWidth
         {
@@ -304,9 +309,5 @@ public class MapGenerator : MonoBehaviour {
         //コントローラの初期化関数呼び出し
         finish.Invoke(playerAction,enemyActionList);
         //GameControllplayerState or.Instance.AftorMakeMapStart();
-    }
-
-    // Update is called once per frame
-    void Update () {
     }
 }

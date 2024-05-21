@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
     private List<ActionControllor> AtkResetEnemyList = new List<ActionControllor>();
     private List<ActionControllor> MoveEnemyList = new List<ActionControllor>();
     private List<ActionControllor> MoveResetEnemyList = new List<ActionControllor>();
-
+    private bool attackable;
     /// <summary>
     /// 初期化
     /// </summary>
@@ -25,6 +25,7 @@ public class EnemyManager : MonoBehaviour
     {
         saveEnemyList = enemyList;
         //EnemyList = enemyList;
+        attackable = true;
         EnemyListSetUp(saveEnemyList);
     }
     /// <summary>
@@ -423,16 +424,33 @@ public class EnemyManager : MonoBehaviour
         if (EnemyAtkCount > 0)
         {
             AtkEnemyList[cnt].SetUserAttackFlagOn();
-            AtkEnemyList[cnt].ActionStart();
+            //if (attackable == true)
+            //{
+            //    AtkEnemyList[cnt].ActionStart();
+            //    AtkEnemyList[cnt].enemyAtk.AttackHit();
+            //}
+            //else
+            //{
+            //    AtkEnemyList[cnt].CancelCts();
+            //}
+            AtkEnemyList[cnt].ActionStart(attackable);
             AtkEnemyList[cnt].enemyAtk.AttackHit();
+
         }
     }
     public void SetParamMoveEnemyList()
     {
         for (int count = 0; count < EnemyMoveCount; count++)
         {
-            MoveEnemyList[count].SetUserActFlagOn();
-            MoveEnemyList[count].ActionStart();
+            //if (attackable == true)
+            //{
+                MoveEnemyList[count].SetUserActFlagOn();
+                MoveEnemyList[count].ActionStart(attackable);
+            //}
+            //else
+            //{
+            //    MoveEnemyList[count].CancelCts();
+            //}
 
         }
     }
@@ -448,5 +466,8 @@ public class EnemyManager : MonoBehaviour
         MoveEnemyList.Clear();
         EnemyMoveCount = 0;
     }
-
+    public  void ChangeAttackable(bool flg)
+    {
+        attackable = flg;
+    }
 }

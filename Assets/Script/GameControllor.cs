@@ -232,6 +232,10 @@ public class GameControllor : MonoBehaviour {
         enemy.ResetAllEnemyList();
         PatkFlg = false;
         AcitonFlg = false;
+        if (player.CheckPlayerHP() == false)
+        {
+            SceneManager.LoadScene("EndScene");
+        }
     }
     void Update () {
 

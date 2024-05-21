@@ -1,21 +1,31 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using UniRx;
 
 public class PlayerManager : MonoBehaviour
 {
     private ActionControllor Player = null;
     private bool GetPItemFlg;
+    private bool actionable;
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Init(ActionControllor player)
+    public void Init(ActionControllor player,Action unableToFight)
     {
         Player = player;
         Player.StartSetUp();
         SetDirection(ActionControllor.Direction.DOWN);
         GetPItemFlg = false;
+        actionable = true;
+        Observable.EveryUpdate()
+        .Where(_ => Player.stateData.GetHPnow() <= 0)
+        .Subscribe(_ =>
+        {
+            unableToFight.Invoke();
+            actionable = false;
+        }).AddTo(this);
     }
     //*Player *//
     public void SetPlayerAction(int inext,int jnext, ActionControllor.Direction direction)
@@ -64,12 +74,23 @@ public class PlayerManager : MonoBehaviour
     }
     public async UniTask ActionStart()
     {
-        await Player.ActionStart();
-    }
+        await Player.ActionStart(actionable);
+        if (Player.stateData.GetHPnow() <= 0)
+        {
+            Player.stateData.SetEndingFlg();
+        }
 
-    public int GetPlayerHpNow()
+    }
+    public bool CheckPlayerHP()
     {
-        return Player.stateData.GetHPnow();
+        if (Player.stateData.GetHPnow() <= 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
     public Status GetStateData()
     {

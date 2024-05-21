@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     /// <summary>アイテムウィンドウ</summary>
     [SerializeField] private ItemWindowScript itemWindow = null;
 
-    //private bool ItemWindowflg;
 
 
     //シングルトン化
@@ -40,7 +39,10 @@ public class GameManager : MonoBehaviour
     {
         mapGeneObj.MapGeneStart(finish:(player,enemyList) =>
         {
-            playerManager.Init(player);
+            playerManager.Init(player,()=> 
+            {
+                enemyManager.ChangeAttackable(false);
+            });
             enemyManager.Init(enemyList);
             gameCtrl.GameCtrlStart(playerManager, enemyManager, () =>
             {

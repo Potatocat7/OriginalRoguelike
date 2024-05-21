@@ -24,6 +24,7 @@ public class StatusDataScript : MonoBehaviour
     private StatusDataScript _playerState;
 
     public EnemyModel enemyModel;
+    private bool endingFlg;
 
     public int GetHPnow()
     {
@@ -95,6 +96,7 @@ public class StatusDataScript : MonoBehaviour
                 _charaState.MEXP = _experienceMax;
                 _charaState.EXP = 0;
             }
+            endingFlg = false;
         }
         else
         {
@@ -175,7 +177,13 @@ public class StatusDataScript : MonoBehaviour
     {
         return SPcount;
     }
+    public void SetEndingFlg()
+    {
+        endingFlg = true;
+    }
+
     ///TODO:Updateである必要がない。
+    ///updateで少しずつ動く処理をやっている
     ///コールバック等を使って攻撃ヒット時にチェックを行うようにすればいける
     ///毎度リセット処理しないとエラーになるのは個々のデリートによる敵Listとの差異が原因
     void Update () {
@@ -186,9 +194,12 @@ public class StatusDataScript : MonoBehaviour
         {
             if (this.tag == "Player")
             {
-                //シーンに行く前にデータの一部をJSONファイルで保存しておく
-                //SaveDataScriptがEndSceneまで残っているのでそこからDataを保存させる
-                SceneManager.LoadScene("EndScene");
+                if (endingFlg == true)
+                {
+                    //シーンに行く前にデータの一部をJSONファイルで保存しておく
+                    //SaveDataScriptがEndSceneまで残っているのでそこからDataを保存させる
+                    SceneManager.LoadScene("EndScene");
+                }
             }
             else
             {   //敵オブジェクトの場合

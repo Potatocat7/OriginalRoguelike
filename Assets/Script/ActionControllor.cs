@@ -44,6 +44,7 @@ public class ActionControllor : MonoBehaviour {
     public bool SpAtkEfFlg;
     [SerializeField]
     private Animator AnimatorState;
+
     //public void SetGameCtrl(GameControllor ctrl)
     //{
     //    Contollor = ctrl;
@@ -239,19 +240,20 @@ public class ActionControllor : MonoBehaviour {
         }
         for (int count = 1; count < 6; count++)
         {
-            if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
-            {
-                break;
-            }
+            //if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
+            //{
+            //    break;
+            //}
             this.transform.Translate(iAtkDir * 0.1f, jAtkDir * 0.1f, 0);
             //yield return new WaitForSeconds(0.025f);
             await UniTask.Delay(25);
         }
         ///エラーがでるのでここでもチェック
-        if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
-        {
-            return;
-        }
+        ///TODO:managerでフラグをもって、フラグがたったらActionノフラグを立てる
+        //if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
+        //{
+        //    return;
+        //}
         //AtkEfFlg = false;
         if (this.tag == "Player")
         {
@@ -259,10 +261,10 @@ public class ActionControllor : MonoBehaviour {
         }
         for (int count = 1; count < 6; count++)
         {
-            if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
-            {
-                break;
-            }
+            //if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
+            //{
+            //    break;
+            //}
             this.transform.Translate(iAtkDir * -0.1f, jAtkDir * -0.1f, 0);
             //yield return new WaitForSeconds(0.025f);
             await UniTask.Delay(25);
@@ -285,17 +287,20 @@ public class ActionControllor : MonoBehaviour {
         UserActFlg = false;
         count = 0;
     }
-    public async UniTask ActionStart()
+    public async UniTask ActionStart(bool actionable)
     {
-        if (UserAttackFlg == true)
+        if(actionable == true)
         {
-            coActionAttack();
-            //StartCoroutine("coActionAttack");
-        }
-        else
-        {
-            coActionMove();
-            //StartCoroutine("coActionMove");
+            if (UserAttackFlg == true)
+            {
+                coActionAttack();
+                //StartCoroutine("coActionAttack");
+            }
+            else
+            {
+                coActionMove();
+                //StartCoroutine("coActionMove");
+            }
         }
     }
     public async UniTask SpActionStart()
@@ -303,8 +308,6 @@ public class ActionControllor : MonoBehaviour {
         coSpActionAttack();
         //StartCoroutine("coSpActionAttack");
     }
-
-
     // Update is called once per frame
     void Update () {
 	}

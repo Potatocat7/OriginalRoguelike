@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +15,8 @@ public class ItemWindowScript : MonoBehaviour
     private Vector3 _offPositionPopwin = new Vector3(700, 700, 0); 
     private Vector3 _onPositionPopwin = new Vector3(250, -125, 0);
     private int _listNum;
+    private bool ItemWindowflg;
+
     ////シングルトン化
     //private static ItemWindowScript mInstance;
     //public static ItemWindowScript Instance
@@ -47,8 +49,15 @@ public class ItemWindowScript : MonoBehaviour
     //    SaveDataScript.Instance._saveItemList= new List<ItemStatusData>();
 
     //}
-    public void Init()
+    public void Init(Action<ItemStatusData> EquipItem = null)
     {
+        ItemWindowflg = false;
+        if (ItemWindowflg == false)
+        {
+            //_thisWindowPanel.SetActive(false);
+            ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.GAME);
+            _thisPanelRectTransform.localPosition = _offPosition;
+        }
         _saveItemList = SaveDataScript.Instance._saveItemList;
         for (int i = 0; i < _saveItemList.Count; i++)
         {
@@ -61,16 +70,19 @@ public class ItemWindowScript : MonoBehaviour
         }
         //セーブのリストをリセット
         SaveDataScript.Instance._saveItemList = new List<ItemStatusData>();
-        SetupItemState();
+        SetupItemState((itemdata)=> {
+            EquipItem.Invoke(itemdata);
+        });
     }
-    public void SetupItemState()
+    public void SetupItemState(Action<ItemStatusData> EquipItem = null)
     {
         for (int i = 0; i < _gotItemList.Count; i++)
         {
             //装備していたアイテムは装備させる
             if (_gotItemList[i].itemSaveData.EquipFlg == true)
             {
-                GameManager.Instance.GetPlayerManager().AddItemState(_gotItemList[i].itemSaveData);
+                //GameManager.Instance.GetPlayerManager().AddItemState(_gotItemList[i].itemSaveData);
+                EquipItem.Invoke(_gotItemList[i].itemSaveData);
             }
         }
     }
@@ -123,16 +135,6 @@ public class ItemWindowScript : MonoBehaviour
         _listNum = listNum;
         _itemPopwindowRectTransform.localPosition = _onPositionPopwin;
     }    
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (GameManager.Instance.GetItemWindowflg()==false)
-        {
-            //_thisWindowPanel.SetActive(false);
-            ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.GAME);
-            _thisPanelRectTransform.localPosition = _offPosition;
-        }
-    }
     public void AddGotItemPrefab(ItemStatusData Data)
     {
         //prefabにセットするアイコンやら情報でSPATK用のアイテムなら呼ばないようにする
@@ -150,7 +152,7 @@ public class ItemWindowScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.GetItemWindowflg() == false)
+        if (ItemWindowflg == false)
         {
             //_thisWindowPanel.SetActive(false);
             _thisPanelRectTransform.localPosition = _offPosition;
@@ -160,5 +162,19 @@ public class ItemWindowScript : MonoBehaviour
             //_thisWindowPanel.SetActive(true);
             _thisPanelRectTransform.localPosition = Vector3.zero;
         }
+    }
+    public void ChangeItemWindow()
+    {
+        if (ItemWindowflg == false)
+        {
+            ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.ITEMWINDOW);
+            ItemWindowflg = true;
+        }
+        else
+        {
+            ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.GAME);
+            ItemWindowflg = false;
+        }
+
     }
 }

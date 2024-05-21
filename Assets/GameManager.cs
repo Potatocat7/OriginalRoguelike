@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     /// <summary>アイテムウィンドウ</summary>
     [SerializeField] private ItemWindowScript itemWindow = null;
 
-    private bool ItemWindowflg;
+    //private bool ItemWindowflg;
 
 
     //シングルトン化
@@ -41,9 +41,14 @@ public class GameManager : MonoBehaviour
         mapGeneObj.MapGeneStart(finish:(player,enemyList) => {
             playerManager.Init(player);
             enemyManager.Init(enemyList);
-            gameCtrl.GameCtrlStart(playerManager,enemyManager);
-            itemWindow.Init();
-            ItemWindowflg = false;
+            gameCtrl.GameCtrlStart(playerManager, enemyManager, () =>
+            {
+                ChangeItemWindow();
+            });
+            itemWindow.Init((equipitem)=> {
+                playerManager.AddItemState(equipitem);
+            });
+            //ItemWindowflg = false;
 
         });
     }
@@ -63,21 +68,12 @@ public class GameManager : MonoBehaviour
 
     public void ChangeItemWindow()
     {
-        if (ItemWindowflg == false)
-        {
-            ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.ITEMWINDOW);
-            ItemWindowflg = true;
-        }
-        else
-        {
-            ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.GAME);
-            ItemWindowflg = false;
-        }
+        itemWindow.ChangeItemWindow();
     }
-    public bool GetItemWindowflg()
-    {
-        return ItemWindowflg;
-    }
+    //public bool GetItemWindowflg()
+    //{
+    //    return ItemWindowflg;
+    //}
     public void SetPItemFlg(bool flg)
     {
         playerManager.SetPItemFlg(flg);

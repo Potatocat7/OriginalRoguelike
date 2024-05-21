@@ -175,7 +175,7 @@ public class MapGenerator : MonoBehaviour {
                         iLoopflg = true;
                         if (PrefabObj.tag == "Player")
                         {
-                            _mapobj[randomiPix, randomjPix]._actCtrl.StartSetUp();
+                            //_mapobj[randomiPix, randomjPix]._actCtrl.StartSetUp();
                             //GameManager.Instance.GetPlayerManager().SetPlayerActionCtrl(_mapobj[randomiPix, randomjPix]._actCtrl);
                             iNow = randomiPix;
                             jNow = randomjPix;
@@ -189,7 +189,7 @@ public class MapGenerator : MonoBehaviour {
                         else if (PrefabObj.tag == "Enemy")
                         {
                             //上がなおせればGetComponentが一気に解消できそう？
-                            _mapobj[randomiPix, randomjPix]._actCtrl.StartSetUp();
+                            //_mapobj[randomiPix, randomjPix]._actCtrl.StartSetUp();
                             _mapobj[randomiPix, randomjPix]._actCtrl.enemyAtk.GetPlayerStatusData(_playerData);
                             _mapobj[randomiPix, randomjPix]._actCtrl.enemyAtk.GetThisStatusData(_mapobj[randomiPix, randomjPix]._actCtrl.stateData);
                             _mapobj[randomiPix, randomjPix]._actCtrl.stateData.GetPlayerState(_playerData);

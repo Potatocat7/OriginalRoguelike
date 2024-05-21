@@ -62,6 +62,7 @@ public class EnemyManager : MonoBehaviour
             if (enemylist[count] != null)
             {
                 EnemyList.Add(enemylist[count]);
+                enemylist[count].StartSetUp();
                 EnemyCount += 1;
             }
         }

@@ -26,7 +26,8 @@ public class GameControllor : MonoBehaviour {
 
     private PlayerManager player;
     private EnemyManager enemy;
-    
+
+    private Action changeWindow;
 
     //シングルトン化
     private static GameControllor mInstance;
@@ -142,9 +143,10 @@ public class GameControllor : MonoBehaviour {
     }
 
     // Use this for initialization
-    public void GameCtrlStart (PlayerManager playmanager, EnemyManager enemymanager) 
+    public void GameCtrlStart (PlayerManager playmanager, EnemyManager enemymanager,Action itemWindow = null) 
     {
         //GameManager.Instance.GetPlayerManager().SetDirection(ActionControllor.Direction.DOWN);
+        changeWindow = itemWindow;
         iNext = 0;
         jNext = 1;
         AcitonFlg = false;
@@ -411,7 +413,8 @@ public class GameControllor : MonoBehaviour {
     {
         if (AcitonFlg != true) //移動中は入力無効にする
         {
-            GameManager.Instance.ChangeItemWindow();
+            changeWindow.Invoke();
+            //GameManager.Instance.ChangeItemWindow();
             //if (ItemWindowflg == false)
             //{
             //    ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.ITEMWINDOW);

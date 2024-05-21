@@ -149,30 +149,18 @@ public class ItemWindowScript : MonoBehaviour
         ButtonActionManagerScript.Instance.AddItemButtonList(prefab.itemButton);
        //_saveItemList.Add(prefab.GetComponent<ItemPrefabScript>().itemSaveData);
     }
-    // Update is called once per frame
-    void Update()
-    {
-        if (ItemWindowflg == false)
-        {
-            //_thisWindowPanel.SetActive(false);
-            _thisPanelRectTransform.localPosition = _offPosition;
-        }
-        else
-        {
-            //_thisWindowPanel.SetActive(true);
-            _thisPanelRectTransform.localPosition = Vector3.zero;
-        }
-    }
     public void ChangeItemWindow()
     {
         if (ItemWindowflg == false)
         {
             ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.ITEMWINDOW);
+            _thisPanelRectTransform.localPosition = Vector3.zero;
             ItemWindowflg = true;
         }
         else
         {
             ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.GAME);
+            _thisPanelRectTransform.localPosition = _offPosition;
             ItemWindowflg = false;
         }
 

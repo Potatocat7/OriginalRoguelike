@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Cysharp.Threading.Tasks;
+using System.Threading;
 
 public class ActionControllor : MonoBehaviour {
 
@@ -212,19 +213,47 @@ public class ActionControllor : MonoBehaviour {
     //        UserActFlg = false;
     //    }
     //
+
+    private async UniTask MoveAsync(Vector3 nextPosition, CancellationToken token)
+    {
+        // 移動速度
+        var moveSpeed = 5.0f;
+        while (true)
+        {
+            // 座標の差分
+            var deltaPosition = (nextPosition - this.transform.position);
+
+            // 0.1m以内に近づいていたら終了
+            if (deltaPosition.magnitude < 0.1f) return;
+
+            // 移動方向
+            var direction = deltaPosition.normalized;
+
+            // 移動させる
+            this.transform.position += direction * moveSpeed * Time.deltaTime;
+
+            // 1F待つ
+            await UniTask.Yield(token);
+        }
+    }
     //IEnumerator coActionMove()
     private async void coActionMove()
     {
-        for (int count = 1; count < 11; count++)
-        {
-            this.transform.Translate(iThisNext * 0.1f, jThisNext *  0.1f, 0);
-            //yield return new WaitForSeconds(0.01f);
-            await UniTask.Delay(10);
-        }
+        var cts = new CancellationTokenSource();
+        var token = cts.Token;
+
+        await MoveAsync(new Vector3(iThisNow + iThisNext, jThisNow + jThisNext, -1), token);
+        //for (int count = 1; count < 11; count++)
+        //{
+        //    this.transform.Translate(iThisNext * 0.1f, jThisNext *  0.1f, 0);
+        //    //yield return new WaitForSeconds(0.01f);
+        //    await UniTask.Delay(10);
+        //}
         UserActFlg = false;
         count = 0;
         iThisNow = iThisNow + iThisNext;
         jThisNow = jThisNow + jThisNext;
+        stateData.SetThisPosition(iThisNow, jThisNow);
         iThisNext = 0;
         jThisNext = 0;
         

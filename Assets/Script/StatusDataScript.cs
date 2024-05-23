@@ -181,15 +181,19 @@ public class StatusDataScript : MonoBehaviour
     {
         endingFlg = true;
     }
-
+    public void SetThisPosition(int inow,int jnow)
+    {
+        iThisNow = inow;
+        jThisNow = jnow;
+    }
     ///TODO:Updateである必要がない。
     ///updateで少しずつ動く処理をやっている
     ///コールバック等を使って攻撃ヒット時にチェックを行うようにすればいける
     ///毎度リセット処理しないとエラーになるのは個々のデリートによる敵Listとの差異が原因
     void Update () {
         //UpdateでGetComponentをなくしていきたい
-        iThisNow = this.GetComponent<ActionControllor>().iThisNow;
-        jThisNow = this.GetComponent<ActionControllor>().jThisNow;
+        //iThisNow = this.GetComponent<ActionControllor>().iThisNow;
+        //jThisNow = this.GetComponent<ActionControllor>().jThisNow;
         if (_charaState.HP <= 0)
         {
             if (this.tag == "Player")

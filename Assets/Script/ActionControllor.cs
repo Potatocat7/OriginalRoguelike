@@ -258,25 +258,47 @@ public class ActionControllor : MonoBehaviour {
         jThisNext = 0;
         
     }
+    private async UniTask AttackAsync(Vector3 attackPosition, CancellationToken token)
+    {
+        // 移動速度
+        var moveSpeed = 5.0f;
+        while (true)
+        {
+            // 座標の差分
+            var deltaPosition = (attackPosition - this.transform.position);
+            // 0.1m以内に近づいていたら終了
+            if (deltaPosition.magnitude < 0.1f) return;
+            // 移動方向
+            var direction = deltaPosition.normalized;
+            // 移動させる
+            this.transform.position += direction * moveSpeed * Time.deltaTime;
+            // 1F待つ
+            await UniTask.Yield(token);
+        }
+    }
     //IEnumerator coActionAttack()
     private async void coActionAttack()
     {
-        //AtkEfFlg = true;
+        var cts = new CancellationTokenSource();
+        var token = cts.Token;
+
         if (this.tag == "Player")
         {
             atkEf.SetEffecrDirection();
             atkEf.EffectEnabled(true);
         }
-        for (int count = 1; count < 6; count++)
-        {
-            //if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
-            //{
-            //    break;
-            //}
-            this.transform.Translate(iAtkDir * 0.1f, jAtkDir * 0.1f, 0);
-            //yield return new WaitForSeconds(0.025f);
-            await UniTask.Delay(25);
-        }
+        await AttackAsync(new Vector3(iAtkDir + this.transform.position.x, jAtkDir + this.transform.position.y, -1), token);
+        //AtkEfFlg = true;
+        //for (int count = 1; count < 6; count++)
+        //{
+        //    //if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
+        //    //{
+        //    //    break;
+        //    //}
+        //    this.transform.Translate(iAtkDir * 0.1f, jAtkDir * 0.1f, 0);
+        //    //yield return new WaitForSeconds(0.025f);
+        //    await UniTask.Delay(25);
+        //}
         ///エラーがでるのでここでもチェック
         ///TODO:managerでフラグをもって、フラグがたったらActionノフラグを立てる
         //if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
@@ -284,20 +306,21 @@ public class ActionControllor : MonoBehaviour {
         //    return;
         //}
         //AtkEfFlg = false;
+        await AttackAsync(new Vector3(iThisNow, jThisNow, -1), token);
         if (this.tag == "Player")
         {
             atkEf.EffectEnabled(false);
         }
-        for (int count = 1; count < 6; count++)
-        {
-            //if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
-            //{
-            //    break;
-            //}
-            this.transform.Translate(iAtkDir * -0.1f, jAtkDir * -0.1f, 0);
-            //yield return new WaitForSeconds(0.025f);
-            await UniTask.Delay(25);
-        }
+        //for (int count = 1; count < 6; count++)
+        //{
+        //    //if (GameManager.Instance.GetPlayerManager().GetPlayerHpNow() <= 0)
+        //    //{
+        //    //    break;
+        //    //}
+        //    this.transform.Translate(iAtkDir * -0.1f, jAtkDir * -0.1f, 0);
+        //    //yield return new WaitForSeconds(0.025f);
+        //    await UniTask.Delay(25);
+        //}
         UserAttackFlg = false;
         UserActFlg = false;
         count = 0;

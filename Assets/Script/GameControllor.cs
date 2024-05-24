@@ -175,10 +175,14 @@ public class GameControllor : MonoBehaviour {
 
         enemy.SetParamAtkEnemyList(count);
     }
-    IEnumerator coActionFlgOnMain()
+    IEnumerator coActionFlgOnMain() 
     {
         //プレイヤー
         AcitonFlg = true;
+        player.StartAttack(AtkCheckflg, SpAtkflg, (afterflg) =>
+        {
+            AtkCheckflg = afterflg;
+        });
         if (PatkFlg == true)//移動中は入力無効にする
         {
             player.SetUserAttackFlagOn();
@@ -373,7 +377,7 @@ public class GameControllor : MonoBehaviour {
             jNext = 0;
             player.SetPlayerAction(iNext, jNext);
             enemy.SetEnemyMove();
-            AtkCheckflg = true;
+            AtkCheckflg = true; 
             AcitonFlg = true;
             PatkFlg = true;
             StartCoroutine("coActionFlgOnMain");

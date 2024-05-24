@@ -126,9 +126,29 @@ public class PlayerAttack_1 : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        if (GameControllor.Instance.AtkCheckflg == true)
-        { 
-            if (GameControllor.Instance.SpAtkflg == true)
+        //if (GameControllor.Instance.AtkCheckflg == true)
+        //{ 
+        //    if (GameControllor.Instance.SpAtkflg == true)
+        //    {
+        //        SpAttackHit();
+        //    }
+        //    else
+        //    {
+        //        AttackHit();
+        //    }
+        //    GameControllor.Instance.AtkCheckflg = false;
+        //}
+        //iThisNow = _actCtrl.iThisNow;
+        //jThisNow = _actCtrl.jThisNow;
+        //AttackAreaSet();
+    }
+    public void StartAttack(bool atkCheckflg ,bool spAtkFlg,Action<bool> changeAtkCheckflg = null)
+    {
+        iThisNow = _actCtrl.iThisNow;
+        jThisNow = _actCtrl.jThisNow;
+        if (atkCheckflg == true)
+        {
+            if (spAtkFlg == true)
             {
                 SpAttackHit();
             }
@@ -136,10 +156,8 @@ public class PlayerAttack_1 : MonoBehaviour {
             {
                 AttackHit();
             }
-            GameControllor.Instance.AtkCheckflg = false;
+            changeAtkCheckflg.Invoke(false);
         }
-        iThisNow = _actCtrl.iThisNow;
-        jThisNow = _actCtrl.jThisNow;
         AttackAreaSet();
     }
 }

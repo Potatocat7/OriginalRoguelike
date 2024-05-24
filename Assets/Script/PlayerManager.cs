@@ -121,6 +121,13 @@ public class PlayerManager : MonoBehaviour
     {
         return GetPItemFlg;
     }
+    public void StartAttack(bool atkflg ,bool spflg, Action<bool> afterFlg = null)
+    {
+        Player.playerAttack.StartAttack(atkflg, spflg,(changeAtkCheckflg) => 
+        {
+            afterFlg.Invoke(changeAtkCheckflg);
+        });
+    }
 
 
 }

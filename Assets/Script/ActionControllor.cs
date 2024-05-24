@@ -32,6 +32,9 @@ public class ActionControllor : MonoBehaviour {
     public StatusDataScript stateData = null;
     [SerializeField]
     public EnemyAttack enemyAtk;
+    [SerializeField]
+    public PlayerAttack_1 playerAttack;
+    
 
     private int count;
     public int iThisNext { get; private set; }

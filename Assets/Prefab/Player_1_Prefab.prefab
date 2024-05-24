@@ -390,6 +390,7 @@ MonoBehaviour:
   atkEf: {fileID: 4591056199651424185}
   stateData: {fileID: 5273029559625437049}
   enemyAtk: {fileID: 0}
+  playerAttack: {fileID: 8256050536183851249}
   AtkEfFlg: 0
   SpAtkEfFlg: 0
   AnimatorState: {fileID: 3958914832471014623}

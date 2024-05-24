@@ -294,9 +294,9 @@ GameObject:
   - component: {fileID: 7876974229007721376}
   - component: {fileID: 6410205714346661111}
   - component: {fileID: 316836400354960968}
-  - component: {fileID: 8256050536183851249}
   - component: {fileID: 5273029559625437049}
   - component: {fileID: 3958914832471014623}
+  - component: {fileID: 1791228357446532565}
   m_Layer: 0
   m_Name: Player_1_Prefab
   m_TagString: Player
@@ -390,32 +390,10 @@ MonoBehaviour:
   atkEf: {fileID: 4591056199651424185}
   stateData: {fileID: 5273029559625437049}
   enemyAtk: {fileID: 0}
-  playerAttack: {fileID: 8256050536183851249}
+  Attack: {fileID: 1791228357446532565}
   AtkEfFlg: 0
   SpAtkEfFlg: 0
   AnimatorState: {fileID: 3958914832471014623}
---- !u!114 &8256050536183851249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7277428086546084138}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30c29b9c6ff6ff74b9ee78d281ac6aba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iThisNow: 0
-  jThisNow: 0
-  iThisAtkArea1: 0
-  jThisAtkArea1: 0
-  iThisAtkArea2: 0
-  jThisAtkArea2: 0
-  iThisAtkArea3: 0
-  jThisAtkArea3: 0
-  _actCtrl: {fileID: 316836400354960968}
-  _thisState: {fileID: 5273029559625437049}
 --- !u!114 &5273029559625437049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,6 +443,29 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1791228357446532565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7277428086546084138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e59806b8c9b961468cefd9f36bcb075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iThisNow: 0
+  jThisNow: 0
+  iThisAtkArea1: 0
+  jThisAtkArea1: 0
+  iThisAtkArea2: 0
+  jThisAtkArea2: 0
+  iThisAtkArea3: 0
+  jThisAtkArea3: 0
+  _actCtrl: {fileID: 316836400354960968}
+  _thisState: {fileID: 5273029559625437049}
+  myType: 0
 --- !u!1 &8036098922662933401
 GameObject:
   m_ObjectHideFlags: 0

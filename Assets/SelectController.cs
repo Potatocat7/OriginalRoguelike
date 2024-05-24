@@ -26,7 +26,9 @@ public class SelectController : MonoBehaviour
     {
         _pOneSelect.enabled = true;
         _pTwoSelect.enabled = false;
+        _saveCharaSelect = SaveCharaSelect.Instance;
         _saveCharaSelect.CharaNumber = PlayerSelector.PlayerKind.Player_1;
+        DontDestroyOnLoad(_saveCharaSelect);
 
     }
 
@@ -40,7 +42,6 @@ public class SelectController : MonoBehaviour
         //GameObject Save;
         //Save = GameObject.Find("SaveDataObject");
         //Save.GetComponent<SaveDataScript>().ClearData();
-        DontDestroyOnLoad(_saveCharaSelect);
         SceneManager.LoadScene("GameScene");
     }
     public void onClickPlayer1()

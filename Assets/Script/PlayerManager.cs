@@ -123,7 +123,7 @@ public class PlayerManager : MonoBehaviour
     }
     public void StartAttack(bool atkflg ,bool spflg, Action<bool> afterFlg = null)
     {
-        Player.playerAttack.StartAttack(atkflg, spflg,(changeAtkCheckflg) => 
+        Player.Attack.StartAttack(atkflg, spflg,(changeAtkCheckflg) => 
         {
             afterFlg.Invoke(changeAtkCheckflg);
         });

@@ -141,11 +141,14 @@ public class StatusDataScript : MonoBehaviour
 
         DamageDisplay.text = "";
     }
-    public void HitDamage(int Damge)
+    public void HitDamage(int Damge,Action<int,int> dropitem = null)
     {
         _charaState.HP -= Damge;
         dispDamege = Damge;
         StartCoroutine("coHitDameDisp");
+        CheckDeath((ipos,jpos)=> {
+            dropitem.Invoke(ipos,jpos);
+        });
     }
     public Status GetNow()
     {
@@ -191,9 +194,38 @@ public class StatusDataScript : MonoBehaviour
     ///コールバック等を使って攻撃ヒット時にチェックを行うようにすればいける
     ///毎度リセット処理しないとエラーになるのは個々のデリートによる敵Listとの差異が原因
     void Update () {
-        //UpdateでGetComponentをなくしていきたい
-        //iThisNow = this.GetComponent<ActionControllor>().iThisNow;
-        //jThisNow = this.GetComponent<ActionControllor>().jThisNow;
+        ////UpdateでGetComponentをなくしていきたい
+        ////iThisNow = this.GetComponent<ActionControllor>().iThisNow;
+        ////jThisNow = this.GetComponent<ActionControllor>().jThisNow;
+        //if (_charaState.HP <= 0)
+        //{
+        //    if (this.tag == "Player")
+        //    {
+        //        if (endingFlg == true)
+        //        {
+        //            //シーンに行く前にデータの一部をJSONファイルで保存しておく
+        //            //SaveDataScriptがEndSceneまで残っているのでそこからDataを保存させる
+        //            SceneManager.LoadScene("EndScene");
+        //        }
+        //    }
+        //    else
+        //    {   //敵オブジェクトの場合
+        //        //デリート前にランダムでアイテムを生成
+        //        //最初はランダムではなく確定で生成してみる
+        //        //MapGeneratorから関数をひっぱればいける？
+        //        _playerState.ExperienceUp(expState);
+        //        //TODO:このままorGameManager経由にする
+        //        if (GameControllor.Instance.CheckItemPosition(iThisNow, jThisNow))
+        //        {
+        //            //TODO:このままorGameManager経由にする
+        //            MapGenerator.Instance.SetDropItemObj(iThisNow, jThisNow);
+        //        }
+        //        Destroy(gameObject);
+        //    }
+        //}
+    }
+    private void CheckDeath(Action<int,int> drop = null)
+    {
         if (_charaState.HP <= 0)
         {
             if (this.tag == "Player")
@@ -212,11 +244,12 @@ public class StatusDataScript : MonoBehaviour
                 //MapGeneratorから関数をひっぱればいける？
                 _playerState.ExperienceUp(expState);
                 //TODO:このままorGameManager経由にする
-                if (GameControllor.Instance.CheckItemPosition(iThisNow, jThisNow))
-                {
-                    //TODO:このままorGameManager経由にする
-                    MapGenerator.Instance.SetDropItemObj(iThisNow, jThisNow);
-                }
+                drop.Invoke(iThisNow, jThisNow);
+                //if (GameControllor.Instance.CheckItemPosition(iThisNow, jThisNow))
+                //{
+                //    //TODO:このままorGameManager経由にする
+                //    MapGenerator.Instance.SetDropItemObj(iThisNow, jThisNow);
+                //}
                 Destroy(gameObject);
             }
         }

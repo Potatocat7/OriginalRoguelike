@@ -43,7 +43,13 @@ public class GameManager : MonoBehaviour
             {
                 enemyManager.ChangeAttackable(false);
             });
-            enemyManager.Init(enemyList);
+            enemyManager.Init(enemyList,(idropitem,jdropitem)=> 
+            {
+                if(gameCtrl.CheckItemPosition(idropitem, jdropitem))
+                {
+                    mapGeneObj.SetDropItemObj(idropitem, jdropitem);
+                }
+            });
             gameCtrl.GameCtrlStart(playerManager, enemyManager, () =>
             {
                 ChangeItemWindow();

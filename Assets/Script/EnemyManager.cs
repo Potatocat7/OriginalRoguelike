@@ -18,11 +18,13 @@ public class EnemyManager : MonoBehaviour
     private List<ActionControllor> MoveEnemyList = new List<ActionControllor>();
     private List<ActionControllor> MoveResetEnemyList = new List<ActionControllor>();
     private bool attackable;
+    Action<int, int> dropItemPosition;
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Init(List<ActionControllor> enemyList)
+    public void Init(List<ActionControllor> enemyList,Action<int,int> droppos = null)
     {
+        dropItemPosition = droppos;
         saveEnemyList = enemyList;
         //EnemyList = enemyList;
         attackable = true;
@@ -43,7 +45,10 @@ public class EnemyManager : MonoBehaviour
             {
                 if (EnemyList[count].stateData.CheckAttack(iAttack, jAttack) == true)
                 {
-                    EnemyList[count].stateData.HitDamage(attack);
+                    EnemyList[count].stateData.HitDamage(attack,(idrop,jdrop)=> 
+                    {
+                        dropItemPosition.Invoke(idrop, jdrop);
+                    });
                 }
                 else
                 {

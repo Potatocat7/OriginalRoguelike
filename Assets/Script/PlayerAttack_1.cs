@@ -146,6 +146,7 @@ public class PlayerAttack_1 : MonoBehaviour {
     {
         iThisNow = _actCtrl.iThisNow;
         jThisNow = _actCtrl.jThisNow;
+        AttackAreaSet();
         if (atkCheckflg == true)
         {
             if (spAtkFlg == true)
@@ -158,6 +159,5 @@ public class PlayerAttack_1 : MonoBehaviour {
             }
             changeAtkCheckflg.Invoke(false);
         }
-        AttackAreaSet();
     }
 }

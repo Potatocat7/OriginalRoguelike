@@ -30,23 +30,23 @@ public class GameControllor : MonoBehaviour {
     private Action changeWindow;
 
     //シングルトン化
-    private static GameControllor mInstance;
-    public static GameControllor Instance
-    {
-        get
-        {
-            return mInstance;
-        }
-    }
-    void Awake()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        mInstance = this;
-    }
+    //private static GameControllor mInstance;
+    //public static GameControllor Instance
+    //{
+    //    get
+    //    {
+    //        return mInstance;
+    //    }
+    //}
+    //void Awake()
+    //{
+    //    if (Instance != null)
+    //    {
+    //        Destroy(gameObject);
+    //        return;
+    //    }
+    //    mInstance = this;
+    //}
     public void SetGoalObj(GameObject goal)
     {
         _goalObj = goal;

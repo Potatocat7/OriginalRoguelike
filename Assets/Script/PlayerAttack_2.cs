@@ -132,20 +132,20 @@ void AttackAreaSet()
     void Update()
     {
 
-        if (GameControllor.Instance.AtkCheckflg == true)
-        {
-            if (GameControllor.Instance.SpAtkflg == true)
-            {
-                SpAttackHit();
-            }
-            else
-            {
-                AttackHit();
-            }
-            GameControllor.Instance.AtkCheckflg = false;
-        }
-        iThisNow = _actCtrl.iThisNow;
-        jThisNow = _actCtrl.jThisNow;
-        AttackAreaSet();
+        //if (GameControllor.Instance.AtkCheckflg == true)
+        //{
+        //    if (GameControllor.Instance.SpAtkflg == true)
+        //    {
+        //        SpAttackHit();
+        //    }
+        //    else
+        //    {
+        //        AttackHit();
+        //    }
+        //    GameControllor.Instance.AtkCheckflg = false;
+        //}
+        //iThisNow = _actCtrl.iThisNow;
+        //jThisNow = _actCtrl.jThisNow;
+        //AttackAreaSet();
     }
 }

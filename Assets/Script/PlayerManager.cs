@@ -6,84 +6,149 @@ using UniRx;
 
 public class PlayerManager : MonoBehaviour
 {
-    private ActionControllor Player = null;
-    private bool GetPItemFlg;
+    /// <summary>プレイヤーのアクションコントローラー</summary>
+    private ActionControllor player = null;
+    /// <summary>SPアイテム取得フラグ</summary>
+    private bool getPItemFlg;
+    /// <summary>攻撃可能かのチェックフラグ</summary>
     private bool actionable;
+
     /// <summary>
     /// 初期化
     /// </summary>
-    public void Init(ActionControllor player,Action unableToFight)
+    /// <param name="player"></param>
+    /// <param name="unableToFight"></param>
+    public void Init(ActionControllor actioncontrollor,Action unableToFight)
     {
-        Player = player;
-        Player.StartSetUp();
+        player = actioncontrollor;
+        player.Init();
         SetDirection(ActionControllor.Direction.DOWN);
-        GetPItemFlg = false;
+        getPItemFlg = false;
         actionable = true;
         Observable.EveryUpdate()
-        .Where(_ => Player.stateData.GetHPnow() <= 0)
+        .Where(_ => player.stateData.GetHPnow() <= 0)
         .Subscribe(_ =>
         {
             unableToFight.Invoke();
             actionable = false;
         }).AddTo(this);
     }
+
     //*Player *//
+    /// <summary>
+    /// プレイヤーの向きと位置の設定
+    /// </summary>
+    /// <param name="inext"></param>
+    /// <param name="jnext"></param>
+    /// <param name="direction"></param>
     public void SetPlayerAction(int inext,int jnext, ActionControllor.Direction direction)
     {
-        Player.SetNextStep(inext, jnext);
-        Player.SetDirection(direction);
+        player.SetNextStep(inext, jnext);
+        player.SetDirection(direction);
     }
+
+    /// <summary>
+    /// プレイヤーの向きを設定
+    /// </summary>
+    /// <param name="direction"></param>
     public void SetDirection(ActionControllor.Direction direction)
     {
-        Player.SetDirection(direction);
+        player.SetDirection(direction);
     }
 
+    /// <summary>
+    /// プレイヤーの移動処理
+    /// </summary>
+    /// <param name="inext"></param>
+    /// <param name="jnext"></param>
     public void SetPlayerAction(int inext, int jnext)
     {
-        Player.SetNextStep(inext, jnext);
-        Player.SetThisNowStep();
+        player.SetNextStep(inext, jnext);
+        player.SetThisNowStep();
     }
+
+    /// <summary>
+    /// プレイヤーの移動予定位置情報を返す
+    /// </summary>
+    /// <returns></returns>
     public (int,int) GetNextStepArea()
     {
-        return(Player.SetiNextStepArea(), Player.SetjNextStepArea());
+        return(player.SetiNextStepArea(), player.SetjNextStepArea());
     }
+
+    /// <summary>
+    /// プレイヤーの位置を返す
+    /// </summary>
+    /// <returns></returns>
     public Transform GetTransform()
     {
-        return Player.transform;
+        return player.transform;
     }
+
+    /// <summary>
+    /// 次に移動する場所が壁かどうかのチェック
+    /// </summary>
+    /// <returns></returns>
     public bool CheckNextStepWall()
     {
-        return Player.CheckNextStepWall();
+        return player.CheckNextStepWall();
     }
+
+    /// <summary>
+    /// 次の位置を設定
+    /// </summary>
+    /// <param name="inext"></param>
+    /// <param name="jnext"></param>
     public void SetNextStep(int inext, int jnext)
     {
-        Player.SetNextStep(inext, jnext);
+        player.SetNextStep(inext, jnext);
     }
-    ///TODO:プレイヤー専用行動はActionControllorから分ける？
+
+    /// <summary>
+    /// 攻撃フラグオン
+    /// </summary>
     public void SetUserAttackFlagOn()
     {
-        Player.SetUserAttackFlagOn();
+        player.SetUserAttackFlagOn();
     }
+
+    /// <summary>
+    /// アクションフラグオン
+    /// </summary>
     public void SetUserActFlagOn()
     {
-        Player.SetUserActFlagOn();
+        player.SetUserActFlagOn();
     }
+
+    /// <summary>
+    /// SP攻撃フラグ開始
+    /// </summary>
+    /// <returns></returns>
     public async UniTask SpActionStart()
     {
-        await Player.SpActionStart();
+        await player.SpActionStart();
     }
+
+    /// <summary>
+    /// 攻撃処理開始
+    /// </summary>
+    /// <returns></returns>
     public async UniTask ActionStart()
     {
-        await Player.ActionStart(actionable);
-        if (Player.stateData.GetHPnow() <= 0)
+        await player.ActionStart(actionable);
+        if (player.stateData.GetHPnow() <= 0)
         {
-            Player.stateData.SetEndingFlg();
+            player.stateData.SetEndingFlg();
         }
-
     }
+
+    /// <summary>
+    /// プレイヤーのHPチェック
+    /// </summary>
+    /// <returns></returns>
     public bool CheckPlayerHP()
     {
-        if (Player.stateData.GetHPnow() <= 0)
+        if (player.stateData.GetHPnow() <= 0)
         {
             return false;
         }
@@ -92,42 +157,81 @@ public class PlayerManager : MonoBehaviour
             return true;
         }
     }
+
+    /// <summary>
+    /// プレイヤーのステータスを返す
+    /// </summary>
+    /// <returns></returns>
     public Status GetStateData()
     {
-        return Player.stateData.GetStateData();
-    }
-    public int GetSPcount()
-    {
-        return Player.stateData.GetSPcount();
-    }
-    public void SetSPcount(int cnt)
-    {
-        Player.stateData.SetSPcount(cnt);
+        return player.stateData.GetStateData();
     }
 
+    /// <summary>
+    /// 残りのSP攻撃回数を返す
+    /// </summary>
+    /// <returns></returns>
+    public int GetSPcount()
+    {
+        return player.stateData.GetSPcount();
+    }
+
+    /// <summary>
+    /// SP攻撃回数の設定
+    /// </summary>
+    /// <param name="cnt"></param>
+    public void SetSPcount(int cnt)
+    {
+        player.stateData.SetSPcount(cnt);
+    }
+
+    /// <summary>
+    /// 装備アイテムステータスを追加
+    /// </summary>
+    /// <param name="data"></param>
     public void AddItemState(ItemStatusData data)
     {
-        Player.stateData.AddState(data);
+        player.stateData.AddState(data);
     }
+
+    /// <summary>
+    /// 装備アイテムを外した時の減算
+    /// </summary>
+    /// <param name="data"></param>
     public void SubItemState(ItemStatusData data)
     {
-        Player.stateData.SubState(data);
+        player.stateData.SubState(data);
     }
+
+    /// <summary>
+    /// SPアイテム取得フラグ変更
+    /// </summary>
+    /// <param name="flg"></param>
     public void SetPItemFlg(bool flg)
     {
-        GetPItemFlg = flg;
+        getPItemFlg = flg;
     }
+
+    /// <summary>
+    /// SPアイテムフラグを返す
+    /// </summary>
+    /// <returns></returns>
     public bool GetPowerItemFlg()
     {
-        return GetPItemFlg;
+        return getPItemFlg;
     }
+
+    /// <summary>
+    /// 攻撃処理開始
+    /// </summary>
+    /// <param name="atkflg"></param>
+    /// <param name="spflg"></param>
+    /// <param name="afterFlg"></param>
     public void StartAttack(bool atkflg ,bool spflg, Action<bool> afterFlg = null)
     {
-        Player.Attack.StartAttack(atkflg, spflg,(changeAtkCheckflg) => 
+        player.Attack.StartAttack(atkflg, spflg,(changeAtkCheckflg) => 
         {
             afterFlg.Invoke(changeAtkCheckflg);
         });
     }
-
-
 }

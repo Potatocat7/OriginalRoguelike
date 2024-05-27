@@ -6,51 +6,51 @@ using System;
 
 public class GameControllor : MonoBehaviour {
 
-
-    public bool AcitonFlg;
-    public bool PatkFlg;
-    public bool LockFlg;
-    public bool AtkCheckflg;//攻撃判定のフラグ
-    public bool SpAtkflg;
-    //public bool ItemWindowflg;
+    /// <summary>行動フラグ</summary>
+    private bool AcitonFlg;
+    /// <summary>プレイヤー攻撃フラグ</summary>
+    private bool PatkFlg;
+    /// <summary>ポジション固定フラグ</summary>
+    private bool LockFlg;
+    /// <summary>攻撃チェック用フラグ</summary>
+    private bool AtkCheckflg;
+    /// <summary>SP攻撃フラグ</summary>
+    private bool SpAtkflg;
+    /// <summary>次回移動ポジション</summary>
     private int iNext, jNext;
+    /// <summary>アイテム工数確認</summary>
     private int itemCount = 0;
+    /// <summary>プレイヤー発見状態フラグ</summary>
     private bool PmoveFlg;
+    /// <summary>ゴールフラグ</summary>
     [SerializeField]
     private bool GoalFlg;
-    //[SerializeField]
-    //private bool GetPItemFlg;
-
+    /// <summary>ゴールオブジェクト</summary>
     private GameObject _goalObj;
+    /// <summary>所持アイテムリスト</summary>
     private List<ItemScript> ItemList = new List<ItemScript>();
-
+    /// <summary>プレイヤー情報</summary>
     private PlayerManager player;
+    /// <summary>エネミー情報</summary>
     private EnemyManager enemy;
-
+    /// <summary></summary>
     private Action changeWindow;
 
-    //シングルトン化
-    //private static GameControllor mInstance;
-    //public static GameControllor Instance
-    //{
-    //    get
-    //    {
-    //        return mInstance;
-    //    }
-    //}
-    //void Awake()
-    //{
-    //    if (Instance != null)
-    //    {
-    //        Destroy(gameObject);
-    //        return;
-    //    }
-    //    mInstance = this;
-    //}
+    /// <summary>
+    /// ゴールの設定
+    /// </summary>
+    /// <param name="goal"></param>
     public void SetGoalObj(GameObject goal)
     {
         _goalObj = goal;
     }
+
+    /// <summary>
+    /// アイテムの位置情報チェック
+    /// </summary>
+    /// <param name="iPix"></param>
+    /// <param name="jPix"></param>
+    /// <returns></returns>
     public bool CheckItemPosition(int iPix,int jPix)
     {
         for (int i=0;i < ItemList.Count;i++)
@@ -63,6 +63,11 @@ public class GameControllor : MonoBehaviour {
         }
         return true;
     }
+
+    /// <summary>
+    /// 所持アイテム追加
+    /// </summary>
+    /// <param name="itemObj"></param>
     public void AddCountItemObj(ItemScript itemObj)
     {
         itemCount += 1;
@@ -74,12 +79,14 @@ public class GameControllor : MonoBehaviour {
     /// </summary>
     public void AftorMakeMapStart()
     {
-        //itemCount = 0;          //アイテムの個数がある場合修正
         PmoveFlg = false;
         GoalFlg = false;
         LockFlg = false;
     }
 
+    /// <summary>
+    /// 壁の有無チェック
+    /// </summary>
     void CheckBlockState()
     {
         //次に移動予定のマスが壁でないかのチェック
@@ -122,7 +129,6 @@ public class GameControllor : MonoBehaviour {
         {
             GoalFlg = true;
         }
-        //GameObject PItem = GameObject.Find("PowerItemPrefab(Clone)");
         if (itemCount >= 1)
         {
             for (int i = 0; i < ItemList.Count; i++)
@@ -139,13 +145,16 @@ public class GameControllor : MonoBehaviour {
                 }
             }
         }
-
     }
 
-    // Use this for initialization
-    public void GameCtrlStart (PlayerManager playmanager, EnemyManager enemymanager,Action itemWindow = null) 
+    /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="playmanager"></param>
+    /// <param name="enemymanager"></param>
+    /// <param name="itemWindow"></param>
+    public void Init(PlayerManager playmanager, EnemyManager enemymanager,Action itemWindow = null) 
     {
-        //GameManager.Instance.GetPlayerManager().SetDirection(ActionControllor.Direction.DOWN);
         changeWindow = itemWindow;
         iNext = 0;
         jNext = 1;
@@ -153,12 +162,15 @@ public class GameControllor : MonoBehaviour {
         PatkFlg = false; 
         AtkCheckflg = false;
         SpAtkflg = false;
-        //ItemWindowflg = false;
         player = playmanager;
         enemy = enemymanager;
         AftorMakeMapStart();
     }
 
+    /// <summary>
+    /// セーブデータを設定
+    /// </summary>
+    /// <param name="saveFinish"></param>
     void SaveData(Action saveFinish)
     {
         SaveDataScript _saveData = SaveDataScript.Instance;
@@ -166,15 +178,24 @@ public class GameControllor : MonoBehaviour {
         _saveData.SavePlayerNowData(player.GetStateData());
         _saveData.SetFlgOn();
         saveFinish.Invoke();
-        //_saveData.SetSaveData(); 
     }
 
+    /// <summary>
+    /// 行動フラグ呼び出しサブ
+    /// </summary>
+    /// <param name="count"></param>
+    /// <returns></returns>
     IEnumerator coActionFlgOnSub(int count)
     {
         yield return  new WaitForSeconds(0.3f);
 
         enemy.SetParamAtkEnemyList(count);
     }
+
+    /// <summary>
+    /// 行動フラグメイン
+    /// </summary>
+    /// <returns></returns>
     IEnumerator coActionFlgOnMain() 
     {
         //プレイヤー
@@ -241,15 +262,11 @@ public class GameControllor : MonoBehaviour {
             SceneManager.LoadScene("EndScene");
         }
     }
-    void Update () {
-
-        if (AcitonFlg == true)//プレイヤーフェーズとエネミーフェーズを用意が必要
-        {
-
-        }
-    }
     //*操作ボタン処理*//
 
+    /// <summary>
+    /// 上
+    /// </summary>
     public void Push_U()
     { 
         if (AcitonFlg != true) //移動中は入力無効にする
@@ -260,17 +277,15 @@ public class GameControllor : MonoBehaviour {
             player.SetPlayerAction(iNext, jNext,ActionControllor.Direction.UP);
             if (LockFlg != true) //移動中は入力無効にする
             {
-                //Eを攻撃/移動でリストにセット
-                //攻撃の方向をセット
-                //移動の移動先と方向をセット
                 CheckBlockState();
-                //コルーチン呼び出しで
-                //P/移動がまとめて移動
-                //攻撃が順に攻撃
                 StartCoroutine("coActionFlgOnMain");
             }
         }
     }
+
+    /// <summary>
+    /// 左上
+    /// </summary>
     public void Push_U_L()
     {
         if (AcitonFlg != true) //移動中は入力無効にする
@@ -285,6 +300,10 @@ public class GameControllor : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// 右上
+    /// </summary>
     public void Push_U_R()
     {
         if (AcitonFlg != true) //移動中は入力無効にする
@@ -299,6 +318,10 @@ public class GameControllor : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// 下
+    /// </summary>
     public void Push_D()
     {
         if (AcitonFlg != true) //移動中は入力無効にする
@@ -313,6 +336,10 @@ public class GameControllor : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// 左下
+    /// </summary>
     public void Push_D_L()
     {
         if (AcitonFlg != true) //移動中は入力無効にする
@@ -327,6 +354,10 @@ public class GameControllor : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// 右下
+    /// </summary>
     public void Push_D_R()
     {
         if (AcitonFlg != true) //移動中は入力無効にする
@@ -341,6 +372,10 @@ public class GameControllor : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// 左
+    /// </summary>
     public void Push_L()
     {
         if (AcitonFlg != true) //移動中は入力無効にする
@@ -355,6 +390,10 @@ public class GameControllor : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// 右
+    /// </summary>
     public void Push_R()
     {
         if (AcitonFlg != true) //移動中は入力無効にする
@@ -369,6 +408,10 @@ public class GameControllor : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// 攻撃
+    /// </summary>
     public void Push_ATTCK()
     {
         if (AcitonFlg != true) //移動中は入力無効にする
@@ -394,6 +437,10 @@ public class GameControllor : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// 移動固定
+    /// </summary>
     public void Push_LOCK()
     {
         if (AcitonFlg != true) //移動中は入力無効にする
@@ -417,22 +464,15 @@ public class GameControllor : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// アイテムウィンドウ
+    /// </summary>
     public void Push_WINDOW()
     {
         if (AcitonFlg != true) //移動中は入力無効にする
         {
             changeWindow.Invoke();
-            //GameManager.Instance.ChangeItemWindow();
-            //if (ItemWindowflg == false)
-            //{
-            //    ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.ITEMWINDOW);
-            //    ItemWindowflg = true;
-            //}
-            //else
-            //{
-            //    ButtonActionManagerScript.Instance.ChangeButtonState(ButtonActionManagerScript.ButtonStateType.GAME);
-            //    ItemWindowflg = false;
-            //}
         }
     }
 

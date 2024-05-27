@@ -6,22 +6,19 @@ using UnityEngine.UI;
 
 public class SelectController : MonoBehaviour
 {
-    //やること一覧
-    //最初にP1を選択状態にする
-    //選択状態を次シーンに持ち越し
-    //ボタンを押したらシーン切り替え
-    //タッチされたら切り替え、選択側の親オブジェクトのImageをfalse
+    /// <summary>プレイヤー情報</summary>
     [SerializeField]
     private Image _pOneSelect;
     [SerializeField]
     private Image _pTwoSelect;
 
+    /// <summary>開始ボタン</summary>
     [SerializeField]
     private Button _startButton;
+    /// <summary>セーブデータ</summary>
     [SerializeField]
     private SaveCharaSelect _saveCharaSelect;
 
-    // Start is called before the first frame update
     void Start()
     {
         _pOneSelect.enabled = true;
@@ -29,35 +26,33 @@ public class SelectController : MonoBehaviour
         _saveCharaSelect = SaveCharaSelect.Instance;
         _saveCharaSelect.CharaNumber = PlayerSelector.PlayerKind.Player_1;
         DontDestroyOnLoad(_saveCharaSelect);
-
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    /// <summary>
+    /// スタートボタン
+    /// </summary>
     public void PushStartbutton()
     {
-        //GameObject Save;
-        //Save = GameObject.Find("SaveDataObject");
-        //Save.GetComponent<SaveDataScript>().ClearData();
         SceneManager.LoadScene("GameScene");
     }
+
+    /// <summary>
+    /// プレイヤー選択１
+    /// </summary>
     public void onClickPlayer1()
     {
-
         _pOneSelect.enabled = true;
         _pTwoSelect.enabled = false;
         _saveCharaSelect.CharaNumber = PlayerSelector.PlayerKind.Player_1;
-
     }
+
+    /// <summary>
+    /// プレイヤー選択２
+    /// </summary>
     public void onClickPlayer2()
     {
-
         _pOneSelect.enabled = false;
         _pTwoSelect.enabled = true;
         _saveCharaSelect.CharaNumber = PlayerSelector.PlayerKind.Player_2;
-
     }
 }

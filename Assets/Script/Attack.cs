@@ -6,6 +6,9 @@ using System;
 
 public class Attack : MonoBehaviour
 {
+    /// <summary>
+    /// キャラクター情報
+    /// </summary>
     public enum CharactorType
     {
         PLAYER_1 = 0,
@@ -13,28 +16,42 @@ public class Attack : MonoBehaviour
         ENEMY_1,
     }
     /*PLAYER*/
+    /// <summary>現在位置</summary>
     [SerializeField]
     private int iThisNow, jThisNow;
+    /// <summary>攻撃範囲</summary>
     [SerializeField]
     private int iThisAtkArea1, jThisAtkArea1, iThisAtkArea2, jThisAtkArea2, iThisAtkArea3, jThisAtkArea3;
+    /// <summary>アクションコントローラー</summary>
     [SerializeField]
     private ActionControllor _actCtrl;
+    /// <summary>ステータス</summary>
     [SerializeField]
     private StatusDataScript _thisState;
+    /// <summary>キャラクタータイプ</summary>
     [SerializeField]
     private CharactorType myType;
+    /// <summary>攻撃状態のコールバック</summary>
     private Action<bool> changeAtkCheck;
     /*ENEMY*/
+    /// <summary>プレイヤーのステータス</summary>
     private StatusDataScript Player;
 
 
     /*Player_1*/
+    /// <summary>
+    /// Player_1攻撃ヒット判定
+    /// </summary>
     private void AttackHitPlayer1()
     {
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisAtkArea1, jThisAtkArea1, _thisState.GetAttack());
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisAtkArea2, jThisAtkArea2, _thisState.GetAttack());
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisAtkArea3, jThisAtkArea3, _thisState.GetAttack());
     }
+
+    /// <summary>
+    /// Player_1SP攻撃ヒット判定
+    /// </summary>
     private void SpAttackHitPlayer1()
     {
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisNow + 1, jThisNow + 1, _thisState.GetAttack());
@@ -46,6 +63,10 @@ public class Attack : MonoBehaviour
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisNow - 1, jThisNow - 1, _thisState.GetAttack());
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisNow - 1, jThisNow, _thisState.GetAttack());
     }
+
+    /// <summary>
+    /// Player_1攻撃範囲設定
+    /// </summary>
     private void AttackAreaSetPlayer1()
     {
         switch (_actCtrl.thisNowDirection)
@@ -116,6 +137,12 @@ public class Attack : MonoBehaviour
                 break;
         }
     }
+
+    /// <summary>
+    /// Player_1攻撃処理
+    /// </summary>
+    /// <param name="atkCheckflg"></param>
+    /// <param name="spAtkFlg"></param>
     private void AttackPlayer1(bool atkCheckflg, bool spAtkFlg)
     {
         iThisNow = _actCtrl.iThisNow;
@@ -134,13 +161,21 @@ public class Attack : MonoBehaviour
             changeAtkCheck.Invoke(false);
         }
     }
+
     /*Player_2*/
+    /// <summary>
+    ///Player_2攻撃ヒット判定
+    /// </summary>
     private void AttackHitPlayer2()
     {
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisAtkArea1, jThisAtkArea1, _thisState.GetAttack());
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisAtkArea2, jThisAtkArea2, _thisState.GetAttack());
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisAtkArea3, jThisAtkArea3, _thisState.GetAttack());
     }
+
+    /// <summary>
+    /// Player_2SP攻撃判定
+    /// </summary>
     private void SpAttackHitPlayer2()
     {
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisNow + 1, jThisNow + 1, _thisState.GetAttack());
@@ -152,6 +187,10 @@ public class Attack : MonoBehaviour
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisNow - 1, jThisNow - 1, _thisState.GetAttack());
         GameManager.Instance.GetEnemyManager().Hitcheck(iThisNow - 1, jThisNow, _thisState.GetAttack());
     }
+
+    /// <summary>
+    /// Player_2攻撃範囲設定
+    /// </summary>
     private void AttackAreaSetPlayer2()
     {
 
@@ -223,6 +262,12 @@ public class Attack : MonoBehaviour
                 break;
         }
     }
+
+    /// <summary>
+    /// Player_2攻撃処理
+    /// </summary>
+    /// <param name="atkCheckflg"></param>
+    /// <param name="spAtkFlg"></param>
     private void AttackPlayer2(bool atkCheckflg, bool spAtkFlg)
     {
         iThisNow = _actCtrl.iThisNow;
@@ -242,27 +287,45 @@ public class Attack : MonoBehaviour
         }
 
     }
+
     /*ENEMY_1*/
+
+    /// <summary>
+    /// ENEMY_1プレイヤーステータス取得
+    /// </summary>
+    /// <param name="playerData"></param>
     public void GetPlayerStatusData(StatusDataScript playerData)
     {
         Player = playerData;
     }
+
+    /// <summary>
+    /// ENEMY_1ステータス取得
+    /// </summary>
+    /// <param name="thisData"></param>
     public void GetThisStatusData(StatusDataScript thisData)
     {
         _thisState = thisData;
     }
 
+    /// <summary>
+    /// ENEMY_1攻撃ヒット判定
+    /// </summary>
     public void AttackHit()
     {
         Player.HitDamage(_thisState.Attack);
     }
 
+    /// <summary>
+    /// ENEMY_1プレイヤーの周囲チェック
+    /// </summary>
+    /// <param name="iPstate"></param>
+    /// <param name="jPstate"></param>
+    /// <param name="iEstate"></param>
+    /// <param name="jEstate"></param>
+    /// <returns></returns>
     public bool CheckPlayerThisAround(int iPstate, int jPstate, int iEstate, int jEstate)
     {
-        //iiPstate = iPstate;
-        //jjPstate = jPstate;
-        //iiEstate = iEstate;
-        //jjEstate = jEstate;
         if (iEstate == iPstate && jEstate + 1 == jPstate)
         {//UP
             _actCtrl.SetDirection(ActionControllor.Direction.UP);
@@ -308,6 +371,14 @@ public class Attack : MonoBehaviour
             return false;
         }
     }
+
+    /// <summary>
+    /// ENEMY_1プレイヤーの周囲位置設定
+    /// </summary>
+    /// <param name="iPstate"></param>
+    /// <param name="jPstate"></param>
+    /// <param name="iEstate"></param>
+    /// <param name="jEstate"></param>
     public void SetDirectionPlayerThisAround(int iPstate, int jPstate, int iEstate, int jEstate)
     {
         if (iEstate == iPstate && jEstate + 1 == jPstate)
@@ -347,6 +418,12 @@ public class Attack : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ENEMY_1攻撃処理
+    /// </summary>
+    /// <param name="atkCheckflg"></param>
+    /// <param name="spAtkFlg"></param>
+    /// <param name="changeAtkCheckflg"></param>
     public void StartAttack(bool atkCheckflg, bool spAtkFlg, Action<bool> changeAtkCheckflg = null)
     {
         switch (myType)

@@ -5,31 +5,43 @@ using System;
 
 public class EnemyManager : MonoBehaviour
 {
-    private List<ActionControllor> saveEnemyList = new List<ActionControllor>();
-    private List<ActionControllor> EnemyList = new List<ActionControllor>();
-    private int EnemyCount;
+    /// <summary>敵個数 </summary>
+    private int enemyCount;
+    /// <summary>乱数用 </summary>
     private int iRandom, jRandom;
+    /// <summary>プレイヤー位置 </summary>
     private int iPmap, jPmap;
+    /// <summary>敵位置 </summary>
     private int iEmap, jEmap;
-    [SerializeField]
-    private int EnemyAtkCount, EnemyMoveCount, EnemyAtkResetCount, EnemyMoveResetCount;
-    private List<ActionControllor> AtkEnemyList = new List<ActionControllor>();
-    private List<ActionControllor> AtkResetEnemyList = new List<ActionControllor>();
-    private List<ActionControllor> MoveEnemyList = new List<ActionControllor>();
-    private List<ActionControllor> MoveResetEnemyList = new List<ActionControllor>();
+    /// <summary>行動別敵個数+リセット処理用個数 </summary>
+    private int enemyAtkCount, enemyMoveCount, enemyAtkResetCount, enemyMoveResetCount;
+    /// <summary>敵個数初期状態保存用 </summary>
+    private List<ActionControllor> saveEnemyList = new List<ActionControllor>();
+    /// <summary>敵リスト </summary>
+    private List<ActionControllor> enemyList = new List<ActionControllor>();
+    /// <summary>行動別敵リスト+リセット処理用リスト </summary>
+    private List<ActionControllor> atkEnemyList = new List<ActionControllor>();
+    private List<ActionControllor> atkResetEnemyList = new List<ActionControllor>();
+    private List<ActionControllor> moveEnemyList = new List<ActionControllor>();
+    private List<ActionControllor> moveResetEnemyList = new List<ActionControllor>();
+    /// <summary>攻撃可能かフラグ </summary>
     private bool attackable;
+    /// <summary>ドロップアイテム配置用コールバック </summary>
     Action<int, int> dropItemPosition;
+
     /// <summary>
     /// 初期化
     /// </summary>
+    /// <param name="enemyList"></param>
+    /// <param name="droppos"></param>
     public void Init(List<ActionControllor> enemyList,Action<int,int> droppos = null)
     {
         dropItemPosition = droppos;
         saveEnemyList = enemyList;
-        //EnemyList = enemyList;
         attackable = true;
         EnemyListSetUp(saveEnemyList);
     }
+
     /// <summary>
     /// 攻撃ヒット判定処理
     /// </summary>
@@ -41,11 +53,11 @@ public class EnemyManager : MonoBehaviour
         //複数or0だったときの処理が必要？
         if (MapGenerator.EnemyCount >= 1)
         {
-            for (int count = 0; count < EnemyCount; count++)
+            for (int count = 0; count < enemyCount; count++)
             {
-                if (EnemyList[count].stateData.CheckAttack(iAttack, jAttack) == true)
+                if (enemyList[count].stateData.CheckAttack(iAttack, jAttack) == true)
                 {
-                    EnemyList[count].stateData.HitDamage(attack,(idrop,jdrop)=> 
+                    enemyList[count].stateData.HitDamage(attack,(idrop,jdrop)=> 
                     {
                         dropItemPosition.Invoke(idrop, jdrop);
                     });
@@ -67,55 +79,56 @@ public class EnemyManager : MonoBehaviour
         {
             if (enemylist[count] != null)
             {
-                EnemyList.Add(enemylist[count]);
-                enemylist[count].StartSetUp();
-                EnemyCount += 1;
+                enemyList.Add(enemylist[count]);
+                enemylist[count].Init();
+                enemyCount += 1;
             }
         }
-        EnemyAtkCount = 0;
-        EnemyMoveCount = 0;
-        EnemyAtkResetCount = 0;
-        EnemyMoveResetCount = 0;
+        enemyAtkCount = 0;
+        enemyMoveCount = 0;
+        enemyAtkResetCount = 0;
+        enemyMoveResetCount = 0;
     }
+
     /// <summary>
     /// 敵エネミー向き設定
     /// </summary>
     /// <param name="iStep"></param>
     /// <param name="jStep"></param>
-    /// <param name="Enemy"></param>
-    void SetEnemyDirection(int iStep, int jStep, ActionControllor Enemy)
+    /// <param name="enemy"></param>
+    void SetEnemyDirection(int iStep, int jStep, ActionControllor enemy)
     {
         if (iStep == 0 && jStep == 1)
         {//UP
-            Enemy.SetDirection(ActionControllor.Direction.UP);
+            enemy.SetDirection(ActionControllor.Direction.UP);
         }
         else if (iStep == -1 && jStep == 1)
         {//UP_LEFT
-            Enemy.SetDirection(ActionControllor.Direction.UP_LEFT);
+            enemy.SetDirection(ActionControllor.Direction.UP_LEFT);
         }
         else if (iStep == 1 && jStep == 1)
         {//UP_RIGHT
-            Enemy.SetDirection(ActionControllor.Direction.UP_RIGHT);
+            enemy.SetDirection(ActionControllor.Direction.UP_RIGHT);
         }
         else if (iStep == -1 && jStep == 0)
         {//LEFT
-            Enemy.SetDirection(ActionControllor.Direction.LEFT);
+            enemy.SetDirection(ActionControllor.Direction.LEFT);
         }
         else if (iStep == 1 && jStep == 0)
         {//RIGHT
-            Enemy.SetDirection(ActionControllor.Direction.RIGHT);
+            enemy.SetDirection(ActionControllor.Direction.RIGHT);
         }
         else if (iStep == 0 && jStep == -1)
         {//DOWN
-            Enemy.SetDirection(ActionControllor.Direction.DOWN);
+            enemy.SetDirection(ActionControllor.Direction.DOWN);
         }
         else if (iStep == -1 && jStep == -1)
         {//DOWN_LEFT
-            Enemy.SetDirection(ActionControllor.Direction.DOWN_LEFT);
+            enemy.SetDirection(ActionControllor.Direction.DOWN_LEFT);
         }
         else if (iStep == 1 && jStep == -1)
         {//DOWN_RIGHT
-            Enemy.SetDirection(ActionControllor.Direction.DOWN_RIGHT);
+            enemy.SetDirection(ActionControllor.Direction.DOWN_RIGHT);
         }
         else
         {//動かないときはそのまま
@@ -123,20 +136,21 @@ public class EnemyManager : MonoBehaviour
         }
 
     }
+
     /// <summary>
     /// 敵移動先チェック
     /// </summary>
-    /// <param name="Enemy"></param>
+    /// <param name="enemy"></param>
     /// <param name="MaxCount"></param>
     /// <returns></returns>
-    public bool checkNowotherEmoveFlg(ActionControllor Enemy, int MaxCount)
+    public bool checkNowotherEmoveFlg(ActionControllor enemy, int maxCount)
     {
-        for (int count = 0; count < EnemyCount; count++)
+        for (int count = 0; count < enemyCount; count++)
         {
-            if (count != MaxCount) //自分の位置については無視
+            if (count != maxCount) //自分の位置については無視
             {
                 //全的オブジェクトの現在位置を調べて移動先にいないかのチェック。いたらtrueを返す
-                if (EnemyList[count].CheckNowStep(Enemy.SetiNextStepArea(), Enemy.SetjNextStepArea()) == true)
+                if (enemyList[count].CheckNowStep(enemy.SetiNextStepArea(), enemy.SetjNextStepArea()) == true)
                 {
                     return true;
                 }
@@ -151,17 +165,17 @@ public class EnemyManager : MonoBehaviour
     /// <summary>
     /// 敵移動先に先約がいないかチェック
     /// </summary>
-    /// <param name="Enemy"></param>
-    /// <param name="MaxCount"></param>
+    /// <param name="enemy"></param>
+    /// <param name="maxCount"></param>
     /// <returns></returns>
-    public bool checkNextotherEmoveFlg(ActionControllor Enemy, int MaxCount)
+    public bool checkNextotherEmoveFlg(ActionControllor enemy, int maxCount)
     {
-        for (int count = 0; count < EnemyCount; count++)
+        for (int count = 0; count < enemyCount; count++)
         {
-            if (count != MaxCount) //自分の位置については無視
+            if (count != maxCount) //自分の位置については無視
             {
                 //全的オブジェクトの現在位置を調べて移動先にいないかのチェック。いたらtrueを返す
-                if (EnemyList[count].CheckNextStep(Enemy.SetiNextStepArea(), Enemy.SetjNextStepArea()) == true)
+                if (enemyList[count].CheckNextStep(enemy.SetiNextStepArea(), enemy.SetjNextStepArea()) == true)
                 {
                     return true;
                 }
@@ -172,12 +186,13 @@ public class EnemyManager : MonoBehaviour
         }
         return false;//何事もなく終わったとき
     }
+
     /// <summary>
     /// 敵移動（ランダム）
     /// </summary>
-    /// <param name="Enemy"></param>
+    /// <param name="enemy"></param>
     /// <param name="thisCount"></param>
-    void EnemyMoveRandom(ActionControllor Enemy, int thisCount)
+    void EnemyMoveRandom(ActionControllor enemy, int thisCount)
     {
         bool checkRandom = true;
         //敵の移動　ランダムに動かす移動可能のマスになるまでwhile文で繰り返すまで
@@ -185,292 +200,299 @@ public class EnemyManager : MonoBehaviour
         {
             iRandom = (int)UnityEngine.Random.Range(-1, 2);
             jRandom = (int)UnityEngine.Random.Range(-1, 2);
-            Enemy.SetNextStep(iRandom, jRandom);
+            enemy.SetNextStep(iRandom, jRandom);
             bool otherEmoveFlg = false;
 
             if (thisCount == 0)//[0]のみ現在位置で調べる
             {
-                otherEmoveFlg = checkNowotherEmoveFlg(Enemy, EnemyCount);
+                otherEmoveFlg = checkNowotherEmoveFlg(enemy, enemyCount);
             }
             else
             {
-                otherEmoveFlg = checkNextotherEmoveFlg(Enemy, thisCount);
+                otherEmoveFlg = checkNextotherEmoveFlg(enemy, thisCount);
             }
             if (otherEmoveFlg != true)
             {
-                if (Enemy.CheckNextStepWall() == false)
+                if (enemy.CheckNextStepWall() == false)
                 {
                 }
                 else
                 {
-                    SetEnemyDirection(iRandom, jRandom, Enemy);
+                    SetEnemyDirection(iRandom, jRandom, enemy);
                     checkRandom = false;
                 }
             }
         }
 
     }
+
     /// <summary>
     /// 敵移動（プレイヤー視認）
     /// </summary>
-    /// <param name="Enemy"></param>
+    /// <param name="enemy"></param>
     /// <param name="thisCount"></param>
-    void EnemyMoveTargetPlayer(ActionControllor Enemy, int thisCount,(int,int) plaerPos)
+    void EnemyMoveTargetPlayer(ActionControllor enemy, int thisCount,(int,int) plaerPos)
     {
         //ここはいずれA*アルゴリズムで動かしたい
         int iEnemyNext, jEnemyNext;
         bool otherEmoveFlg = false;
-        if (plaerPos.Item1 - (int)Math.Round(Enemy.transform.position.x) > 0)
+        if (plaerPos.Item1 - (int)Math.Round(enemy.transform.position.x) > 0)
         {
             iEnemyNext = 1;
         }
-        else if (plaerPos.Item1 - (int)Math.Round(Enemy.transform.position.x) < 0)
+        else if (plaerPos.Item1 - (int)Math.Round(enemy.transform.position.x) < 0)
         {
             iEnemyNext = -1;
         }
         else
-        {//(int)Player.transform.position.x == (int)Enemy.transform.position.x
+        {
             iEnemyNext = 0;
         }
 
-        if (plaerPos.Item2 - (int)Math.Round(Enemy.transform.position.y) > 0)
+        if (plaerPos.Item2 - (int)Math.Round(enemy.transform.position.y) > 0)
         {
             jEnemyNext = 1;
         }
-        else if (plaerPos.Item2 - (int)Math.Round(Enemy.transform.position.y) < 0)
+        else if (plaerPos.Item2 - (int)Math.Round(enemy.transform.position.y) < 0)
         {
             jEnemyNext = -1;
         }
         else
-        {//(int)Player.transform.position.y == (int)Enemy.transform.position.y
+        {
             jEnemyNext = 0;
         }
-        Enemy.SetNextStep(iEnemyNext, jEnemyNext);
+        enemy.SetNextStep(iEnemyNext, jEnemyNext);
 
         //for分で該当オブジェクトより手前に設定している敵オブジェクトをしらべる（後のオブジェクトは移動先を設定していないため）
-        //※後半のオブジェクトが移動しなかった場合重なる可能性がある（例：後半の敵で攻撃可能がいた場合）
         //ここでの処理を攻撃と移動のリストに分けたうえで移動側のみ調べる。調べる対象は全リスト
         if (thisCount == 0)//[0]のみ現在位置で調べる
         {
-            otherEmoveFlg = checkNowotherEmoveFlg(Enemy, EnemyCount);
+            otherEmoveFlg = checkNowotherEmoveFlg(enemy, enemyCount);
         }
         else
         {
-            otherEmoveFlg = checkNextotherEmoveFlg(Enemy, thisCount);
+            otherEmoveFlg = checkNextotherEmoveFlg(enemy, thisCount);
         }
         if (otherEmoveFlg != true)
         {
-            if (Enemy.CheckNextStepWall() == false)
+            if (enemy.CheckNextStepWall() == false)
             {
-                SetEnemyDirection(iEnemyNext, jEnemyNext, Enemy);
+                SetEnemyDirection(iEnemyNext, jEnemyNext, enemy);
                 iEnemyNext = 0;
                 jEnemyNext = 0;
-                Enemy.SetNextStep(iEnemyNext, jEnemyNext);
+                enemy.SetNextStep(iEnemyNext, jEnemyNext);
             }
             else
             {
-                SetEnemyDirection(iEnemyNext, jEnemyNext, Enemy);
+                SetEnemyDirection(iEnemyNext, jEnemyNext, enemy);
             }
         }
         else
         {
             iEnemyNext = 0;
             jEnemyNext = 0;
-            Enemy.SetNextStep(iEnemyNext, jEnemyNext);
+            enemy.SetNextStep(iEnemyNext, jEnemyNext);
 
         }
     }
+
+    /// <summary>
+    /// 敵移動先設定
+    /// </summary>
     public void SetEnemyMove()
     {
-        for (int count = 0; count < EnemyCount; count++)
+        for (int count = 0; count < enemyCount; count++)
         {
             if (MapGenerator.EnemyCount >= 1)
             {
-                //※敵動作については条件で複数パターンあるため現状は仮設定
-                //Enemy = GameObject.Find("EnemyPrefab(Clone)");
-                //現状プレイヤーの移動前の情報を所得しているので移動先の情報にする必要あり
-                //確認用に宣言中　現在Playerの位置情報が移動前の位置情報を所得している※positionが少数点で0.999になると切り捨てになってしまう
-                //iEmap = (int)Math.Round(Enemy.transform.position.x);
-                iEmap = (int)Math.Round(EnemyList[count].transform.position.x);
+                iEmap = (int)Math.Round(enemyList[count].transform.position.x);
                 iPmap = GameManager.Instance.GetPlayerManager().GetNextStepArea().Item1;
-                //jEmap = (int)Math.Round(Enemy.transform.position.y);
-                jEmap = (int)Math.Round(EnemyList[count].transform.position.y);
+                jEmap = (int)Math.Round(enemyList[count].transform.position.y);
                 jPmap = GameManager.Instance.GetPlayerManager().GetNextStepArea().Item2;
 
-                if (EnemyList[count].enemyAtk.CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
-                {//周囲を調べてプレイヤーがいた場合方向だけセットしておく
-                    //攻撃リストに登録 ※ここは攻撃前
-                    //※攻撃方向が指定できていないことがある
-                    //SetEnemyDirection(iEnemyNext, jEnemyNext, EnemyList[count]);
-                    //攻撃時のリスト追加と同時に攻撃フラグをture
-                    EnemyList[count].SetUserAttackFlg();
-                    AtkEnemyList.Add(EnemyList[count]);
-                    EnemyAtkCount += 1;
+                if (enemyList[count].enemyAtk.CheckPlayerThisAround(iPmap, jPmap, iEmap, jEmap) == true)//各敵の周囲(3*3)にプレイヤーがいるかチェックし居たらそちらに方向を切り替えて攻撃動作をセット
+                {
+                    enemyList[count].SetUserAttackFlg();
+                    atkEnemyList.Add(enemyList[count]);
+                    enemyAtkCount += 1;
                 }
                 else
                 {   //※リストへの割り当てと移動方法への関数呼び出しは別にする
-                    MoveEnemyList.Add(EnemyList[count]);
-                    EnemyMoveCount += 1;
+                    moveEnemyList.Add(enemyList[count]);
+                    enemyMoveCount += 1;
                 }
 
             }
         }
-        for (int count = 0; count < EnemyCount; count++)
+        for (int count = 0; count < enemyCount; count++)
         {
-            if (EnemyCount >= 1)
+            if (enemyCount >= 1)
             {
-                //MoveEnemyListだと移動チェック時に他の敵の位置を見るときに攻撃時の敵を見ることが現状できないため
-                if (EnemyList[count].GetUserAttackFlg() == false)
+                if (enemyList[count].GetUserAttackFlg() == false)
                 {
-                    if (MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x),
-                        (int)Math.Round(EnemyList[count].transform.position.y)] == 0)
+                    if (MapGenerator.map[(int)Math.Round(enemyList[count].transform.position.x),
+                        (int)Math.Round(enemyList[count].transform.position.y)] == 0)
                     {//通路だった場合は
-                        EnemyMoveRandom(EnemyList[count], count); //現状はランダム移動（後で通路は直進するようにしたい）
+                        EnemyMoveRandom(enemyList[count], count); //現状はランダム移動（後で通路は直進するようにしたい）
                     }
                     else
                     {
                         PlayerManager player = GameManager.Instance.GetPlayerManager();
                         if (MapGenerator.map[(int)Math.Round(player.GetTransform().position.x),
-                            (int)Math.Round(player.GetTransform().position.y)] == MapGenerator.map[(int)Math.Round(EnemyList[count].transform.position.x),
-                            (int)Math.Round(EnemyList[count].transform.position.y)])
+                            (int)Math.Round(player.GetTransform().position.y)] == MapGenerator.map[(int)Math.Round(enemyList[count].transform.position.x),
+                            (int)Math.Round(enemyList[count].transform.position.y)])
                         {
-                            EnemyMoveTargetPlayer(EnemyList[count], count, player.GetNextStepArea());
+                            EnemyMoveTargetPlayer(enemyList[count], count, player.GetNextStepArea());
                         }
                         else
                         {
-                            EnemyMoveRandom(EnemyList[count], count);
+                            EnemyMoveRandom(enemyList[count], count);
                         }
                     }
                 }
             }
         }
         //攻撃リストの敵の攻撃方向の指定
-        for (int count = 0; count < EnemyAtkCount; count++)
+        for (int count = 0; count < enemyAtkCount; count++)
         {
-            if (EnemyAtkCount >= 1)
+            if (enemyAtkCount >= 1)
             {
-                iEmap = (int)Math.Round(AtkEnemyList[count].transform.position.x);
+                iEmap = (int)Math.Round(atkEnemyList[count].transform.position.x);
                 iPmap = GameManager.Instance.GetPlayerManager().GetNextStepArea().Item1;
-                jEmap = (int)Math.Round(AtkEnemyList[count].transform.position.y);
+                jEmap = (int)Math.Round(atkEnemyList[count].transform.position.y);
                 jPmap = GameManager.Instance.GetPlayerManager().GetNextStepArea().Item2;
-                AtkEnemyList[count].enemyAtk.SetDirectionPlayerThisAround(iPmap, jPmap, iEmap, jEmap);
+                atkEnemyList[count].enemyAtk.SetDirectionPlayerThisAround(iPmap, jPmap, iEmap, jEmap);
             }
         }
     }
+
+    /// <summary>
+    /// 敵のリセット処理（敵が倒された場合の穴埋め）
+    /// </summary>
     public void ResetEnemyList()
     {
         //Listの初期化
-        EnemyList.Clear();
-        EnemyCount = 0;
+        enemyList.Clear();
+        enemyCount = 0;
         for (int count = 0; count < MapGenerator.EnemyCount; count++)
         {
             if (saveEnemyList[count] != null)
             {
-                EnemyList.Add(saveEnemyList[count]);
-                EnemyCount += 1;
+                enemyList.Add(saveEnemyList[count]);
+                enemyCount += 1;
             }
         }
 
     }
 
+    /// <summary>
+    /// 攻撃した敵のリセット処理
+    /// </summary>
     public void ResetAttkEnemyList()
     {
-
         //Listの初期化
-        AtkResetEnemyList.Clear();
-        EnemyAtkResetCount = 0;
-        for (int count = 0; count < EnemyAtkCount; count++)
+        atkResetEnemyList.Clear();
+        enemyAtkResetCount = 0;
+        for (int count = 0; count < enemyAtkCount; count++)
         {
-            if (AtkEnemyList[count] != null)
+            if (atkEnemyList[count] != null)
             {
-                AtkResetEnemyList.Add(AtkEnemyList[count]);
-                EnemyAtkResetCount += 1;
+                atkResetEnemyList.Add(atkEnemyList[count]);
+                enemyAtkResetCount += 1;
             }
         }
-
-        AtkEnemyList.Clear();
-        for (int count = 0; count < EnemyAtkResetCount; count++)
+        atkEnemyList.Clear();
+        for (int count = 0; count < enemyAtkResetCount; count++)
         {
-            AtkEnemyList.Add(AtkResetEnemyList[count]);
+            atkEnemyList.Add(atkResetEnemyList[count]);
         }
-        EnemyAtkCount = EnemyAtkResetCount;
-
+        enemyAtkCount = enemyAtkResetCount;
     }
+
+    /// <summary>
+    /// 移動した敵のリセット処理
+    /// </summary>
     public void ResetMoveEnemyList()
     {
-
         //Listの初期化
-        MoveResetEnemyList.Clear();
-        EnemyMoveResetCount = 0;
-        for (int count = 0; count < EnemyMoveCount; count++)
+        moveResetEnemyList.Clear();
+        enemyMoveResetCount = 0;
+        for (int count = 0; count < enemyMoveCount; count++)
         {
-            if (MoveEnemyList[count] != null)
+            if (moveEnemyList[count] != null)
             {
-                MoveResetEnemyList.Add(MoveEnemyList[count]);
-                EnemyMoveResetCount += 1;
+                moveResetEnemyList.Add(moveEnemyList[count]);
+                enemyMoveResetCount += 1;
             }
         }
-
-        MoveEnemyList.Clear();
-        for (int count = 0; count < EnemyMoveResetCount; count++)
+        moveEnemyList.Clear();
+        for (int count = 0; count < enemyMoveResetCount; count++)
         {
-            MoveEnemyList.Add(MoveResetEnemyList[count]);
+            moveEnemyList.Add(moveResetEnemyList[count]);
         }
-        EnemyMoveCount = EnemyMoveResetCount;
-
+        enemyMoveCount = enemyMoveResetCount;
     }
 
+    /// <summary>
+    /// 敵のリストを返す
+    /// </summary>
+    /// <returns></returns>
     public List<ActionControllor> GetEnemyList()
     {
-        return EnemyList;
+        return enemyList;
     }
+
+    /// <summary>
+    /// 攻撃する敵のパラメーター設定
+    /// </summary>
+    /// <param name="cnt"></param>
     public void SetParamAtkEnemyList(int cnt)
     {
-        if (EnemyAtkCount > 0)
+        if (enemyAtkCount > 0)
         {
-            AtkEnemyList[cnt].SetUserAttackFlagOn();
-            //if (attackable == true)
-            //{
-            //    AtkEnemyList[cnt].ActionStart();
-            //    AtkEnemyList[cnt].enemyAtk.AttackHit();
-            //}
-            //else
-            //{
-            //    AtkEnemyList[cnt].CancelCts();
-            //}
-            AtkEnemyList[cnt].ActionStart(attackable);
-            AtkEnemyList[cnt].enemyAtk.AttackHit();
-
+            atkEnemyList[cnt].SetUserAttackFlagOn();
+            atkEnemyList[cnt].ActionStart(attackable);
+            atkEnemyList[cnt].enemyAtk.AttackHit();
         }
     }
+
+    /// <summary>
+    /// 移動する敵のパラメーター設定
+    /// </summary>
     public void SetParamMoveEnemyList()
     {
-        for (int count = 0; count < EnemyMoveCount; count++)
+        for (int count = 0; count < enemyMoveCount; count++)
         {
-            //if (attackable == true)
-            //{
-                MoveEnemyList[count].SetUserActFlagOn();
-                MoveEnemyList[count].ActionStart(attackable);
-            //}
-            //else
-            //{
-            //    MoveEnemyList[count].CancelCts();
-            //}
-
+            moveEnemyList[count].SetUserActFlagOn();
+            moveEnemyList[count].ActionStart(attackable);
         }
     }
+
+    /// <summary>
+    /// 攻撃する敵の個数を返す
+    /// </summary>
+    /// <returns></returns>
     public int GetEnemyAtkCount()
     {
-        return EnemyAtkCount;
+        return enemyAtkCount;
     }
+
+    /// <summary>
+    /// 敵全体のリセット
+    /// </summary>
     public void ResetAllEnemyList()
     {
         ResetEnemyList();
-        AtkEnemyList.Clear();
-        EnemyAtkCount = 0;
-        MoveEnemyList.Clear();
-        EnemyMoveCount = 0;
+        atkEnemyList.Clear();
+        enemyAtkCount = 0;
+        moveEnemyList.Clear();
+        enemyMoveCount = 0;
     }
+
+    /// <summary>
+    /// 攻撃可能かのフラグを設定
+    /// </summary>
+    /// <param name="flg"></param>
     public  void ChangeAttackable(bool flg)
     {
         attackable = flg;

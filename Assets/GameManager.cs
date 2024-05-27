@@ -14,9 +14,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private EnemyManager enemyManager = null;
     /// <summary>アイテムウィンドウ</summary>
     [SerializeField] private ItemWindowScript itemWindow = null;
-
-
-
     //シングルトン化
     private static GameManager mInstance;
     public static GameManager Instance
@@ -37,7 +34,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        mapGeneObj.MapGeneStart(finish:(player,enemyList) =>
+        mapGeneObj.Init(finish:(player,enemyList) =>
         {
             playerManager.Init(player,()=> 
             {
@@ -50,7 +47,7 @@ public class GameManager : MonoBehaviour
                     mapGeneObj.SetDropItemObj(idropitem, jdropitem);
                 }
             });
-            gameCtrl.GameCtrlStart(playerManager, enemyManager, () =>
+            gameCtrl.Init(playerManager, enemyManager, () =>
             {
                 ChangeItemWindow();
             });
@@ -58,7 +55,6 @@ public class GameManager : MonoBehaviour
             {
                 playerManager.AddItemState(equipitem);
             });
-            //ItemWindowflg = false;
         },
         setItem: (makeitem) => 
         {
@@ -70,34 +66,47 @@ public class GameManager : MonoBehaviour
         });
     }
     
+    /// <summary>
+    /// アイテムウィンドウを返す
+    /// </summary>
+    /// <returns></returns>
     public ItemWindowScript GetItemWindow()
     {
         return itemWindow;
     }
 
+    /// <summary>
+    /// プレイヤーマネージャーを返す
+    /// </summary>
+    /// <returns></returns>
     public PlayerManager GetPlayerManager()
     {
         return playerManager;
     }
+
+    /// <summary>
+    /// エネミーマネージャーを返す
+    /// </summary>
+    /// <returns></returns>
     public EnemyManager GetEnemyManager()
     {
         return enemyManager;
     }
 
+    /// <summary>
+    /// アイテムウィンドウ切り替え
+    /// </summary>
     public void ChangeItemWindow()
     {
         itemWindow.ChangeItemWindow();
     }
-    //public bool GetItemWindowflg()
-    //{
-    //    return ItemWindowflg;
-    //}
+
+    /// <summary>
+    /// SPアイテム取得フラグ設定
+    /// </summary>
+    /// <param name="flg"></param>
     public void SetPItemFlg(bool flg)
     {
         playerManager.SetPItemFlg(flg);
     }
-
-    ///TODO:GameControllorの一部処理をここで行う
-    ///主に操作以外の処理
-
 }

@@ -3,17 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StartButton : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+public class StartButton : MonoBehaviour 
+{
+    /// <summary>
+    /// スタートボタン
+    /// </summary>
     public void PushStartbutton()
     {
         SceneManager.LoadScene("SelectScene");

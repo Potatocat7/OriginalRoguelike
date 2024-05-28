@@ -6,35 +6,31 @@ using UnityEngine.UI;
 
 public class DisplayScript : MonoBehaviour {
 
+    /// <summary>プレイヤー情報</summary>
     [SerializeField]
     private StatusDataScript Player;
-    [SerializeField]
-    private SaveDataScript Save;
+    /// <summary>フロア階層の数値</summary>
     [SerializeField]
     private int FloorDisplay;
+    /// <summary>ステータス表示テキスト</summary>
     [SerializeField]
     private Text statusText;
 
-    public void SetFloor(int Floor)
-    {
-        FloorDisplay = Floor;
-    }
-
+    ///TODO:ディスプレイの処理を別の場所で行う（今はMapGenerator)
+    /// <summary>
+    /// 表示設定
+    /// </summary>
+    /// <param name="playState"></param>
     public void SetDisplayScript(StatusDataScript playState)
     {
         Player = playState;
-        //Save = GameObject.Find("SaveDataObject");
-        //FloorDisplay = Save.GetComponent<SaveDataScript>().GetSaveData().clearFloor;
-        Debug.Log("a");
-        FloorDisplay = Save.GetSaveData().clearFloor;
-
+        FloorDisplay = SaveDataScript.Instance.GetSaveData().clearFloor;
     }
 
-    // Update is called once per frame
+    ///TODO：これもアップデートではなく攻撃処理やアイテム取得。フロアカウントで呼べばよい
     void Update () {
-        //宣言すればGetComponentが不要になりそう（あとUpdateでやらないことを考えてみる）
-        statusText.text = "HP:"+ Player.GetNow().HP.ToString() + "/" + Player.GetNow().MHP.ToString() + "\n"
-                                       + "特殊：" + Player.GetSpcount().ToString() + "\n"
+        statusText.text = "HP:"+ Player.GetStateData().HP.ToString() + "/" + Player.GetStateData().MHP.ToString() + "\n"
+                                       + "特殊：" + Player.GetSPcount().ToString() + "\n"
                                        + "階層："+ FloorDisplay.ToString(); 
 	}
 }

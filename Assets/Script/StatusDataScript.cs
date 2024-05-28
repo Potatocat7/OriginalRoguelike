@@ -8,32 +8,49 @@ using UnityEngine.SceneManagement;
 
 public class StatusDataScript : MonoBehaviour 
 {
-
+    /// <summary>ステータス</summary>
     [SerializeField]
     private Status _charaState;
+    /// <summary>HP・位置・ダメージ・SP回数・経験値</summary>
     [SerializeField]
     int MaxHP,NowHP,iThisNow,jThisNow,dispDamege,SPcount,expState;
+    /// <summary>ダメージ表示</summary>
     [SerializeField]
     Text DamageDisplay;
+    /// <summary>攻撃力</summary>
     public int Attack;
-    private int _level = 1;
-    [SerializeField]
-    private int _experienceNow = 0;
+    /// <summary>経験値最大値</summary>
     [SerializeField]
     private int _experienceMax = 5;
+    /// <summary>プレイヤーステータス</summary>
     private StatusDataScript _playerState;
-
+    /// <summary>敵モデル</summary>
     public EnemyModel enemyModel;
+    /// <summary>エンディングフアｒグ</summary>
+    private bool endingFlg;
 
+    /// <summary>
+    /// プレイヤー現在ＨＰ取得
+    /// </summary>
+    /// <returns></returns>
     public int GetHPnow()
     {
         return _charaState.HP;
     }
+
+    /// <summary>
+    /// プレイヤー攻撃力取得
+    /// </summary>
+    /// <returns></returns>
     public int GetAttack()
     {
         return _charaState.ATK;
     }
 
+    /// <summary>
+    /// ステータス増加処理
+    /// </summary>
+    /// <param name="data"></param>
     public void AddState(ItemStatusData data)
     {
         _charaState.ATK += data.Attack;
@@ -44,16 +61,31 @@ public class StatusDataScript : MonoBehaviour
             _charaState.HP = _charaState.MHP;
         }
     }
+
+    /// <summary>
+    /// 装備アイテム装備時の増加処理
+    /// </summary>
+    /// <param name="data"></param>
     public void SubState(ItemStatusData data)
     {
         _charaState.ATK -= data.Attack;
         _charaState.MHP -= data.Mhp;
         _charaState.HP -= data.Hp;
     }
+
+    /// <summary>
+    /// プレイヤー情報取得
+    /// </summary>
+    /// <param name="player"></param>
     public void GetPlayerState(StatusDataScript player)
     {
         _playerState = player;
     }
+
+    /// <summary>
+    /// 経験値獲得処理
+    /// </summary>
+    /// <param name="exp"></param>
     public void ExperienceUp(int exp)
     {
         _charaState.EXP += exp;
@@ -62,6 +94,10 @@ public class StatusDataScript : MonoBehaviour
             LevelUp();
         }
     }
+
+    /// <summary>
+    /// レベルアップ処理
+    /// </summary>
     void LevelUp()
     {
         _charaState.LV += 1;
@@ -71,7 +107,7 @@ public class StatusDataScript : MonoBehaviour
         _charaState.MEXP = 5 * _charaState.LV;
         _charaState.EXP = 0;
     }
-    // Use this for initialization
+
     void Start () {
         if (this.tag == "Player")
         {
@@ -83,8 +119,6 @@ public class StatusDataScript : MonoBehaviour
             if (Save.GetFlg() == true)
             {
                 StatusData.SetNow(Save.playerNowData);
-                //Mapobj[randomiPix, randomjPix].GetComponent<DisplayScript>().SetFloor(Save.GetComponent<SaveDataScript>().FloorCount);
-
             }
             else
             {
@@ -95,6 +129,7 @@ public class StatusDataScript : MonoBehaviour
                 _charaState.MEXP = _experienceMax;
                 _charaState.EXP = 0;
             }
+            endingFlg = false;
         }
         else
         {
@@ -105,19 +140,16 @@ public class StatusDataScript : MonoBehaviour
             _charaState.HP = enemyModel.MHP;
             _charaState.MEXP = enemyModel.MEXP;
             _charaState.EXP = 0;
-
-            //_charaState.LV = 1;
-            //_charaState.ATK = Attack;
-            //_charaState.MHP = MaxHP;
-            //_charaState.HP = MaxHP;
-            //_charaState.MEXP = _experienceMax;
-            //_charaState.EXP = 0;
         }
         DamageDisplay.text = "";
-        //DamageDisply = this.transform.GetChild(0).GetComponent<Text>();
-        // DamageDisply = this.transform.GetChildCount(0);
-
     }
+
+    /// <summary>
+    /// 攻撃範囲判定処理
+    /// </summary>
+    /// <param name="iAttack"></param>
+    /// <param name="jAttack"></param>
+    /// <returns></returns>
     public bool CheckAttack(int iAttack, int jAttack)
     {
         //敵への攻撃が敵の移動後の座標で判定してしまっている
@@ -131,6 +163,10 @@ public class StatusDataScript : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 攻撃ヒット表示処理
+    /// </summary>
+    /// <returns></returns>
     IEnumerator coHitDameDisp()
     {
         DamageDisplay.text = dispDamege.ToString();
@@ -139,26 +175,44 @@ public class StatusDataScript : MonoBehaviour
 
         DamageDisplay.text = "";
     }
-    public void HitDamage(int Damge)
+
+    /// <summary>
+    /// 攻撃ヒット処理
+    /// </summary>
+    /// <param name="Damge"></param>
+    /// <param name="dropitem"></param>
+    public void HitDamage(int Damge,Action<int,int> dropitem = null)
     {
         _charaState.HP -= Damge;
         dispDamege = Damge;
         StartCoroutine("coHitDameDisp");
-    }
-    public Status GetNow()
-    {
-        return _charaState;
+        CheckDeath((ipos,jpos)=> {
+            dropitem.Invoke(ipos,jpos);
+        });
     }
 
+    /// <summary>
+    /// 現状ステータスの更新
+    /// </summary>
+    /// <param name="Data"></param>
     public void SetNow(Status Data)
     {
         _charaState = Data;
     }
 
+    /// <summary>
+    /// 現在ステータスを返す
+    /// </summary>
+    /// <returns></returns>
     public Status GetStateData()
     {
         return _charaState;
     }
+
+    /// <summary>
+    /// 回復アイテム取得
+    /// </summary>
+    /// <param name="Heal"></param>
     public void HealItem(int Heal)
     {
         _charaState.HP += Heal;
@@ -167,37 +221,65 @@ public class StatusDataScript : MonoBehaviour
             _charaState.HP = _charaState.MHP;
         }
     }
+
+    /// <summary>
+    /// SPポイント加算
+    /// </summary>
+    /// <param name="count"></param>
     public void SetSPcount(int count)
     {
         SPcount += count;
     }
-    public int GetSpcount()
+
+    /// <summary>
+    /// SPポイントを返す
+    /// </summary>
+    /// <returns></returns>
+    public int GetSPcount()
     {
         return SPcount;
     }
-    // Update is called once per frame
-    void Update () {
-        //UpdateでGetComponentをなくしていきたい
-        iThisNow = this.GetComponent<ActionControllor>().iThisNow;
-        jThisNow = this.GetComponent<ActionControllor>().jThisNow;
+
+    /// <summary>
+    /// エンディングフラグ設定
+    /// </summary>
+    public void SetEndingFlg()
+    {
+        endingFlg = true;
+    }
+
+    /// <summary>
+    /// 現在位置設定
+    /// </summary>
+    /// <param name="inow"></param>
+    /// <param name="jnow"></param>
+    public void SetThisPosition(int inow,int jnow)
+    {
+        iThisNow = inow;
+        jThisNow = jnow;
+    }
+
+    /// <summary>
+    /// 死亡処理
+    /// </summary>
+    /// <param name="drop"></param>
+    private void CheckDeath(Action<int,int> drop = null)
+    {
         if (_charaState.HP <= 0)
         {
             if (this.tag == "Player")
             {
-                //シーンに行く前にデータの一部をJSONファイルで保存しておく
-                //SaveDataScriptがEndSceneまで残っているのでそこからDataを保存させる
-                SceneManager.LoadScene("EndScene");
+                if (endingFlg == true)
+                {
+                    //シーンに行く前にデータの一部をJSONファイルで保存しておく
+                    SceneManager.LoadScene("EndScene");
+                }
             }
             else
             {   //敵オブジェクトの場合
-                //デリート前にランダムでアイテムを生成
-                //最初はランダムではなく確定で生成してみる
-                //MapGeneratorから関数をひっぱればいける？
+                //TODO:デリート前にランダムでアイテムを生成
                 _playerState.ExperienceUp(expState);
-                if (GameControllor.Instance.CheckItemPosition(iThisNow, jThisNow))
-                {
-                    MapGenerator.Instance.SetDropItemObj(iThisNow, jThisNow);
-                }
+                drop.Invoke(iThisNow, jThisNow);
                 Destroy(gameObject);
             }
         }

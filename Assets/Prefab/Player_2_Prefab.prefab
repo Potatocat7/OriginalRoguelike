@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 114295699721812306}
   - component: {fileID: 114404054609693906}
   - component: {fileID: 95957876354310624}
-  - component: {fileID: 114595204208842540}
+  - component: {fileID: 7036144098367429026}
   m_Layer: 0
   m_Name: Player_2_Prefab
   m_TagString: Player
@@ -204,6 +204,7 @@ MonoBehaviour:
   atkEf: {fileID: 114251747193377120}
   stateData: {fileID: 114404054609693906}
   enemyAtk: {fileID: 0}
+  Attack: {fileID: 7036144098367429026}
   AtkEfFlg: 0
   SpAtkEfFlg: 0
   AnimatorState: {fileID: 95957876354310624}
@@ -256,7 +257,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114595204208842540
+--- !u!114 &7036144098367429026
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,7 +266,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1321754040716970}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ad136590409f034088eb244a8ac67a8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e59806b8c9b961468cefd9f36bcb075, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   iThisNow: 0
@@ -278,6 +279,7 @@ MonoBehaviour:
   jThisAtkArea3: 0
   _actCtrl: {fileID: 114295699721812306}
   _thisState: {fileID: 114404054609693906}
+  myType: 1
 --- !u!1 &1326115485017334
 GameObject:
   m_ObjectHideFlags: 0

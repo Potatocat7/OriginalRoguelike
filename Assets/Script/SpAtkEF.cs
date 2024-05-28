@@ -3,27 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpAtkEF : MonoBehaviour {
-    int count;
-    [SerializeField]
-    bool AttackEffect;
+    /// <summary>プレイヤー情報</summary>
     [SerializeField]
     ActionControllor Player = null;
+    /// <summary>エフェクトのレンダー</summary>
     [SerializeField]
     SpriteRenderer spriteRenderer;
+    /// <summary>アニメーション</summary>
     [SerializeField]
     Animator animator;
 
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
+    /// <summary>
+    /// TODO:Updateで処理をしないようにする
+    /// </summary>
 	void Update () {
         if (Player.SpAtkEfFlg == true)
         {
-            //GetComponentをなくしたい（とくにUpdate内だからなおのこと）
             spriteRenderer.enabled = true;
             animator.SetTrigger("StartEF");
         }
@@ -31,6 +26,5 @@ public class SpAtkEF : MonoBehaviour {
         {
             spriteRenderer.enabled = false;
         }
-
     }
 }

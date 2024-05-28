@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class ButtonActionManagerScript : MonoBehaviour
 {
+    /// <summary>
+    /// UIの各ボタン
+    /// </summary>
     [SerializeField] private Button _stop;
     [SerializeField] private Button _up;
     [SerializeField] private Button _upL;
@@ -15,10 +18,11 @@ public class ButtonActionManagerScript : MonoBehaviour
     [SerializeField] private Button _down;
     [SerializeField] private Button _downL;
     [SerializeField] private Button _downR;
-
-
+    /// <summary>アイテムアイコンリスト</summary>
     private List<Button> _itemIconList= new List<Button>();
-
+    /// <summary>
+    /// ボタンを押したときの状態
+    /// </summary>
     public enum ButtonStateType
     {
         NONE = 0,
@@ -46,15 +50,28 @@ public class ButtonActionManagerScript : MonoBehaviour
         mInstance = this;
     }
 
+    /// <summary>
+    /// アイテムリストのボタン追加
+    /// </summary>
+    /// <param name="button"></param>
     public void AddItemButtonList(Button button)
     {
         _itemIconList.Add(button);
     }
+
+    /// <summary>
+    /// アイテムリストのボタン削除
+    /// </summary>
+    /// <param name="num"></param>
     public void RemoveItemButtonList(int num)
     {
         _itemIconList.RemoveAt(num);
     }
-    //ボタンを押したときに状態を変える
+
+    /// <summary>
+    /// ボタンを押したときに状態を変える
+    /// </summary>
+    /// <param name="state"></param>
     public void ChangeButtonState(ButtonStateType state)
     {
         switch (state)

@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class AtkEfScript : MonoBehaviour {
 
-    private int count;
-    [SerializeField]
-    private bool AttackEffect;
+    /// <summary>プレイヤー</summary>
     [SerializeField]
     private ActionControllor Player = null;
+    /// <summary>表示レンダー</summary>
     [SerializeField]
     private Renderer thisRender = null;
 
+    /// <summary>
+    /// 方向に合わせたエフェクトの回転
+    /// </summary>
     public void SetEffecrDirection()
     {
         switch (Player.thisNowDirection)
@@ -50,6 +52,11 @@ public class AtkEfScript : MonoBehaviour {
                 break;
         }
     }
+
+    /// <summary>
+    /// エフェクトのオンオフ
+    /// </summary>
+    /// <param name="flg"></param>
     public void EffectEnabled(bool flg)
     {
         if (flg == true)
@@ -60,19 +67,5 @@ public class AtkEfScript : MonoBehaviour {
         {
             thisRender.enabled = false;
         }
-    }
-
-    // Update is called once per frame
-    void Update () {//Update内の処理を外に出せる気がする
-        //SetEffecrDirection();
-        //if (Player.AtkEfFlg == true)
-        //{
-        //    thisRender.enabled = true;
-        //}
-        //else
-        //{
-        //    thisRender.enabled = false;
-        //}
-
     }
 }

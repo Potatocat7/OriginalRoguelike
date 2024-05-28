@@ -82,6 +82,11 @@ public class GameControllor : MonoBehaviour {
         PmoveFlg = false;
         GoalFlg = false;
         LockFlg = false;
+        player.StartAttack(AtkCheckflg, SpAtkflg, (afterflg) =>
+        {
+            AtkCheckflg = afterflg;
+        });
+
     }
 
     /// <summary>

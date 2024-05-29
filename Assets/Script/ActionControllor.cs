@@ -64,6 +64,7 @@ public class ActionControllor : MonoBehaviour {
         //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
         iThisNow = (int)Math.Round(this.transform.position.x);
         jThisNow = (int)Math.Round(this.transform.position.y);
+        stateData.Init();
         stateData.SetThisPosition(iThisNow, jThisNow);
         UserAttackFlg = false;
         iThisNext = 0;

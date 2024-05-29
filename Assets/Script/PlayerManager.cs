@@ -176,6 +176,7 @@ public class PlayerManager : MonoBehaviour
     public void SetSPcount(int cnt)
     {
         player.stateData.SetSPcount(cnt);
+        GameManager.Instance.UpdateDisplay();
     }
 
     /// <summary>

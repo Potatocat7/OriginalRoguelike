@@ -37,9 +37,6 @@ public class MapGenerator : MonoBehaviour {
     public static int iNow, jNow, EnemyCount,UniqObjCount;
     /// <summary>マップ種類情報</summary>
     public int mapNum;
-    /// <summary>UI表示</summary>
-    [SerializeField]
-    private DisplayScript _displayScript;
     /// <summary>プレイヤーステータス</summary>
     private StatusDataScript _playerData;
     /// <summary>オブジェクト情報</summary>
@@ -213,7 +210,6 @@ public class MapGenerator : MonoBehaviour {
                             iObjState.Add(randomiPix);
                             jObjState.Add(randomjPix);
                             _playerData = _mapobj[randomiPix, randomjPix]._actCtrl.stateData;
-                            _displayScript.SetDisplayScript(_playerData);
                             charaData.Invoke(_mapobj[randomiPix, randomjPix]._actCtrl, _playerData);
                         }
                         else if (PrefabObj.tag == "Enemy")

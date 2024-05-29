@@ -60,6 +60,7 @@ public class StatusDataScript : MonoBehaviour
         {
             _charaState.HP = _charaState.MHP;
         }
+        GameManager.Instance.UpdateDisplay();
     }
 
     /// <summary>
@@ -71,6 +72,7 @@ public class StatusDataScript : MonoBehaviour
         _charaState.ATK -= data.Attack;
         _charaState.MHP -= data.Mhp;
         _charaState.HP -= data.Hp;
+        GameManager.Instance.UpdateDisplay();
     }
 
     /// <summary>
@@ -106,9 +108,10 @@ public class StatusDataScript : MonoBehaviour
         _charaState.HP += 20;
         _charaState.MEXP = 5 * _charaState.LV;
         _charaState.EXP = 0;
+        GameManager.Instance.UpdateDisplay();
     }
 
-    void Start () {
+    public void Init () {
         if (this.tag == "Player")
         {
             //GetComponentをなくしていきたい
@@ -130,6 +133,7 @@ public class StatusDataScript : MonoBehaviour
                 _charaState.EXP = 0;
             }
             endingFlg = false;
+            //GameManager.Instance.UpdateDisplay();
         }
         else
         {
@@ -184,6 +188,7 @@ public class StatusDataScript : MonoBehaviour
     public void HitDamage(int Damge,Action<int,int> dropitem = null)
     {
         _charaState.HP -= Damge;
+        GameManager.Instance.UpdateDisplay();
         dispDamege = Damge;
         StartCoroutine("coHitDameDisp");
         CheckDeath((ipos,jpos)=> {
@@ -219,6 +224,7 @@ public class StatusDataScript : MonoBehaviour
         if (_charaState.HP >= _charaState.MHP)
         {
             _charaState.HP = _charaState.MHP;
+            GameManager.Instance.UpdateDisplay();
         }
     }
 

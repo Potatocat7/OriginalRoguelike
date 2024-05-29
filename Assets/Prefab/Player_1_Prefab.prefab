@@ -280,7 +280,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790240fae4c62cb499661e3bfac6b941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackEffect: 0
   Player: {fileID: 316836400354960968}
   thisRender: {fileID: 7782501219674560948}
 --- !u!1 &7277428086546084138
@@ -385,7 +384,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisNowDirection: 5
-  UserActFlg: 1
   UserAttackFlg: 1
   atkEf: {fileID: 4591056199651424185}
   stateData: {fileID: 5273029559625437049}
@@ -394,6 +392,7 @@ MonoBehaviour:
   AtkEfFlg: 0
   SpAtkEfFlg: 0
   AnimatorState: {fileID: 3958914832471014623}
+  spAtkEF: {fileID: 20689214038390272}
 --- !u!114 &5273029559625437049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,7 +421,6 @@ MonoBehaviour:
   expState: 0
   DamageDisplay: {fileID: 5811063058158995073}
   Attack: 10
-  _experienceNow: 0
   _experienceMax: 5
 --- !u!95 &3958914832471014623
 Animator:
@@ -672,7 +670,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081e3c260ae2f744a8a7d4429fd26d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackEffect: 0
-  Player: {fileID: 316836400354960968}
+  player: {fileID: 0}
   spriteRenderer: {fileID: 8441971647068097208}
   animator: {fileID: 4684008608900834691}

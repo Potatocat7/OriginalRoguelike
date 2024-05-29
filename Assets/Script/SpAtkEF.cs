@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SpAtkEF : MonoBehaviour {
-    /// <summary>プレイヤー情報</summary>
-    [SerializeField]
-    ActionControllor Player = null;
     /// <summary>エフェクトのレンダー</summary>
     [SerializeField]
     SpriteRenderer spriteRenderer;
@@ -14,10 +11,18 @@ public class SpAtkEF : MonoBehaviour {
     Animator animator;
 
     /// <summary>
-    /// TODO:Updateで処理をしないようにする
+    /// 初期化
     /// </summary>
-	void Update () {
-        if (Player.SpAtkEfFlg == true)
+    public void Init()
+    {
+        spriteRenderer.enabled = false;
+    }
+    /// <summary>
+    /// エフェクト再生
+    /// </summary>
+	public void PlayEffect(bool effect) 
+    {
+        if (effect == true)
         {
             spriteRenderer.enabled = true;
             animator.SetTrigger("StartEF");

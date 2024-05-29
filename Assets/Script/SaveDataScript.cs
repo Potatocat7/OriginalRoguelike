@@ -117,10 +117,8 @@ public class SaveDataScript : MonoBehaviour
     /// プレイヤーの現状セーブ
     /// </summary>
     /// <param name="Data"></param>
-    public void SavePlayerNowData(Status Data)
+    public void SavePlayerNowData()
     {
-        playerNowData = Data;
-
         for (int i= 0;i< GameManager.Instance.GetItemWindow()._gotItemList.Count;i++)
         {
             _saveItemList.Add(GameManager.Instance.GetItemWindow()._gotItemList[i].itemSaveData);
@@ -130,5 +128,6 @@ public class SaveDataScript : MonoBehaviour
                 GameManager.Instance.GetPlayerManager().SubItemState(GameManager.Instance.GetItemWindow()._gotItemList[i].itemSaveData);
             }
         }
+        playerNowData = GameManager.Instance.GetPlayerManager().GetStateData();
     }
 }

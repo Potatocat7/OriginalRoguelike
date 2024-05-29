@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
     {
         player = actioncontrollor;
         player.Init();
+        player.InitSpAtkEF();
         SetDirection(ActionControllor.Direction.DOWN);
         getPItemFlg = false;
         actionable = true;
@@ -113,14 +114,6 @@ public class PlayerManager : MonoBehaviour
     }
 
     /// <summary>
-    /// アクションフラグオン
-    /// </summary>
-    public void SetUserActFlagOn()
-    {
-        player.SetUserActFlagOn();
-    }
-
-    /// <summary>
     /// SP攻撃フラグ開始
     /// </summary>
     /// <returns></returns>
@@ -183,6 +176,7 @@ public class PlayerManager : MonoBehaviour
     public void SetSPcount(int cnt)
     {
         player.stateData.SetSPcount(cnt);
+        GameManager.Instance.UpdateDisplay();
     }
 
     /// <summary>

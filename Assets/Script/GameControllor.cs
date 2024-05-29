@@ -180,7 +180,7 @@ public class GameControllor : MonoBehaviour {
     {
         SaveDataScript _saveData = SaveDataScript.Instance;
         _saveData.SaveFloorCount();
-        _saveData.SavePlayerNowData(player.GetStateData());
+        _saveData.SavePlayerNowData();
         _saveData.SetFlgOn();
         saveFinish.Invoke();
     }
@@ -227,7 +227,6 @@ public class GameControllor : MonoBehaviour {
         }
         else
         {
-            player.SetUserActFlagOn();
             player.ActionStart();
             if (player.GetPowerItemFlg() == true)
             {

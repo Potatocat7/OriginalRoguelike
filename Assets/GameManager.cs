@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private EnemyManager enemyManager = null;
     /// <summary>アイテムウィンドウ</summary>
     [SerializeField] private ItemWindowScript itemWindow = null;
+    /// <summary>UI表示</summary>
+    [SerializeField] private DisplayScript displayScript = null;
     //シングルトン化
     private static GameManager mInstance;
     public static GameManager Instance
@@ -39,6 +41,7 @@ public class GameManager : MonoBehaviour
             playerManager.Init(player,()=> 
             {
                 enemyManager.ChangeAttackable(false);
+                GameManager.Instance.UpdateDisplay();
             });
             enemyManager.Init(enemyList,(idropitem,jdropitem)=> 
             {
@@ -51,9 +54,12 @@ public class GameManager : MonoBehaviour
             {
                 ChangeItemWindow();
             });
-            itemWindow.Init((equipitem) =>
+            displayScript.SetDisplayScript(player.stateData,() =>
             {
-                playerManager.AddItemState(equipitem);
+                itemWindow.Init((equipitem) =>
+                {
+                    playerManager.AddItemState(equipitem);
+                });
             });
         },
         setItem: (makeitem) => 
@@ -65,7 +71,7 @@ public class GameManager : MonoBehaviour
             gameCtrl.SetGoalObj(goal);
         });
     }
-    
+
     /// <summary>
     /// アイテムウィンドウを返す
     /// </summary>
@@ -108,5 +114,10 @@ public class GameManager : MonoBehaviour
     public void SetPItemFlg(bool flg)
     {
         playerManager.SetPItemFlg(flg);
+    }
+
+    public void UpdateDisplay()
+    {
+        displayScript.UpdateDisplay();
     }
 }

@@ -610,7 +610,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  Save: {fileID: 721245077}
   FloorDisplay: 0
   statusText: {fileID: 371473968}
 --- !u!1 &721245075
@@ -695,10 +694,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4116dd4b356a33b40b78e499547db927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyAtkCount: 0
-  EnemyMoveCount: 0
-  EnemyAtkResetCount: 0
-  EnemyMoveResetCount: 0
 --- !u!4 &817321947
 Transform:
   m_ObjectHideFlags: 0
@@ -1017,11 +1012,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e78e1b33f9b49b41b0b8441e0cf537b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AcitonFlg: 0
-  PatkFlg: 0
-  LockFlg: 0
-  AtkCheckflg: 0
-  SpAtkflg: 0
   GoalFlg: 0
 --- !u!114 &976567462
 MonoBehaviour:
@@ -1040,6 +1030,7 @@ MonoBehaviour:
   playerManager: {fileID: 2032593828}
   enemyManager: {fileID: 817321946}
   itemWindow: {fileID: 1662915371}
+  displayScript: {fileID: 371473970}
 --- !u!1 &1001384552
 GameObject:
   m_ObjectHideFlags: 0
@@ -2474,8 +2465,6 @@ MonoBehaviour:
   _powerItemObj: {fileID: 114454371931759436, guid: 72a1b7205732ce84a968c9d56cfba029,
     type: 3}
   mapNum: 0
-  _saveData: {fileID: 721245077}
-  _displayScript: {fileID: 371473970}
   iObjState: 
   jObjState: 
 --- !u!1 &1589166265

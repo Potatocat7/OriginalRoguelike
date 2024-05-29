@@ -222,7 +222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081e3c260ae2f744a8a7d4429fd26d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackEffect: 0
   Player: {fileID: 114702123805358766}
   spriteRenderer: {fileID: 212403646468413132}
   animator: {fileID: 95555189425510096}
@@ -237,7 +236,6 @@ GameObject:
   - component: {fileID: 4333090049135076}
   - component: {fileID: 212713743718701402}
   - component: {fileID: 114702123805358766}
-  - component: {fileID: 114670229676291018}
   - component: {fileID: 114684065623599814}
   - component: {fileID: 95732718619745776}
   m_Layer: 0
@@ -333,31 +331,10 @@ MonoBehaviour:
   atkEf: {fileID: 114538254131357802}
   stateData: {fileID: 114684065623599814}
   enemyAtk: {fileID: 0}
+  Attack: {fileID: 0}
   AtkEfFlg: 0
   SpAtkEfFlg: 0
   AnimatorState: {fileID: 95732718619745776}
---- !u!114 &114670229676291018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1260895151470838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30c29b9c6ff6ff74b9ee78d281ac6aba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  iThisNow: 0
-  jThisNow: 0
-  iThisAtkArea1: 0
-  jThisAtkArea1: 0
-  iThisAtkArea2: 0
-  jThisAtkArea2: 0
-  iThisAtkArea3: 0
-  jThisAtkArea3: 0
-  _actCtrl: {fileID: 114702123805358766}
-  _thisState: {fileID: 114684065623599814}
 --- !u!114 &114684065623599814
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,7 +363,6 @@ MonoBehaviour:
   expState: 0
   DamageDisplay: {fileID: 114803470231973362}
   Attack: 10
-  _experienceNow: 0
   _experienceMax: 5
 --- !u!95 &95732718619745776
 Animator:
@@ -501,7 +477,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790240fae4c62cb499661e3bfac6b941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AttackEffect: 0
   Player: {fileID: 114702123805358766}
   thisRender: {fileID: 212108283877343070}
 --- !u!1 &1837767245657320

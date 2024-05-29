@@ -463,7 +463,6 @@ public class EnemyManager : MonoBehaviour
     {
         for (int count = 0; count < enemyMoveCount; count++)
         {
-            moveEnemyList[count].SetUserActFlagOn();
             moveEnemyList[count].ActionStart(attackable);
         }
     }

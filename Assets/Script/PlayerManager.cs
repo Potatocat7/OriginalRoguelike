@@ -22,6 +22,7 @@ public class PlayerManager : MonoBehaviour
     {
         player = actioncontrollor;
         player.Init();
+        player.InitSpAtkEF();
         SetDirection(ActionControllor.Direction.DOWN);
         getPItemFlg = false;
         actionable = true;
@@ -110,14 +111,6 @@ public class PlayerManager : MonoBehaviour
     public void SetUserAttackFlagOn()
     {
         player.SetUserAttackFlagOn();
-    }
-
-    /// <summary>
-    /// アクションフラグオン
-    /// </summary>
-    public void SetUserActFlagOn()
-    {
-        player.SetUserActFlagOn();
     }
 
     /// <summary>

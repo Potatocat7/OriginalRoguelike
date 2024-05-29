@@ -227,7 +227,6 @@ public class GameControllor : MonoBehaviour {
         }
         else
         {
-            player.SetUserActFlagOn();
             player.ActionStart();
             if (player.GetPowerItemFlg() == true)
             {

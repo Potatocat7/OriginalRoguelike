@@ -24,9 +24,6 @@ public class ActionControllor : MonoBehaviour {
     /// <summary>現在向いている方向</summary>
     [SerializeField]
     public Direction thisNowDirection;
-    /// <summary>行動フラグ</summary>
-    [SerializeField]
-    private bool UserActFlg;
     /// <summary>攻撃フラグ</summary>
     [SerializeField]
     private bool UserAttackFlg;
@@ -53,11 +50,11 @@ public class ActionControllor : MonoBehaviour {
     public int jAtkDir { get; private set; }
     /// <summary>攻撃エフェクト発生フラグ</summary>
     public bool AtkEfFlg;
-    /// <summary>SP攻撃発生フラグ</summary>
-    public bool SpAtkEfFlg;
     /// <summary>アニメーション状態</summary>
     [SerializeField]
     private Animator AnimatorState;
+    /// <summary>SP攻撃エフェクト</summary>
+    [SerializeField] private SpAtkEF spAtkEF;
 
     /// <summary>
     /// 
@@ -67,17 +64,19 @@ public class ActionControllor : MonoBehaviour {
         //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
         iThisNow = (int)Math.Round(this.transform.position.x);
         jThisNow = (int)Math.Round(this.transform.position.y);
-        UserActFlg = false;
         UserAttackFlg = false;
         iThisNext = 0;
         jThisNext = 0;
         thisNowDirection = Direction.DOWN;
         AtkEfFlg = false;
-        SpAtkEfFlg = false;
         if (this.tag == "Player")
         {
             atkEf.EffectEnabled(false);
         }
+    }
+    public void InitSpAtkEF()
+    {
+        spAtkEF.Init();
     }
 
     /// <summary>
@@ -213,14 +212,6 @@ public class ActionControllor : MonoBehaviour {
     }
 
     /// <summary>
-    /// 行動フラグのオン
-    /// </summary>
-    public void SetUserActFlagOn()
-    {
-        UserActFlg = true;
-    }
-
-    /// <summary>
     /// 次に移動するポジションを返すi(x)
     /// </summary>
     /// <returns></returns>
@@ -260,7 +251,7 @@ public class ActionControllor : MonoBehaviour {
     /// </summary>
     public void SetUserAttackFlagOn()
     {
-        UserActFlg = true;
+        //UserActFlg = true;
         UserAttackFlg = true;
     }
 
@@ -297,7 +288,6 @@ public class ActionControllor : MonoBehaviour {
         var cts = new CancellationTokenSource();
         var token = cts.Token;
         await MoveAsync(new Vector3(iThisNow + iThisNext, jThisNow + jThisNext, -1), token);
-        UserActFlg = false;
         iThisNow = iThisNow + iThisNext;
         jThisNow = jThisNow + jThisNext;
         stateData.SetThisPosition(iThisNow, jThisNow);
@@ -351,7 +341,6 @@ public class ActionControllor : MonoBehaviour {
             atkEf.EffectEnabled(false);
         }
         UserAttackFlg = false;
-        UserActFlg = false;
     }
     
     /// <summary>
@@ -359,14 +348,13 @@ public class ActionControllor : MonoBehaviour {
     /// </summary>
     private async void coSpActionAttack()
     {
-        SpAtkEfFlg = true;
+        spAtkEF.PlayEffect(true);
         for (int count = 1; count < 11; count++)
         {
             await UniTask.Delay(150);
         }
-        SpAtkEfFlg = false;
+        spAtkEF.PlayEffect(false);
         UserAttackFlg = false;
-        UserActFlg = false;
     }
 
     /// <summary>

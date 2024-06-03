@@ -141,6 +141,7 @@ public class StatusDataScript : MonoBehaviour
             enemyModel = new EnemyModel();
             _charaState.LV = enemyModel.LV;
             _charaState.ATK = enemyModel.ATK;
+            Attack = enemyModel.ATK; 
             _charaState.MHP = enemyModel.MHP;
             _charaState.HP = enemyModel.MHP;
             _charaState.MEXP = enemyModel.MEXP;

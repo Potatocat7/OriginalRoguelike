@@ -24,8 +24,10 @@ public class StatusDataScript : MonoBehaviour
     private int _experienceMax = 5;
     /// <summary>プレイヤーステータス</summary>
     private StatusDataScript _playerState;
+    /// <summary>プレイヤーモデル</summary>
+    private PlayerModel playerModel;
     /// <summary>敵モデル</summary>
-    public EnemyModel enemyModel;
+    private EnemyModel enemyModel;
     /// <summary>エンディングフアｒグ</summary>
     private bool endingFlg;
 
@@ -126,12 +128,23 @@ public class StatusDataScript : MonoBehaviour
             }
             else
             {
-                _charaState.LV = 1;
-                _charaState.ATK = Attack;
-                _charaState.MHP = MaxHP;
-                _charaState.HP = MaxHP;
-                _charaState.MEXP = _experienceMax;
+                playerModel = new PlayerModel();
+
+                _charaState.LV = playerModel.LV;
+                _charaState.ATK = playerModel.ATK;
+                Attack = playerModel.ATK;
+                _charaState.MHP = playerModel.MHP;
+                _charaState.HP = playerModel.MHP;
+                _charaState.MEXP = playerModel.MEXP;
                 _charaState.EXP = 0;
+
+                //_charaState.LV = 1;
+                //_charaState.ATK = Attack;
+                //_charaState.MHP = MaxHP;
+                //_charaState.HP = MaxHP;
+                //_charaState.MEXP = _experienceMax;
+                //_charaState.EXP = 0;
+                setAnimator.Invoke(playerModel.IMAGE, playerModel.ANIMECONTROLLER);
             }
             endingFlg = false;
             //GameManager.Instance.UpdateDisplay();

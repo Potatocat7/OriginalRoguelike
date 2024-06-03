@@ -271,6 +271,7 @@ public class MapGenerator : MonoBehaviour {
     /// </summary>
     private void SetPlayerObject()
     {
+        ///TODO:モデルを統一化できたら数値だけでよさそう
         _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
     }
 

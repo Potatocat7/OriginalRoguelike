@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865ca0a17ef46494da779ecabc2cdab8, type: 3}
   m_Name: Enemy_1
   m_EditorClassIdentifier: 
+  IMAGE: {fileID: 21300000, guid: 44878287135d8c84c9bc2e14b9326a99, type: 3}
+  ANIMECONTROLLER: {fileID: 9100000, guid: 9bfba58d062f5e9468ba8cd0155f30f0, type: 2}
   MHP: 20
   ATK: 5
   LV: 1

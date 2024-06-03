@@ -111,7 +111,8 @@ public class StatusDataScript : MonoBehaviour
         GameManager.Instance.UpdateDisplay();
     }
 
-    public void Init () {
+    public void Init (Action<Sprite,RuntimeAnimatorController> setAnimator = null) 
+    {
         if (this.tag == "Player")
         {
             //GetComponentをなくしていきたい
@@ -144,7 +145,8 @@ public class StatusDataScript : MonoBehaviour
             _charaState.HP = enemyModel.MHP;
             _charaState.MEXP = enemyModel.MEXP;
             _charaState.EXP = 0;
-        }
+            setAnimator.Invoke(enemyModel.IMAGE, enemyModel.ANIMECONTROLLER);
+       }
         DamageDisplay.text = "";
     }
 

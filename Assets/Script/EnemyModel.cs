@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyModel
 {
+    public Sprite IMAGE;
+    public RuntimeAnimatorController ANIMECONTROLLER;
     public int MHP;
     public int ATK;
     public int LV;
@@ -24,6 +26,8 @@ public class EnemyModel
     public EnemyModel()
     {
         EnemyEntity enemyEntity = Resources.Load<EnemyEntity>("Enemy/Enemy_1");
+        IMAGE = enemyEntity.IMAGE;
+        ANIMECONTROLLER = enemyEntity.ANIMECONTROLLER;
         MHP = enemyEntity.MHP;
         ATK = enemyEntity.ATK;
         LV = enemyEntity.LV;

@@ -5,6 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemyEntity", menuName = "Create EnemyEntity")]
 public class EnemyEntity : ScriptableObject
 {
+    public Sprite IMAGE;
+    public RuntimeAnimatorController ANIMECONTROLLER;
     public int MHP;
     public int ATK;
     public int LV;

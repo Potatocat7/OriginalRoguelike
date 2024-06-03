@@ -11,11 +11,11 @@ public class PlayerModel
     public int LV;
     public int EXP;
     public int MEXP;
-    public PlayerModel()
+    public PlayerModel(int num)
     {
         ///TODO:モデルを選択状況から切り替え
         ///TODO:いずれは敵Entityと統一
-        PlayerEntity playerEntity = Resources.Load<PlayerEntity>("Player/Player_1");
+        PlayerEntity playerEntity = Resources.Load<PlayerEntity>("Player/Player_"+ num.ToString());
         IMAGE = playerEntity.IMAGE;
         ANIMECONTROLLER = playerEntity.ANIMECONTROLLER;
         MHP = playerEntity.MHP;

@@ -93,7 +93,7 @@ public class StatusDataScript : MonoBehaviour
     public void ExperienceUp(int exp)
     {
         _charaState.EXP += exp;
-        if (_charaState.EXP > _charaState.MEXP)
+        if (_charaState.EXP >= _charaState.MEXP)
         {
             LevelUp();
         }
@@ -128,8 +128,20 @@ public class StatusDataScript : MonoBehaviour
             }
             else
             {
-                playerModel = new PlayerModel();
-
+                int num;
+                switch (SaveCharaSelect.Instance.CharaNumber)
+                {
+                    case PlayerSelector.PlayerKind.Player_1:
+                        num = 1;
+                        break;
+                    case PlayerSelector.PlayerKind.Player_2:
+                        num = 2;
+                        break;
+                    default:
+                        num = 1;
+                        break;
+                }
+                playerModel = new PlayerModel(num);
                 _charaState.LV = playerModel.LV;
                 _charaState.ATK = playerModel.ATK;
                 Attack = playerModel.ATK;

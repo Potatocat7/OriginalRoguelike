@@ -4,7 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
-
+    /// <summary>アイテムドロップ内容</summary>
+    public enum DROP_TYPE
+    {
+        NONE,
+        ITEM_1,
+        ITEM_2,
+        ITEM_3
+    }
     /// <summary>マッププレハブ</summary>
     [SerializeField] private MapStatus _mapPrefab;
     /// <summary>壁プレハブ</summary>
@@ -120,12 +127,40 @@ public class MapGenerator : MonoBehaviour {
     }
 
     /// <summary>
+    /// アイテムドロップのランダム値
+    /// </summary>
+    /// <returns></returns>
+    private DROP_TYPE GetItemDropRandam()
+    {
+        int maxCount = Enum.GetNames(typeof(DROP_TYPE)).Length;
+        int number = UnityEngine.Random.Range(0, maxCount);
+        DROP_TYPE testType = (DROP_TYPE)Enum.ToObject(typeof(DROP_TYPE), number);
+        return testType;
+    }
+
+    /// <summary>
     /// ドロップアイテム設定
     /// </summary>
     /// <param name="iPix"></param>
     /// <param name="jPix"></param>
     public void SetDropItemObj(int iPix,int jPix)//type itemType)
     {
+        DROP_TYPE itemnum = GetItemDropRandam();
+
+        switch (itemnum)
+        {
+            case DROP_TYPE.NONE:
+                ///ドロップなしなので戻る
+                return;
+            case DROP_TYPE.ITEM_1:
+            case DROP_TYPE.ITEM_2:
+            case DROP_TYPE.ITEM_3:
+                break;
+            default:
+                return;
+        }
+
+
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
         ItemScript PrefabObj = _consumptionItemObj;
 
@@ -271,7 +306,6 @@ public class MapGenerator : MonoBehaviour {
     /// </summary>
     private void SetPlayerObject()
     {
-        ///TODO:モデルを統一化できたら数値だけでよさそう
         _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
     }
 

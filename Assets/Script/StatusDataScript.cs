@@ -24,12 +24,14 @@ public class StatusDataScript : MonoBehaviour
     private int _experienceMax = 5;
     /// <summary>プレイヤーステータス</summary>
     private StatusDataScript _playerState;
-    /// <summary>プレイヤーモデル</summary>
-    private PlayerModel playerModel;
-    /// <summary>敵モデル</summary>
-    private EnemyModel enemyModel;
-    /// <summary>エンディングフアｒグ</summary>
+    /// <summary>モデル</summary>
+    private CharactorModel charactorModel;
+    /// <summary>エンディングフラグ</summary>
     private bool endingFlg;
+    /// <summary>プレイヤーフォルダ</summary>
+    private static string PLAYERFOLDER = "Player";
+    /// <summary>エネミーフォルダ</summary>
+    private static string ENEMYFOLDER = "Enemy";
 
     /// <summary>
     /// プレイヤー現在ＨＰ取得
@@ -141,13 +143,13 @@ public class StatusDataScript : MonoBehaviour
                         num = 1;
                         break;
                 }
-                playerModel = new PlayerModel(num);
-                _charaState.LV = playerModel.LV;
-                _charaState.ATK = playerModel.ATK;
-                Attack = playerModel.ATK;
-                _charaState.MHP = playerModel.MHP;
-                _charaState.HP = playerModel.MHP;
-                _charaState.MEXP = playerModel.MEXP;
+                charactorModel = new CharactorModel(PLAYERFOLDER, num);
+                _charaState.LV = charactorModel.LV;
+                _charaState.ATK = charactorModel.ATK;
+                Attack = charactorModel.ATK;
+                _charaState.MHP = charactorModel.MHP;
+                _charaState.HP = charactorModel.MHP;
+                _charaState.MEXP = charactorModel.MEXP;
                 _charaState.EXP = 0;
 
                 //_charaState.LV = 1;
@@ -156,22 +158,22 @@ public class StatusDataScript : MonoBehaviour
                 //_charaState.HP = MaxHP;
                 //_charaState.MEXP = _experienceMax;
                 //_charaState.EXP = 0;
-                setAnimator.Invoke(playerModel.IMAGE, playerModel.ANIMECONTROLLER);
+                setAnimator.Invoke(charactorModel.IMAGE, charactorModel.ANIMECONTROLLER);
             }
             endingFlg = false;
             //GameManager.Instance.UpdateDisplay();
         }
         else
         {
-            enemyModel = new EnemyModel();
-            _charaState.LV = enemyModel.LV;
-            _charaState.ATK = enemyModel.ATK;
-            Attack = enemyModel.ATK; 
-            _charaState.MHP = enemyModel.MHP;
-            _charaState.HP = enemyModel.MHP;
-            _charaState.MEXP = enemyModel.MEXP;
+            charactorModel = new CharactorModel(ENEMYFOLDER,1);
+            _charaState.LV = charactorModel.LV;
+            _charaState.ATK = charactorModel.ATK;
+            Attack = charactorModel.ATK; 
+            _charaState.MHP = charactorModel.MHP;
+            _charaState.HP = charactorModel.MHP;
+            _charaState.MEXP = charactorModel.MEXP;
             _charaState.EXP = 0;
-            setAnimator.Invoke(enemyModel.IMAGE, enemyModel.ANIMECONTROLLER);
+            setAnimator.Invoke(charactorModel.IMAGE, charactorModel.ANIMECONTROLLER);
        }
         DamageDisplay.text = "";
     }

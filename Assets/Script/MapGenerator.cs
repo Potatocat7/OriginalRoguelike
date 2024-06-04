@@ -171,7 +171,7 @@ public class MapGenerator : MonoBehaviour {
             _mapobj[iPix, jPix].SetItem(setItem);
             if (PrefabObj.tag == "Item")
             {
-                _mapobj[iPix, jPix]._Item.GetPosition(iPix, jPix);
+                _mapobj[iPix, jPix]._Item.Init(iPix, jPix,1);
                 makeItem.Invoke(_mapobj[iPix, jPix]._Item);
             }
         }
@@ -289,7 +289,7 @@ public class MapGenerator : MonoBehaviour {
                         iLoopflg = true;
                         if (PrefabObj.tag == "Item")
                         {
-                            _mapobj[randomiPix, randomjPix]._Item.GetPosition(randomiPix, randomjPix);
+                            _mapobj[randomiPix, randomjPix]._Item.Init(randomiPix, randomjPix,1);
                             makeItem.Invoke(_mapobj[randomiPix, randomjPix]._Item);
                         }
                     }

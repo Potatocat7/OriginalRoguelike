@@ -28,16 +28,25 @@ public class ItemScript : MonoBehaviour
         CONSUM,
         SPECIAL
     }
+    /// <summary>アイテムモデル</summary>
+    private ItemModel itemModel;
     /// <summary>このアイテムのステータス</summary>
     public ItemStatusData ThisData;
 
     /// <summary>
-    /// ドロップ位置の設定
+    /// アイテム初期化
     /// </summary>
     /// <param name="iPix"></param>
     /// <param name="jPix"></param>
-    public void GetPosition(int iPix,int jPix)
+    public void Init(int iPix,int jPix,int num)
     {
+        itemModel = new ItemModel(num);
+        ThisData.Attack = itemModel.ATTACK;
+        ThisData.Mhp = itemModel.MHP;
+        ThisData.Hp = itemModel.ADDHP;
+        ThisData.Name = itemModel.NAME;
+        //ThisData.ListNum;
+        //ThisData.EquipFlg;
         ThisData.iPosition = iPix;
         ThisData.jPosition = jPix;
     }

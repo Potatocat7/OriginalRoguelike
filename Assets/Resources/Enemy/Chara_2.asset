@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed9cd7bb9c04100438980b9a76f0d188, type: 3}
-  m_Name: Player_2
+  m_Script: {fileID: 11500000, guid: 96cb16d0f0b892f45bf746e36f1048b3, type: 3}
+  m_Name: Enemy_2
   m_EditorClassIdentifier: 
-  IMAGE: {fileID: 21300000, guid: 93e5d92ebc0559844b777f997d25a8a5, type: 3}
-  ANIMECONTROLLER: {fileID: 9100000, guid: 06b973588bac8964c83fecba5b2de27e, type: 2}
-  MHP: 60
+  IMAGE: {fileID: 8084770827167825486, guid: c4d55d8b322ddd64882c69dd0997b896, type: 3}
+  ANIMECONTROLLER: {fileID: 9100000, guid: 83a1fe746d6ed22419551537236e212d, type: 2}
+  MHP: 10
   ATK: 10
   LV: 1
-  EXP: 5
+  EXP: 0
   MEXP: 5

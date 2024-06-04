@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 //エディターで呼び出せるように
-[CreateAssetMenu(fileName = "EnemyEntity", menuName = "Create EnemyEntity")]
-public class EnemyEntity : ScriptableObject
+[CreateAssetMenu(fileName = "CharacterEntity", menuName = "Create CharacterEntity")]
+
+public class CharacterEntity : ScriptableObject
 {
     public Sprite IMAGE;
     public RuntimeAnimatorController ANIMECONTROLLER;
@@ -13,4 +14,3 @@ public class EnemyEntity : ScriptableObject
     public int EXP;
     public int MEXP;
 }
-

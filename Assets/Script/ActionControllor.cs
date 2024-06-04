@@ -55,6 +55,9 @@ public class ActionControllor : MonoBehaviour {
     private Animator AnimatorState;
     /// <summary>SP攻撃エフェクト</summary>
     [SerializeField] private SpAtkEF spAtkEF;
+    /// <summary>初期状態の画像</summary>
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
 
     /// <summary>
     /// 
@@ -64,7 +67,11 @@ public class ActionControllor : MonoBehaviour {
         //生成時にthisでオブジェクトの情報を所得してmapの現座標を獲得しておく
         iThisNow = (int)Math.Round(this.transform.position.x);
         jThisNow = (int)Math.Round(this.transform.position.y);
-        stateData.Init();
+        stateData.Init(setAnimator:(image,runtimeAnimatorController)=> 
+        {
+            spriteRenderer.sprite = image;
+            AnimatorState.runtimeAnimatorController = runtimeAnimatorController;
+        });
         stateData.SetThisPosition(iThisNow, jThisNow);
         UserAttackFlg = false;
         iThisNext = 0;

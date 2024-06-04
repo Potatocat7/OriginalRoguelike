@@ -24,8 +24,10 @@ public class StatusDataScript : MonoBehaviour
     private int _experienceMax = 5;
     /// <summary>プレイヤーステータス</summary>
     private StatusDataScript _playerState;
+    /// <summary>プレイヤーモデル</summary>
+    private PlayerModel playerModel;
     /// <summary>敵モデル</summary>
-    public EnemyModel enemyModel;
+    private EnemyModel enemyModel;
     /// <summary>エンディングフアｒグ</summary>
     private bool endingFlg;
 
@@ -91,7 +93,7 @@ public class StatusDataScript : MonoBehaviour
     public void ExperienceUp(int exp)
     {
         _charaState.EXP += exp;
-        if (_charaState.EXP > _charaState.MEXP)
+        if (_charaState.EXP >= _charaState.MEXP)
         {
             LevelUp();
         }
@@ -111,7 +113,8 @@ public class StatusDataScript : MonoBehaviour
         GameManager.Instance.UpdateDisplay();
     }
 
-    public void Init () {
+    public void Init (Action<Sprite,RuntimeAnimatorController> setAnimator = null) 
+    {
         if (this.tag == "Player")
         {
             //GetComponentをなくしていきたい
@@ -125,12 +128,35 @@ public class StatusDataScript : MonoBehaviour
             }
             else
             {
-                _charaState.LV = 1;
-                _charaState.ATK = Attack;
-                _charaState.MHP = MaxHP;
-                _charaState.HP = MaxHP;
-                _charaState.MEXP = _experienceMax;
+                int num;
+                switch (SaveCharaSelect.Instance.CharaNumber)
+                {
+                    case PlayerSelector.PlayerKind.Player_1:
+                        num = 1;
+                        break;
+                    case PlayerSelector.PlayerKind.Player_2:
+                        num = 2;
+                        break;
+                    default:
+                        num = 1;
+                        break;
+                }
+                playerModel = new PlayerModel(num);
+                _charaState.LV = playerModel.LV;
+                _charaState.ATK = playerModel.ATK;
+                Attack = playerModel.ATK;
+                _charaState.MHP = playerModel.MHP;
+                _charaState.HP = playerModel.MHP;
+                _charaState.MEXP = playerModel.MEXP;
                 _charaState.EXP = 0;
+
+                //_charaState.LV = 1;
+                //_charaState.ATK = Attack;
+                //_charaState.MHP = MaxHP;
+                //_charaState.HP = MaxHP;
+                //_charaState.MEXP = _experienceMax;
+                //_charaState.EXP = 0;
+                setAnimator.Invoke(playerModel.IMAGE, playerModel.ANIMECONTROLLER);
             }
             endingFlg = false;
             //GameManager.Instance.UpdateDisplay();
@@ -140,11 +166,13 @@ public class StatusDataScript : MonoBehaviour
             enemyModel = new EnemyModel();
             _charaState.LV = enemyModel.LV;
             _charaState.ATK = enemyModel.ATK;
+            Attack = enemyModel.ATK; 
             _charaState.MHP = enemyModel.MHP;
             _charaState.HP = enemyModel.MHP;
             _charaState.MEXP = enemyModel.MEXP;
             _charaState.EXP = 0;
-        }
+            setAnimator.Invoke(enemyModel.IMAGE, enemyModel.ANIMECONTROLLER);
+       }
         DamageDisplay.text = "";
     }
 

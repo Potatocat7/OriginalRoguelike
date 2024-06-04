@@ -204,9 +204,9 @@ MonoBehaviour:
   enemyAtk: {fileID: 0}
   Attack: {fileID: 7036144098367429026}
   AtkEfFlg: 0
-  SpAtkEfFlg: 0
   AnimatorState: {fileID: 95957876354310624}
   spAtkEF: {fileID: 114038232581559842}
+  spriteRenderer: {fileID: 212818189891795202}
 --- !u!114 &114404054609693906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,7 +500,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 081e3c260ae2f744a8a7d4429fd26d06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   spriteRenderer: {fileID: 212497047261382806}
   animator: {fileID: 95177745705518578}
 --- !u!1 &1702191766888144

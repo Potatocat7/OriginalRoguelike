@@ -271,6 +271,7 @@ public class MapGenerator : MonoBehaviour {
     /// </summary>
     private void SetPlayerObject()
     {
+        ///TODO:モデルを統一化できたら数値だけでよさそう
         _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
     }
 
@@ -292,9 +293,7 @@ public class MapGenerator : MonoBehaviour {
         {
             for (int jPix = 0; jPix < MapDataScript.mapData.GetLength(2); jPix++) //mapHeight
             {
-                MapStatus mapstatus;
-                mapstatus = (MapStatus)Instantiate(_mapPrefab, new Vector3(iPix, jPix, 0.0F), Quaternion.identity);
-                _mapobj[iPix, jPix] = mapstatus;
+                _mapobj[iPix, jPix] = _mapPrefab;
                 map[iPix, jPix] = MapDataScript.mapData[2, iPix, jPix];// mapNum　//テストで2固定
             }
         }

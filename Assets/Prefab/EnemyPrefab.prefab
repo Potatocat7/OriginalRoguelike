@@ -285,15 +285,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thisNowDirection: 0
-  UserActFlg: 0
   UserAttackFlg: 0
   atkEf: {fileID: 0}
   stateData: {fileID: 114983118786054256}
   enemyAtk: {fileID: 3274163801936228711}
   Attack: {fileID: 3274163801936228711}
   AtkEfFlg: 0
-  SpAtkEfFlg: 0
   AnimatorState: {fileID: 95175281642835130}
+  spAtkEF: {fileID: 0}
+  spriteRenderer: {fileID: 212786289339246054}
 --- !u!114 &114983118786054256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,7 +322,6 @@ MonoBehaviour:
   expState: 1
   DamageDisplay: {fileID: 114944719718021362}
   Attack: 5
-  _experienceNow: 0
   _experienceMax: 5
 --- !u!95 &95175281642835130
 Animator:

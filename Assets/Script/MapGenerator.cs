@@ -4,14 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
-    /// <summary>アイテムドロップ内容</summary>
-    public enum DROP_TYPE
-    {
-        NONE,
-        ITEM_1,
-        ITEM_2,
-        ITEM_3
-    }
     /// <summary>マッププレハブ</summary>
     [SerializeField] private MapStatus _mapPrefab;
     /// <summary>壁プレハブ</summary>
@@ -26,12 +18,12 @@ public class MapGenerator : MonoBehaviour {
     [SerializeField] private GameObject _floorObj;
     /// <summary>未　回復アイテムオブジェクト</summary>
     [SerializeField] private GameObject _healItemObj;
-    /// <summary>装備オブジェクト</summary>
-    [SerializeField] private ItemScript _weaponItemObj;
-    /// <summary>消費アイテムオブジェクト</summary>
-    [SerializeField] private ItemScript _consumptionItemObj;
-    /// <summary>SPアイテムオブジェクト</summary>
-    [SerializeField] private ItemScript _powerItemObj;
+    ///// <summary>装備オブジェクト</summary>
+    //[SerializeField] private ItemScript _weaponItemObj;
+    /// <summary>落ちてるアイテムオブジェクト</summary>
+    [SerializeField] private ItemScript _dropItemObj;
+    ///// <summary>SPアイテムオブジェクト</summary>
+    //[SerializeField] private ItemScript _powerItemObj;
     /// <summary>MAP情報</summary>
     [SerializeField] private MapStatus[,] _mapobj = new MapStatus[20, 20];
     /// <summary>プレイヤー情報</summary>
@@ -130,11 +122,11 @@ public class MapGenerator : MonoBehaviour {
     /// アイテムドロップのランダム値
     /// </summary>
     /// <returns></returns>
-    private DROP_TYPE GetItemDropRandam()
+    private ItemScript.ItemType GetItemDropRandam()
     {
-        int maxCount = Enum.GetNames(typeof(DROP_TYPE)).Length;
+        int maxCount = Enum.GetNames(typeof(ItemScript.ItemType)).Length;
         int number = UnityEngine.Random.Range(0, maxCount);
-        DROP_TYPE testType = (DROP_TYPE)Enum.ToObject(typeof(DROP_TYPE), number);
+        ItemScript.ItemType testType = (ItemScript.ItemType)Enum.ToObject(typeof(ItemScript.ItemType), number);
         return testType;
     }
 
@@ -145,16 +137,19 @@ public class MapGenerator : MonoBehaviour {
     /// <param name="jPix"></param>
     public void SetDropItemObj(int iPix,int jPix)//type itemType)
     {
-        DROP_TYPE itemnum = GetItemDropRandam();
+        ItemScript.ItemType itemnum = GetItemDropRandam();
 
         switch (itemnum)
         {
-            case DROP_TYPE.NONE:
+            case ItemScript.ItemType.NONE:
                 ///ドロップなしなので戻る
                 return;
-            case DROP_TYPE.ITEM_1:
-            case DROP_TYPE.ITEM_2:
-            case DROP_TYPE.ITEM_3:
+            case ItemScript.ItemType.CONSUM:
+            case ItemScript.ItemType.EQUIP:
+                break;
+            case ItemScript.ItemType.SPECIAL:
+                //特殊は消費アイテムにしてドロップ
+                itemnum = ItemScript.ItemType.CONSUM;
                 break;
             default:
                 return;
@@ -162,7 +157,7 @@ public class MapGenerator : MonoBehaviour {
 
 
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
-        ItemScript PrefabObj = _consumptionItemObj;
+        ItemScript PrefabObj = _dropItemObj;
 
         if (map[iPix, jPix] != 1)    //MAPが通路のなとき(壁でないとき)
         {
@@ -171,7 +166,7 @@ public class MapGenerator : MonoBehaviour {
             _mapobj[iPix, jPix].SetItem(setItem);
             if (PrefabObj.tag == "Item")
             {
-                _mapobj[iPix, jPix]._Item.Init(iPix, jPix,1);
+                _mapobj[iPix, jPix]._Item.Init(iPix, jPix, itemnum);
                 makeItem.Invoke(_mapobj[iPix, jPix]._Item);
             }
         }
@@ -269,7 +264,7 @@ public class MapGenerator : MonoBehaviour {
     /// アイテムの生成
     /// </summary>
     /// <param name="PrefabObj"></param>
-    void SetUniqObj(ItemScript PrefabObj)
+    void SetUniqObj(ItemScript PrefabObj, ItemScript.ItemType type)
     {
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
         bool iLoopflg = false;
@@ -289,7 +284,7 @@ public class MapGenerator : MonoBehaviour {
                         iLoopflg = true;
                         if (PrefabObj.tag == "Item")
                         {
-                            _mapobj[randomiPix, randomjPix]._Item.Init(randomiPix, randomjPix,1);
+                            _mapobj[randomiPix, randomjPix]._Item.Init(randomiPix, randomjPix,type);
                             makeItem.Invoke(_mapobj[randomiPix, randomjPix]._Item);
                         }
                     }
@@ -359,9 +354,9 @@ public class MapGenerator : MonoBehaviour {
             playerAction = player;
             playerState = status;
         }) ;
-        SetUniqObj(_powerItemObj);
-        SetUniqObj(_weaponItemObj);
-        SetUniqObj(_consumptionItemObj);
+        SetUniqObj(_dropItemObj, ItemScript.ItemType.CONSUM);
+        SetUniqObj(_dropItemObj, ItemScript.ItemType.EQUIP);
+        SetUniqObj(_dropItemObj, ItemScript.ItemType.SPECIAL);
         UniqObjCount = 1;
         List<ActionControllor> enemyActionList = new List<ActionControllor>();
         for (int Ecount = 0; Ecount < 5; Ecount++)

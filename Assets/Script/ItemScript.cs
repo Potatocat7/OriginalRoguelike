@@ -24,31 +24,34 @@ public class ItemScript : MonoBehaviour
     public enum ItemType
     {
         NONE = 0,
-        EQUIP,
-        CONSUM,
-        SPECIAL
+        EQUIP,      //消費アイテム
+        CONSUM,     //装備アイテム
+        SPECIAL,    //特殊アイテム
     }
     /// <summary>アイテムモデル</summary>
     private ItemModel itemModel;
     /// <summary>このアイテムのステータス</summary>
     public ItemStatusData ThisData;
+    /// <summary>画像</summary>
+    [SerializeField]
+    private SpriteRenderer spriteRenderer;
 
     /// <summary>
     /// アイテム初期化
     /// </summary>
     /// <param name="iPix"></param>
     /// <param name="jPix"></param>
-    public void Init(int iPix,int jPix,int num)
+    public void Init(int iPix,int jPix, ItemScript.ItemType type)
     {
-        itemModel = new ItemModel(num);
+        itemModel = new ItemModel(type);
+        ThisData.Type = itemModel.TYPE;
         ThisData.Attack = itemModel.ATTACK;
         ThisData.Mhp = itemModel.MHP;
         ThisData.Hp = itemModel.ADDHP;
         ThisData.Name = itemModel.NAME;
-        //ThisData.ListNum;
-        //ThisData.EquipFlg;
         ThisData.iPosition = iPix;
         ThisData.jPosition = jPix;
+        spriteRenderer.sprite = itemModel.IMAGE;
     }
 
     /// <summary>
@@ -56,6 +59,10 @@ public class ItemScript : MonoBehaviour
     /// </summary>
     public virtual void GetDestroy()
     {
+        if (ThisData.Type == ItemType.SPECIAL)
+        {
+            GameManager.Instance.SetPItemFlg(true);
+        }
         Destroy(gameObject);
     }
 }

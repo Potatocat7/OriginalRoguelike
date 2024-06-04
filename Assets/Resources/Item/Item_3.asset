@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b617f04d53cec84ca0977d45e712efb, type: 3}
   m_Name: Item_3
   m_EditorClassIdentifier: 
-  IMAGE: {fileID: 0}
-  TYPE: 0
-  NAME: 
+  IMAGE: {fileID: 21300062, guid: d1f40359f339da2408ac1c2511786fdf, type: 3}
+  TYPE: 3
+  NAME: "\u7279\u6B8A"
   ATTACK: 0
   MHP: 0
   ADDHP: 0

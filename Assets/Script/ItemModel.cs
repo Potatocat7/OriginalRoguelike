@@ -10,8 +10,27 @@ public class ItemModel : MonoBehaviour
     public int ATTACK;
     public int MHP;
     public int ADDHP;
-    public ItemModel(int num)
+
+    private int num;
+    public ItemModel(ItemScript.ItemType type)
     {
+        switch (type)
+        {
+            case ItemScript.ItemType.CONSUM:
+                num = 1;
+                break;
+            case ItemScript.ItemType.EQUIP:
+                num = 2;
+                break;
+            case ItemScript.ItemType.SPECIAL:
+                num = 3;
+                break;
+            default:
+                num = 1;
+                break;
+        }
+
+
         ItemEntity itemEntity = Resources.Load<ItemEntity>("Item/Item_" + num.ToString());
         IMAGE = itemEntity.IMAGE;
         TYPE = itemEntity.TYPE;

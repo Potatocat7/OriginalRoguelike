@@ -2458,11 +2458,7 @@ MonoBehaviour:
   _floorObj: {fileID: 1061476967306026, guid: 462bde33a7c54094b8deb21ea5f8c920, type: 3}
   _healItemObj: {fileID: 1901750714422164, guid: 5edfc5329a5f7324497cf98d88a87e80,
     type: 3}
-  _weaponItemObj: {fileID: 5327775473725069851, guid: 9c618a68f4f3a944ba798d8640c35927,
-    type: 3}
-  _consumptionItemObj: {fileID: 9104967153078392466, guid: 09d3603be39e51c42b9ba0169e8a2b13,
-    type: 3}
-  _powerItemObj: {fileID: 114454371931759436, guid: 72a1b7205732ce84a968c9d56cfba029,
+  _dropItemObj: {fileID: -3725120735481965735, guid: 09d3603be39e51c42b9ba0169e8a2b13,
     type: 3}
   mapNum: 0
   iObjState: 

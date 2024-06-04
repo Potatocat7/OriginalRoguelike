@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public struct ItemStatusData
 {
     public ItemScript.ItemType Type;
+    public Sprite sprite;
     public int Attack;
     public int Mhp;
     public int Hp;
@@ -33,8 +34,7 @@ public class ItemScript : MonoBehaviour
     /// <summary>このアイテムのステータス</summary>
     public ItemStatusData ThisData;
     /// <summary>画像</summary>
-    [SerializeField]
-    private SpriteRenderer spriteRenderer;
+    [SerializeField] private SpriteRenderer spriteRenderer;
 
     /// <summary>
     /// アイテム初期化
@@ -52,6 +52,7 @@ public class ItemScript : MonoBehaviour
         ThisData.iPosition = iPix;
         ThisData.jPosition = jPix;
         spriteRenderer.sprite = itemModel.IMAGE;
+        ThisData.sprite = itemModel.IMAGE;
     }
 
     /// <summary>

@@ -16,7 +16,6 @@ public class DisplayScript : MonoBehaviour {
     [SerializeField]
     private Text statusText;
 
-    ///TODO:ディスプレイの処理を別の場所で行う（今はMapGenerator)
     /// <summary>
     /// 表示設定
     /// </summary>
@@ -29,7 +28,6 @@ public class DisplayScript : MonoBehaviour {
         finish.Invoke();
     }
 
-    ///TODO：これもアップデートではなく攻撃処理やアイテム取得。フロアカウントで呼べばよい
     public void UpdateDisplay() 
     {
         statusText.text = "HP:"+ Player.GetStateData().HP.ToString() + "/" + Player.GetStateData().MHP.ToString() + "\n"

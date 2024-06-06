@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
             playerManager.Init(player,()=> 
             {
                 enemyManager.ChangeAttackable(false);
-                GameManager.Instance.UpdateDisplay();
+                UpdateDisplay();
             });
             enemyManager.Init(enemyList,(idropitem,jdropitem)=> 
             {

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96cb16d0f0b892f45bf746e36f1048b3, type: 3}
-  m_Name: Enemy_2
+  m_Name: Chara_2
   m_EditorClassIdentifier: 
   IMAGE: {fileID: 8084770827167825486, guid: c4d55d8b322ddd64882c69dd0997b896, type: 3}
   ANIMECONTROLLER: {fileID: 9100000, guid: 83a1fe746d6ed22419551537236e212d, type: 2}

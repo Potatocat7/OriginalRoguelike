@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour {
-
     /// <summary>マッププレハブ</summary>
     [SerializeField] private MapStatus _mapPrefab;
     /// <summary>壁プレハブ</summary>
@@ -19,12 +18,12 @@ public class MapGenerator : MonoBehaviour {
     [SerializeField] private GameObject _floorObj;
     /// <summary>未　回復アイテムオブジェクト</summary>
     [SerializeField] private GameObject _healItemObj;
-    /// <summary>装備オブジェクト</summary>
-    [SerializeField] private ItemScript _weaponItemObj;
-    /// <summary>消費アイテムオブジェクト</summary>
-    [SerializeField] private ItemScript _consumptionItemObj;
-    /// <summary>SPアイテムオブジェクト</summary>
-    [SerializeField] private ItemScript _powerItemObj;
+    ///// <summary>装備オブジェクト</summary>
+    //[SerializeField] private ItemScript _weaponItemObj;
+    /// <summary>落ちてるアイテムオブジェクト</summary>
+    [SerializeField] private ItemScript _dropItemObj;
+    ///// <summary>SPアイテムオブジェクト</summary>
+    //[SerializeField] private ItemScript _powerItemObj;
     /// <summary>MAP情報</summary>
     [SerializeField] private MapStatus[,] _mapobj = new MapStatus[20, 20];
     /// <summary>プレイヤー情報</summary>
@@ -120,14 +119,46 @@ public class MapGenerator : MonoBehaviour {
     }
 
     /// <summary>
+    /// アイテムドロップのランダム値
+    /// </summary>
+    /// <returns></returns>
+    private ItemScript.ItemType GetItemDropRandam()
+    {
+        int maxCount = Enum.GetNames(typeof(ItemScript.ItemType)).Length;
+        int number = UnityEngine.Random.Range(0, maxCount);
+        ItemScript.ItemType testType = (ItemScript.ItemType)Enum.ToObject(typeof(ItemScript.ItemType), number);
+        return testType;
+    }
+
+    /// <summary>
     /// ドロップアイテム設定
     /// </summary>
     /// <param name="iPix"></param>
     /// <param name="jPix"></param>
     public void SetDropItemObj(int iPix,int jPix)//type itemType)
     {
+        ItemScript.ItemType itemnum = GetItemDropRandam();
+        ///TODO:同種タイプで分岐する情報も必要（CONSUMで２種目を用意するとき）
+
+        switch (itemnum)
+        {
+            case ItemScript.ItemType.NONE:
+                ///ドロップなしなので戻る
+                return;
+            case ItemScript.ItemType.CONSUM:
+            case ItemScript.ItemType.EQUIP:
+                break;
+            case ItemScript.ItemType.SPECIAL:
+                //特殊は消費アイテムにしてドロップ
+                itemnum = ItemScript.ItemType.CONSUM;
+                break;
+            default:
+                return;
+        }
+
+
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
-        ItemScript PrefabObj = _consumptionItemObj;
+        ItemScript PrefabObj = _dropItemObj;
 
         if (map[iPix, jPix] != 1)    //MAPが通路のなとき(壁でないとき)
         {
@@ -136,7 +167,7 @@ public class MapGenerator : MonoBehaviour {
             _mapobj[iPix, jPix].SetItem(setItem);
             if (PrefabObj.tag == "Item")
             {
-                _mapobj[iPix, jPix]._Item.GetPosition(iPix, jPix);
+                _mapobj[iPix, jPix]._Item.Init(iPix, jPix, itemnum);
                 makeItem.Invoke(_mapobj[iPix, jPix]._Item);
             }
         }
@@ -234,7 +265,7 @@ public class MapGenerator : MonoBehaviour {
     /// アイテムの生成
     /// </summary>
     /// <param name="PrefabObj"></param>
-    void SetUniqObj(ItemScript PrefabObj)
+    void SetUniqObj(ItemScript PrefabObj, ItemScript.ItemType type)
     {
         //MAP上に出口・プレイヤー等のオブジェクトを追加でセットしていく ※かぶさらないようにする必要あり
         bool iLoopflg = false;
@@ -254,7 +285,7 @@ public class MapGenerator : MonoBehaviour {
                         iLoopflg = true;
                         if (PrefabObj.tag == "Item")
                         {
-                            _mapobj[randomiPix, randomjPix]._Item.GetPosition(randomiPix, randomjPix);
+                            _mapobj[randomiPix, randomjPix]._Item.Init(randomiPix, randomjPix,type);
                             makeItem.Invoke(_mapobj[randomiPix, randomjPix]._Item);
                         }
                     }
@@ -271,7 +302,6 @@ public class MapGenerator : MonoBehaviour {
     /// </summary>
     private void SetPlayerObject()
     {
-        ///TODO:モデルを統一化できたら数値だけでよさそう
         _playerObj = _playerSelectObj.SelectTypeBullet(CharaNum.CharaNumber);
     }
 
@@ -325,9 +355,11 @@ public class MapGenerator : MonoBehaviour {
             playerAction = player;
             playerState = status;
         }) ;
-        SetUniqObj(_powerItemObj);
-        SetUniqObj(_weaponItemObj);
-        SetUniqObj(_consumptionItemObj);
+        ///TODO:同種タイプで分岐する情報も必要（CONSUMで２種目を用意するとき）
+
+        SetUniqObj(_dropItemObj, ItemScript.ItemType.CONSUM);
+        SetUniqObj(_dropItemObj, ItemScript.ItemType.EQUIP);
+        SetUniqObj(_dropItemObj, ItemScript.ItemType.SPECIAL);
         UniqObjCount = 1;
         List<ActionControllor> enemyActionList = new List<ActionControllor>();
         for (int Ecount = 0; Ecount < 5; Ecount++)

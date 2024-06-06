@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b617f04d53cec84ca0977d45e712efb, type: 3}
+  m_Name: Item_1
+  m_EditorClassIdentifier: 
+  IMAGE: {fileID: 21300044, guid: d1f40359f339da2408ac1c2511786fdf, type: 3}
+  TYPE: 2
+  NAME: "\u56DE\u5FA9"
+  ATTACK: 1
+  MHP: 0
+  ADDHP: 20

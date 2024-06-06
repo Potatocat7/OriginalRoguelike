@@ -6,11 +6,6 @@ using UnityEngine.UI;
 
 public class ItemPrefabScript : MonoBehaviour
 {
-    ///TODO:アイテムのモデルを用意して差し替えるようにする
-    /// <summary>装備アイテム画像</summary>
-    [SerializeField] private Sprite _imageEquip;
-    /// <summary>消費アイテム画像</summary>
-    [SerializeField] private Sprite _imageConsum;
     /// <summary>このアイテムの画像</summary>
     [SerializeField] private Image _thisImage;
     /// <summary>このアイテムの名前</summary>
@@ -41,18 +36,7 @@ public class ItemPrefabScript : MonoBehaviour
     /// <param name="data"></param>
     public void GetThisState(ItemStatusData data)
     {
-        switch (data.Type)
-        {
-            case ItemScript.ItemType.EQUIP:
-                _thisImage.sprite = _imageEquip;
-                break;
-            case ItemScript.ItemType.CONSUM:
-                _thisImage.sprite = _imageConsum;
-                break;
-            default:
-                Debug.Log("こないはず");
-                break;
-        }
+        _thisImage.sprite = data.sprite;
         _thisType = data.Type;
         _thisName.text = data.Name;
         if (data.EquipFlg == true)

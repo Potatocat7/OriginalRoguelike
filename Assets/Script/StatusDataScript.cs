@@ -313,7 +313,6 @@ public class StatusDataScript : MonoBehaviour
             }
             else
             {   //敵オブジェクトの場合
-                //TODO:デリート前にランダムでアイテムを生成
                 _playerState.ExperienceUp(expState);
                 drop.Invoke(iThisNow, jThisNow);
                 Destroy(gameObject);

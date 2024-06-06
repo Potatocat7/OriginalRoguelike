@@ -14,6 +14,7 @@ public class ItemModel : MonoBehaviour
     private int num;
     public ItemModel(ItemScript.ItemType type)
     {
+        ///TODO:同種タイプで分岐する情報も必要（CONSUMで２種目を用意するとき）
         switch (type)
         {
             case ItemScript.ItemType.CONSUM:

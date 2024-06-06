@@ -138,6 +138,7 @@ public class MapGenerator : MonoBehaviour {
     public void SetDropItemObj(int iPix,int jPix)//type itemType)
     {
         ItemScript.ItemType itemnum = GetItemDropRandam();
+        ///TODO:同種タイプで分岐する情報も必要（CONSUMで２種目を用意するとき）
 
         switch (itemnum)
         {
@@ -354,6 +355,8 @@ public class MapGenerator : MonoBehaviour {
             playerAction = player;
             playerState = status;
         }) ;
+        ///TODO:同種タイプで分岐する情報も必要（CONSUMで２種目を用意するとき）
+
         SetUniqObj(_dropItemObj, ItemScript.ItemType.CONSUM);
         SetUniqObj(_dropItemObj, ItemScript.ItemType.EQUIP);
         SetUniqObj(_dropItemObj, ItemScript.ItemType.SPECIAL);
